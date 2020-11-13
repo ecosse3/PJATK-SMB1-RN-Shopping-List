@@ -22,8 +22,26 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module'
   },
+  settings: {
+    'import/extensions': ['.js', '.mjs', '.jsx', '.js', '.jsx', '.ts', '.tsx'],
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+      }
+    }
+  },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        tsx: 'never',
+        ts: 'never',
+        js: 'never',
+        jsx: 'never'
+      }
+    ],
     'react-native/no-unused-styles': 2,
     'react-native/split-platform-components': 2,
     'react-native/no-color-literals': 2,
@@ -48,11 +66,11 @@ module.exports = {
     'react/jsx-no-target-blank': 0,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-props-no-spreading': 0,
-    'react/prop-types': 'warn',
+    'react/prop-types': 0,
     'react/require-default-props': 0,
     'react/forbid-prop-types': 0,
     'react/destructuring-assignment': 0,
     'react/display-name': 0,
-    'object-curly-spacing': ['warn', 'always'],
+    'object-curly-spacing': ['warn', 'always']
   }
 };
