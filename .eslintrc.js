@@ -71,6 +71,7 @@ module.exports = {
     'react/forbid-prop-types': 0,
     'react/destructuring-assignment': 0,
     'react/display-name': 0,
+    'react-hooks/exhaustive-deps': 0,
     'object-curly-spacing': ['warn', 'always']
   }
 };
