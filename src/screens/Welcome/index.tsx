@@ -21,7 +21,7 @@ const WelcomeScreen: React.FC = () => {
     <Container>
       <Text>Witaj, podaj swoje imie!</Text>
       <NameInput onChangeText={(text) => setUserName(text)} value={userName} />
-      <Button onPress={() => saveName()}>
+      <Button disabled={userName.length === 0} onPress={() => saveName()}>
         <Text button>Save</Text>
       </Button>
     </Container>

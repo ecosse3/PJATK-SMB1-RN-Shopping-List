@@ -27,8 +27,8 @@ export const NameInput = styled.TextInput`
   margin-bottom: 10px;
 `;
 
-export const Button = styled.TouchableOpacity`
-  background: black;
+export const Button = styled.TouchableOpacity<{ disabled: boolean }>`
+  background: ${(props) => (props.disabled ? 'gray' : 'black')};
   width: 80%;
   padding: 10px;
   margin-bottom: 10px;
