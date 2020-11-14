@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { Container, Text, Button, NameInput } from './index.styles';
+import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
 
 const WelcomeScreen: React.FC = () => {
   const [userName, setUserName] = useState('');
@@ -19,10 +19,15 @@ const WelcomeScreen: React.FC = () => {
 
   return (
     <Container>
-      <Text>Witaj, podaj swoje imie!</Text>
-      <NameInput onChangeText={(text) => setUserName(text)} value={userName} />
+      <WaveHand>👋</WaveHand>
+      <Text>Witaj, podaj swoje imię!</Text>
+      <NameInput
+        mode="outlined"
+        onChangeText={(text) => setUserName(text)}
+        value={userName}
+      />
       <Button disabled={userName.length === 0} onPress={() => saveName()}>
-        <Text button>Save</Text>
+        <Text button>Zapisz</Text>
       </Button>
     </Container>
   );

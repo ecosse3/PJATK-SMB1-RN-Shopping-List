@@ -42,9 +42,9 @@ const Stack = createStackNavigator();
 
 const ShoppingList: React.FC = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Shopping List" component={ShoppingListScreen} />
+    <Stack.Screen name="Lista zakupów" component={ShoppingListScreen} />
     <Stack.Screen
-      name="Welcome Screen"
+      name="Ekran powitalny"
       component={WelcomeScreen}
       options={{ header: () => null }}
     />

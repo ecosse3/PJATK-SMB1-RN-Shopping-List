@@ -15,7 +15,7 @@ const App: React.FC = () => {
           name="ShoppingList"
           component={ShoppingList}
           options={{
-            tabBarLabel: 'Shopping List',
+            tabBarLabel: 'Lista zakupów',
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="home" color={color} size={26} />
             )

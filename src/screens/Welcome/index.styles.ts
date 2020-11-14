@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { TextInput } from 'react-native-paper';
 
 export const Container = styled.View`
   flex: 1;
@@ -19,11 +20,9 @@ export const Text = styled.Text<{
   padding: ${(props) => (props.button ? '0px' : '20px')};
 `;
 
-export const NameInput = styled.TextInput`
+export const NameInput = styled(TextInput)`
   height: 40px;
   width: 80%;
-  border: 1px solid gray;
-  border-radius: 5px;
   margin-bottom: 10px;
 `;
 
@@ -33,4 +32,8 @@ export const Button = styled.TouchableOpacity<{ disabled: boolean }>`
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
+`;
+
+export const WaveHand = styled.Text`
+  font-size: 48px;
 `;
