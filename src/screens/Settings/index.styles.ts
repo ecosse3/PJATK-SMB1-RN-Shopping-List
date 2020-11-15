@@ -1,10 +1,11 @@
 import styled from 'styled-components/native';
 import { TextInput } from 'react-native-paper';
+import { rgba } from 'polished';
 import { ThemeType } from '../../utils/SCThemeProvider';
 
 interface IButtonsProps {
-  disabled: boolean;
   theme: ThemeType;
+  disabled: boolean;
 }
 
 export const ChangeUsernameView = styled.View`
@@ -25,7 +26,9 @@ export const NameInput = styled(TextInput)`
 
 export const Button = styled.TouchableOpacity<IButtonsProps>`
   background: ${(props) =>
-    props.disabled ? 'gray' : props.theme.colors.primary};
+    props.disabled
+      ? rgba(props.theme.colors.primary, 0.5)
+      : props.theme.colors.primary};
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;

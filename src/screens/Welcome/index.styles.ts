@@ -1,5 +1,12 @@
 import styled from 'styled-components/native';
 import { TextInput } from 'react-native-paper';
+import { rgba } from 'polished';
+import { ThemeType } from '../../utils/SCThemeProvider';
+
+interface IButtonsProps {
+  theme: ThemeType;
+  disabled: boolean;
+}
 
 export const Container = styled.View`
   flex: 1;
@@ -26,8 +33,11 @@ export const NameInput = styled(TextInput)`
   margin-bottom: 10px;
 `;
 
-export const Button = styled.TouchableOpacity<{ disabled: boolean }>`
-  background: ${(props) => (props.disabled ? 'gray' : 'black')};
+export const Button = styled.TouchableOpacity<IButtonsProps>`
+  background: ${(props) =>
+    props.disabled
+      ? rgba(props.theme.colors.primary, 0.5)
+      : props.theme.colors.primary};
   width: 80%;
   padding: 10px;
   margin-bottom: 10px;
