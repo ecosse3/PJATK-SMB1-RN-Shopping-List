@@ -1,13 +1,15 @@
 export const lightGreen = {
   colors: {
     primary: '#89b6a5',
-    secondary: '#474350'
+    secondary: '#474350',
+    badge: '#FF0000'
   }
 };
 
-export const purple = {
+export const oxford = {
   colors: {
-    primary: '#663398',
-    secondary: '#474350'
+    primary: '#F87060',
+    secondary: '#102542',
+    badge: '#CDD7D6'
   }
 };

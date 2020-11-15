@@ -37,6 +37,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
           options={{
             tabBarLabel: 'Lista zakupów',
             tabBarBadge: totalQty,
+            tabBarBadgeStyle: { backgroundColor: theme.colors.badge },
             tabBarVisible: isTabBarVisible,
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons

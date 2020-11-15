@@ -15,6 +15,7 @@ import {
   TextButton,
   Title
 } from './index.styles';
+import ThemeCircle from '../../components/ThemeCircle';
 
 interface IProps {
   theme: ThemeType;
@@ -51,7 +52,9 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
       <View>
         <ListItem>
           <Left>
-            <Text>Light Green</Text>
+            <ThemeCircle color="#89b6a5" noMarginLeft />
+            <ThemeCircle color="#474350" />
+            <ThemeCircle color="#FF0000" />
           </Left>
           <Right>
             <Radio
@@ -64,7 +67,9 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
         </ListItem>
         <ListItem>
           <Left>
-            <Text>Purple</Text>
+            <ThemeCircle color="#F87060" noMarginLeft />
+            <ThemeCircle color="#102542" />
+            <ThemeCircle color="#CDD7D6" />
           </Left>
           <Right>
             <Radio
