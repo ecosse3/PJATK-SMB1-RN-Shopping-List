@@ -7,10 +7,16 @@ import ShoppingList from '../../screens/ShoppingList';
 import Settings from '../../screens/Settings';
 import { TabParamList } from '../../utils/types';
 import { tabBarVisibleState } from '../../store';
+import { ThemeType } from '../../utils/SCThemeProvider';
+
+interface IProps {
+  theme: ThemeType;
+}
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
-const Navigator: React.FC = () => {
+const Navigator: React.FC<IProps> = (props: IProps) => {
+  const { theme } = props;
   const isTabBarVisible = useRecoilValue(tabBarVisibleState);
 
   return (
@@ -18,15 +24,15 @@ const Navigator: React.FC = () => {
       <Tab.Navigator
         initialRouteName="ShoppingList"
         tabBarOptions={{
-          activeTintColor: '#89b6a5',
+          activeTintColor: theme.colors.primary,
           inactiveTintColor: '#FFFFFF',
           style: {
-            backgroundColor: '#474350'
+            backgroundColor: theme.colors.secondary
           }
         }}>
         <Tab.Screen
           name="ShoppingList"
-          component={ShoppingList}
+          children={() => <ShoppingList theme={theme} />}
           options={{
             tabBarLabel: 'Lista zakupów',
             tabBarBadge: 3,
@@ -42,7 +48,7 @@ const Navigator: React.FC = () => {
         />
         <Tab.Screen
           name="Settings"
-          component={Settings}
+          children={() => <Settings theme={theme} />}
           options={{
             tabBarLabel: 'Ustawienia',
             tabBarIcon: ({ color }) => (
