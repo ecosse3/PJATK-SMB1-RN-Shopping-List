@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
+import { ShoppingListStackParamList } from '../../utils/types';
 
 const ShoppingListScreen: React.FC = () => {
   const [loadedName, setLoadedName] = useState('');
@@ -39,7 +40,7 @@ const ShoppingListScreen: React.FC = () => {
   }
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<ShoppingListStackParamList>();
 
 const ShoppingList: React.FC = () => (
   <Stack.Navigator>

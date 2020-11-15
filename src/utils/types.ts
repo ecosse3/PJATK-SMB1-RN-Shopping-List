@@ -4,9 +4,10 @@ export type TabParamList = {
 };
 
 export type ShoppingListStackParamList = {
-  ShoppingList: undefined;
+  ShoppingListScreen: undefined;
+  WelcomeScreen: undefined;
 };
 
 export type SettingsStackParamList = {
-  Settings: undefined;
+  SettingsScreen: undefined;
 };

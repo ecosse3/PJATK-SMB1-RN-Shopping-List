@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import Header from '../../components/Header';
+import { SettingsStackParamList } from '../../utils/types';
 
 const SettingsScreen: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const SettingsScreen: React.FC = () => {
   );
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<SettingsStackParamList>();
 
 const Settings: React.FC = () => (
   <Stack.Navigator>
