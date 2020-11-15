@@ -9,7 +9,7 @@ interface IButtonsProps {
 }
 
 export const ChangeUsernameView = styled.View`
-  padding: 16px;
+  padding: 16px 16px 0 16px;
 `;
 
 export const Title = styled.Text`
@@ -38,11 +38,12 @@ export const Button = styled.TouchableOpacity<IButtonsProps>`
 export const TextButton = styled.Text<{
   size?: number;
   color?: string;
+  padding?: string;
   button?: boolean;
 }>`
   font-size: ${(props) => (props.size ? `${props.size}px` : '20px')};
   font-weight: 500;
   color: ${(props) =>
     props.color ? props.color : props.button ? 'white' : 'black'};
-  padding: ${(props) => (props.button ? '0px' : '20px')};
+  padding: ${(props) => (props.button ? '0px' : props.padding || '20px')};
 `;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useRecoilState } from 'recoil';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import { SettingsStackParamList } from '../../utils/types';
 import { themeState, usernameState } from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
+
 import {
   Button,
   ChangeUsernameView,
@@ -46,7 +47,7 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
   };
 
   return (
-    <View>
+    <ScrollView>
       <Header text="Ustawienia" />
       <Title>Wybierz motyw aplikacji:</Title>
       <View>
@@ -101,7 +102,14 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
           <TextButton button>Zapisz</TextButton>
         </Button>
       </ChangeUsernameView>
-    </View>
+      <Title>Autor aplikacji:</Title>
+      <TextButton size={16} padding="10px 16px">
+        Łukasz Kurpiewski
+      </TextButton>
+      <TextButton size={16} padding="0px 16px">
+        s22004
+      </TextButton>
+    </ScrollView>
   );
 };
 
