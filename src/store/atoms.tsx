@@ -17,55 +17,5 @@ export const tabBarVisibleState = atom({
 
 export const productListState = atom({
   key: 'productListState',
-  default: [
-    {
-      id: 1,
-      name: 'Jogurt naturalny',
-      price: 1.79,
-      amount: 2,
-      inBucket: false
-    },
-    {
-      id: 2,
-      name: 'Jogurt naturalny',
-      price: 1.79,
-      amount: 2,
-      inBucket: false
-    },
-    {
-      id: 3,
-      name: 'Jogurt naturalny',
-      price: 1.79,
-      amount: 2,
-      inBucket: false
-    },
-    {
-      id: 4,
-      name: 'Jogurt naturalny',
-      price: 1.79,
-      amount: 2,
-      inBucket: false
-    },
-    {
-      id: 5,
-      name: 'Jogurt naturalny',
-      price: 1.79,
-      amount: 2,
-      inBucket: false
-    },
-    {
-      id: 6,
-      name: 'Jogurt naturalny',
-      price: 1.79,
-      amount: 2,
-      inBucket: false
-    },
-    {
-      id: 7,
-      name: 'Jogurt naturalny',
-      price: 1.79,
-      amount: 2,
-      inBucket: false
-    }
-  ]
+  default: []
 });

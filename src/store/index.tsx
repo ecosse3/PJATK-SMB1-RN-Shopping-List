@@ -4,3 +4,5 @@ export { tabBarVisibleState } from './atoms';
 export { productListState } from './atoms';
 
 export { productListSelector } from './selectors';
+
+export { useAddProduct } from './hooks';

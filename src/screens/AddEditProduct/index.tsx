@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TextInput } from 'react-native';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+import { useNavigation } from '@react-navigation/native';
 import {
   Text,
   Button,
@@ -12,7 +14,7 @@ import {
   AmountContainer,
   AmountValue
 } from './index.styles';
-import { tabBarVisibleState } from '../../store';
+import { tabBarVisibleState, useAddProduct } from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
 import Header from '../../components/Header';
 
@@ -25,12 +27,32 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
 
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
+  const addProduct = useAddProduct();
+  const navigation = useNavigation();
+
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState('');
   const [productPriceError, setProductPriceError] = useState(false);
   const [productAmount, setProductAmount] = useState(1);
 
-  const addProduct = () => {};
+  const checkAddProduct = (
+    id: string,
+    name: string,
+    price: string,
+    amount: number
+  ) => {
+    const priceRegex = /^\d+(\.\d{1,2})?$/;
+
+    if (!priceRegex.test(price)) {
+      setProductPriceError(true);
+      return 0;
+    }
+
+    addProduct({ id, name, price: Number(price), amount: Number(amount) });
+
+    setTabBarVisible(true);
+    navigation.goBack();
+  };
 
   useEffect(() => {
     setTabBarVisible(false);
@@ -63,7 +85,10 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
             mode="outlined"
             keyboardType="numeric"
             placeholder="Cena"
-            onChangeText={(text) => setProductPrice(text)}
+            onChangeText={(text) => {
+              setProductPrice(text);
+              setProductPriceError(false);
+            }}
             value={productPrice}
             error={productPriceError}
           />
@@ -92,7 +117,14 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
         <ButtonsContainer>
           <Button
             disabled={productName.length === 0 || productPrice.length === 0}
-            onPress={() => addProduct()}>
+            onPress={() =>
+              checkAddProduct(
+                uuidv4(),
+                productName,
+                productPrice,
+                productAmount
+              )
+            }>
             <Text button>Zapisz</Text>
           </Button>
         </ButtonsContainer>
