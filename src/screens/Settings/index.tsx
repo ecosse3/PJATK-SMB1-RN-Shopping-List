@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native';
 import { useRecoilState } from 'recoil';
-import { ListItem, Text, Radio, Right, Left } from 'native-base';
+import { ListItem, Radio, Right, Left } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../components/Header';
 import { SettingsStackParamList } from '../../utils/types';
