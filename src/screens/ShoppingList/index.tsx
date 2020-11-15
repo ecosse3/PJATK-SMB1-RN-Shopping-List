@@ -4,9 +4,10 @@ import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import WelcomeScreen from '../Welcome';
+import Header from '../../components/Header';
 
 const ShoppingListScreen: React.FC = () => {
-  const [loadedName, setLoadedName] = useState(false);
+  const [loadedName, setLoadedName] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -15,9 +16,9 @@ const ShoppingListScreen: React.FC = () => {
         const result = await AsyncStorage.getItem('@username');
 
         if (result === null) {
-          navigation.navigate('Welcome Screen');
+          navigation.navigate('WelcomeScreen');
         } else {
-          setLoadedName(true);
+          setLoadedName(result);
         }
       } catch (err) {
         console.log(err);
@@ -25,12 +26,12 @@ const ShoppingListScreen: React.FC = () => {
     };
 
     getName();
-  }, []);
+  }, [navigation]);
 
   if (loadedName) {
     return (
       <View>
-        <Text>Shopping List</Text>
+        <Header text={`Witaj, ${loadedName}`} />
       </View>
     );
   } else {
@@ -42,11 +43,21 @@ const Stack = createStackNavigator();
 
 const ShoppingList: React.FC = () => (
   <Stack.Navigator>
-    <Stack.Screen name="Lista zakupów" component={ShoppingListScreen} />
     <Stack.Screen
-      name="Ekran powitalny"
+      name="ShoppingListScreen"
+      component={ShoppingListScreen}
+      options={{
+        title: 'Lista zakupów',
+        headerTitleStyle: { color: '#FFFFFF' },
+        headerStyle: { backgroundColor: '#474350' }
+      }}
+    />
+    <Stack.Screen
+      name="WelcomeScreen"
       component={WelcomeScreen}
-      options={{ header: () => null }}
+      options={{
+        header: () => null
+      }}
     />
   </Stack.Navigator>
 );
