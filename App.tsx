@@ -1,11 +1,11 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-import Navigator from './src/navigators/Navigator';
+import SCThemeProvider from './src/utils/SCThemeProvider';
 
 const App: React.FC = () => {
   return (
     <RecoilRoot>
-      <Navigator />
+      <SCThemeProvider />
     </RecoilRoot>
   );
 };
