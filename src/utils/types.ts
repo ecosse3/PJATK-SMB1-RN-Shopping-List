@@ -14,9 +14,9 @@ export type SettingsStackParamList = {
 };
 
 export type ProductType = {
-  id: number;
+  id: string;
   name: string;
   price: number;
   amount: number;
-  inBucket: boolean;
+  inBucket?: boolean;
 };
