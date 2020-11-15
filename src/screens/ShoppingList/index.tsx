@@ -8,8 +8,14 @@ import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList } from '../../utils/types';
 import { tabBarVisibleState, usernameState } from '../../store';
+import { ThemeType } from '../../utils/SCThemeProvider';
 
-const ShoppingListScreen: React.FC = () => {
+interface IProps {
+  theme: ThemeType;
+}
+
+const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
+  const { theme } = props;
   const [loadedName, setLoadedName] = useRecoilState(usernameState);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const navigation = useNavigation();
@@ -46,7 +52,7 @@ const ShoppingListScreen: React.FC = () => {
 
 const Stack = createStackNavigator<ShoppingListStackParamList>();
 
-const ShoppingList: React.FC = () => (
+const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ShoppingListScreen"
@@ -54,7 +60,7 @@ const ShoppingList: React.FC = () => (
       options={{
         title: 'Lista zakupów',
         headerTitleStyle: { color: '#FFFFFF' },
-        headerStyle: { backgroundColor: '#474350' }
+        headerStyle: { backgroundColor: theme.colors.secondary }
       }}
     />
     <Stack.Screen

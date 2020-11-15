@@ -1,9 +1,14 @@
 import styled from 'styled-components/native';
+import { ThemeType } from '../../utils/SCThemeProvider';
 
-export const HeaderWrapper = styled.View`
+interface IProps {
+  theme: ThemeType;
+}
+
+export const HeaderWrapper = styled.View<IProps>`
   width: 100%;
   height: 180px;
-  background-color: #89b6a5;
+  background-color: ${(props) => props.theme.colors.primary};
   border-bottom-left-radius: 25px;
 `;
 
