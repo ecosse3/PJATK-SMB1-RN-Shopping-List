@@ -12,6 +12,10 @@ export const ChangeUsernameView = styled.View`
   padding: 16px 16px 0 16px;
 `;
 
+export const AuthorView = styled.View`
+  padding-bottom: 24px;
+`;
+
 export const Title = styled.Text`
   font-size: 16px;
   font-weight: bold;

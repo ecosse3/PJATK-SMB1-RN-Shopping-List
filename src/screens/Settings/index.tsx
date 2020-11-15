@@ -10,6 +10,7 @@ import { themeState, usernameState } from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
 
 import {
+  AuthorView,
   Button,
   ChangeUsernameView,
   NameInput,
@@ -102,13 +103,15 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
           <TextButton button>Zapisz</TextButton>
         </Button>
       </ChangeUsernameView>
-      <Title>Autor aplikacji:</Title>
-      <TextButton size={16} padding="10px 16px">
-        Łukasz Kurpiewski
-      </TextButton>
-      <TextButton size={16} padding="0px 16px">
-        s22004
-      </TextButton>
+      <AuthorView>
+        <Title>Autor aplikacji:</Title>
+        <TextButton size={16} padding="10px 16px">
+          Łukasz Kurpiewski
+        </TextButton>
+        <TextButton size={16} padding="0px 16px">
+          s22004
+        </TextButton>
+      </AuthorView>
     </ScrollView>
   );
 };
