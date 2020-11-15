@@ -11,6 +11,7 @@ import {
 } from './index.styles';
 import { ThemeType } from '../../utils/SCThemeProvider';
 import { ProductType } from '../../utils/types';
+import { useRemoveProduct } from '../../store';
 
 interface IProps {
   id: ProductType['id'];
@@ -25,6 +26,7 @@ const Product: React.FC<IProps> = (props: IProps) => {
   const { id, name, price, amount, inBucket, theme } = props;
 
   const [productBought, setProductBought] = useState(false);
+  const removeProduct = useRemoveProduct();
 
   return (
     <TouchableContainer key={id}>
@@ -44,7 +46,7 @@ const Product: React.FC<IProps> = (props: IProps) => {
               style={{ marginRight: 2 }}
             />
           </Remove>
-          <Remove noMarginRight onPress={() => alert('remove')}>
+          <Remove noMarginRight onPress={() => removeProduct(id)}>
             <Icon name="trash" size={22} color={theme.colors.secondary} />
           </Remove>
         </ButtonsContainer>

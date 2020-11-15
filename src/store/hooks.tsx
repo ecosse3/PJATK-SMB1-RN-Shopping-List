@@ -25,3 +25,11 @@ export const useAddProduct = () => {
     }
   };
 };
+
+export const useRemoveProduct = () => {
+  const [products, setProducts] = useRecoilState(productListState);
+
+  return (productId: string) => {
+    setProducts(products.filter((item) => item.id !== productId));
+  };
+};

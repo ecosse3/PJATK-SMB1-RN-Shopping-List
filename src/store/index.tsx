@@ -6,3 +6,4 @@ export { productListState } from './atoms';
 export { productListSelector } from './selectors';
 
 export { useAddProduct } from './hooks';
+export { useRemoveProduct } from './hooks';
