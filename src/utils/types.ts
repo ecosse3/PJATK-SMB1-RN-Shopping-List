@@ -6,6 +6,7 @@ export type TabParamList = {
 export type ShoppingListStackParamList = {
   ShoppingListScreen: undefined;
   WelcomeScreen: undefined;
+  AddEditProductScreen: undefined;
 };
 
 export type SettingsStackParamList = {

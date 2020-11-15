@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList } from '../../utils/types';
@@ -18,6 +19,7 @@ import { ThemeType } from '../../utils/SCThemeProvider';
 import AddProductIcon from '../../components/AddProductIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
 import Product from '../../components/Product';
+import AddEditProductScreen from '../AddEditProduct';
 
 interface IProps {
   theme: ThemeType;
@@ -99,25 +101,49 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
 const Stack = createStackNavigator<ShoppingListStackParamList>();
 
-const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name="ShoppingListScreen"
-      children={() => <ShoppingListScreen theme={theme} />}
-      options={{
-        title: 'Lista zakupów',
-        headerTitleStyle: { color: '#FFFFFF' },
-        headerStyle: { backgroundColor: theme.colors.secondary }
-      }}
-    />
-    <Stack.Screen
-      name="WelcomeScreen"
-      children={() => <WelcomeScreen theme={theme} />}
-      options={{
-        header: () => null
-      }}
-    />
-  </Stack.Navigator>
-);
+const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
+  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ShoppingListScreen"
+        children={() => <ShoppingListScreen theme={theme} />}
+        options={{
+          title: 'Lista zakupów',
+          headerTitleStyle: { color: '#FFFFFF' },
+          headerStyle: { backgroundColor: theme.colors.secondary }
+        }}
+      />
+      <Stack.Screen
+        name="WelcomeScreen"
+        children={() => <WelcomeScreen theme={theme} />}
+        options={{
+          header: () => null
+        }}
+      />
+      <Stack.Screen
+        name="AddEditProductScreen"
+        children={() => <AddEditProductScreen theme={theme} />}
+        options={({ navigation }) => ({
+          title: 'Dodaj produkt',
+          headerTitleStyle: { color: '#FFFFFF' },
+          headerStyle: { backgroundColor: theme.colors.secondary },
+          headerLeft: () => (
+            <Icon2
+              name="arrow-left"
+              size={25}
+              color="#FFFFFF"
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                setTabBarVisible(true);
+                navigation.goBack();
+              }}
+            />
+          )
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export default ShoppingList;
