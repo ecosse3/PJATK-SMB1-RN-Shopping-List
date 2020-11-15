@@ -39,6 +39,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
       name={item.name}
       price={item.price}
       amount={item.amount}
+      inBucket={item.inBucket}
       theme={theme}
     />
   );
@@ -75,7 +76,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
                 size={20}
                 color={theme.colors.secondary}
               />
-              <Value>Do zapłaty: {totalCost.toFixed(2)} zł</Value>
+              <Value>Do zapłaty: {totalCost.toFixed(2).toString()} zł</Value>
             </TotalCostContainer>
             <FlatList
               data={products}
