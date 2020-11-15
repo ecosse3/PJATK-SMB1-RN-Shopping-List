@@ -11,7 +11,7 @@ const WelcomeScreen: React.FC = () => {
   const saveName = async () => {
     try {
       await AsyncStorage.setItem('@username', userName);
-      navigation.navigate('Shopping List');
+      navigation.goBack();
     } catch (err) {
       console.log(err);
     }
@@ -22,7 +22,11 @@ const WelcomeScreen: React.FC = () => {
       <WaveHand>👋</WaveHand>
       <Text>Witaj, podaj swoje imię!</Text>
       <NameInput
+        theme={{
+          colors: { primary: '#89b6a5', underlineColor: 'transparent' }
+        }}
         mode="outlined"
+        placeholder="Imię"
         onChangeText={(text) => setUserName(text)}
         value={userName}
       />
