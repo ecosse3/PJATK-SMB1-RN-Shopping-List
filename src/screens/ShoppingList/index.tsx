@@ -3,12 +3,19 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList } from '../../utils/types';
-import { tabBarVisibleState, usernameState } from '../../store';
+import {
+  productListSelector,
+  tabBarVisibleState,
+  usernameState
+} from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
+import AddProductIcon from '../../components/AddProductIcon';
+import { TotalCostContainer, Value } from './index.styles';
 
 interface IProps {
   theme: ThemeType;
@@ -16,8 +23,11 @@ interface IProps {
 
 const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
+
   const [loadedName, setLoadedName] = useRecoilState(usernameState);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const { totalCost } = useRecoilValue(productListSelector);
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -43,6 +53,11 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     return (
       <View>
         <Header text={`Witaj, ${loadedName}`} />
+        <AddProductIcon />
+        <TotalCostContainer>
+          <Icon name="info-circle" size={20} color={theme.colors.secondary} />
+          <Value>Do zapłaty: {totalCost.toFixed(2)} zł</Value>
+        </TotalCostContainer>
       </View>
     );
   } else {
@@ -56,7 +71,7 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => (
   <Stack.Navigator>
     <Stack.Screen
       name="ShoppingListScreen"
-      component={ShoppingListScreen}
+      children={() => <ShoppingListScreen theme={theme} />}
       options={{
         title: 'Lista zakupów',
         headerTitleStyle: { color: '#FFFFFF' },
@@ -65,7 +80,7 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => (
     />
     <Stack.Screen
       name="WelcomeScreen"
-      component={WelcomeScreen}
+      children={() => <WelcomeScreen theme={theme} />}
       options={{
         header: () => null
       }}
