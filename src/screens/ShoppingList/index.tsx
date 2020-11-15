@@ -29,9 +29,10 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
 
   const [loadedName, setLoadedName] = useRecoilState(usernameState);
+  const [products, setProducts] = useRecoilState(productListState);
+
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const { totalCost, totalQty } = useRecoilValue(productListSelector);
-  const products = useRecoilValue(productListState);
 
   const navigation = useNavigation();
 
@@ -64,6 +65,22 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
     getName();
   }, [loadedName]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const result = await AsyncStorage.getItem('@products');
+
+        if (result !== null) {
+          setProducts(JSON.parse(result));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getProducts();
+  }, []);
 
   if (loadedName) {
     return (
