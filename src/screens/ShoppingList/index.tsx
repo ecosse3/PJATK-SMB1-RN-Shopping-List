@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -10,12 +10,14 @@ import Header from '../../components/Header';
 import { ShoppingListStackParamList } from '../../utils/types';
 import {
   productListSelector,
+  productListState,
   tabBarVisibleState,
   usernameState
 } from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
 import AddProductIcon from '../../components/AddProductIcon';
 import { TotalCostContainer, Value } from './index.styles';
+import Product from '../../components/Product';
 
 interface IProps {
   theme: ThemeType;
@@ -27,8 +29,19 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const [loadedName, setLoadedName] = useRecoilState(usernameState);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const { totalCost } = useRecoilValue(productListSelector);
+  const products = useRecoilValue(productListState);
 
   const navigation = useNavigation();
+
+  const renderProduct = ({ item }) => (
+    <Product
+      id={item.id}
+      name={item.name}
+      price={item.price}
+      amount={item.amount}
+      theme={theme}
+    />
+  );
 
   useEffect(() => {
     const getName = async () => {
@@ -51,14 +64,19 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
   if (loadedName) {
     return (
-      <View>
+      <>
         <Header text={`Witaj, ${loadedName}`} />
         <AddProductIcon />
         <TotalCostContainer>
           <Icon name="info-circle" size={20} color={theme.colors.secondary} />
           <Value>Do zapłaty: {totalCost.toFixed(2)} zł</Value>
         </TotalCostContainer>
-      </View>
+        <FlatList
+          data={products}
+          renderItem={renderProduct}
+          keyExtractor={(item) => item.id}
+        />
+      </>
     );
   } else {
     return null;
