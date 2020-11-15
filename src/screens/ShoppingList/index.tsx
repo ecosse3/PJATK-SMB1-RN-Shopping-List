@@ -16,7 +16,7 @@ import {
 } from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
 import AddProductIcon from '../../components/AddProductIcon';
-import { TotalCostContainer, Value } from './index.styles';
+import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
 import Product from '../../components/Product';
 
 interface IProps {
@@ -28,7 +28,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
   const [loadedName, setLoadedName] = useRecoilState(usernameState);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
-  const { totalCost } = useRecoilValue(productListSelector);
+  const { totalCost, totalQty } = useRecoilValue(productListSelector);
   const products = useRecoilValue(productListState);
 
   const navigation = useNavigation();
@@ -67,15 +67,28 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
       <>
         <Header text={`Witaj, ${loadedName}`} />
         <AddProductIcon />
-        <TotalCostContainer>
-          <Icon name="info-circle" size={20} color={theme.colors.secondary} />
-          <Value>Do zapłaty: {totalCost.toFixed(2)} zł</Value>
-        </TotalCostContainer>
-        <FlatList
-          data={products}
-          renderItem={renderProduct}
-          keyExtractor={(item) => item.id}
-        />
+        {totalQty !== 0 && (
+          <>
+            <TotalCostContainer>
+              <Icon
+                name="info-circle"
+                size={20}
+                color={theme.colors.secondary}
+              />
+              <Value>Do zapłaty: {totalCost.toFixed(2)} zł</Value>
+            </TotalCostContainer>
+            <FlatList
+              data={products}
+              renderItem={renderProduct}
+              keyExtractor={(item) => item.id}
+            />
+          </>
+        )}
+        {totalQty === 0 && (
+          <NoProductsContainer>
+            <Text>Brak produktów na liście!</Text>
+          </NoProductsContainer>
+        )}
       </>
     );
   } else {

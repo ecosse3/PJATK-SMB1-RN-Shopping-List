@@ -6,6 +6,13 @@ export const TotalCostContainer = styled.View`
   padding: 16px;
 `;
 
+export const NoProductsContainer = styled.View`
+  height: 75%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Value = styled.Text`
   font-size: 14px;
   font-weight: bold;
