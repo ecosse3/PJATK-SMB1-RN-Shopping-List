@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
+import { tabBarVisibleState, usernameState } from '../../store';
 
 const WelcomeScreen: React.FC = () => {
-  const [userName, setUserName] = useState('');
+  const [username, setUsername] = useRecoilState(usernameState);
+  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
   const navigation = useNavigation();
 
   const saveName = async () => {
     try {
-      await AsyncStorage.setItem('@username', userName);
+      await AsyncStorage.setItem('@username', username);
+      setTabBarVisible(true);
       navigation.goBack();
     } catch (err) {
       console.log(err);
@@ -27,10 +31,10 @@ const WelcomeScreen: React.FC = () => {
         }}
         mode="outlined"
         placeholder="Imię"
-        onChangeText={(text) => setUserName(text)}
-        value={userName}
+        onChangeText={(text) => setUsername(text)}
+        value={username}
       />
-      <Button disabled={userName.length === 0} onPress={() => saveName()}>
+      <Button disabled={username.length === 0} onPress={() => saveName()}>
         <Text button>Zapisz</Text>
       </Button>
     </Container>

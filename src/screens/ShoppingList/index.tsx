@@ -3,12 +3,15 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList } from '../../utils/types';
+import { tabBarVisibleState, usernameState } from '../../store';
 
 const ShoppingListScreen: React.FC = () => {
-  const [loadedName, setLoadedName] = useState('');
+  const [loadedName, setLoadedName] = useRecoilState(usernameState);
+  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -20,6 +23,7 @@ const ShoppingListScreen: React.FC = () => {
           navigation.navigate('WelcomeScreen');
         } else {
           setLoadedName(result);
+          setTabBarVisible(true);
         }
       } catch (err) {
         console.log(err);
@@ -27,7 +31,7 @@ const ShoppingListScreen: React.FC = () => {
     };
 
     getName();
-  }, [navigation]);
+  }, [loadedName]);
 
   if (loadedName) {
     return (
