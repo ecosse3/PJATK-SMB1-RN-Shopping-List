@@ -11,7 +11,6 @@ const cloneIndex = (items: ProductType[], id: string) => ({
 });
 
 const saveProducts = async (products: ProductType[]) => {
-  console.log('saveProducts: ', products);
   try {
     await AsyncStorage.setItem('@products', JSON.stringify(products));
   } catch (err) {
