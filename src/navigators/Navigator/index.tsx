@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil';
 import ShoppingList from '../../screens/ShoppingList';
 import Settings from '../../screens/Settings';
 import { TabParamList } from '../../utils/types';
-import { tabBarVisibleState } from '../../store';
+import { tabBarVisibleState, productListSelector } from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
 
 interface IProps {
@@ -18,6 +18,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const Navigator: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const isTabBarVisible = useRecoilValue(tabBarVisibleState);
+  const { totalQty } = useRecoilValue(productListSelector);
 
   return (
     <NavigationContainer>
@@ -35,7 +36,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
           children={() => <ShoppingList theme={theme} />}
           options={{
             tabBarLabel: 'Lista zakupów',
-            tabBarBadge: 3,
+            tabBarBadge: totalQty,
             tabBarVisible: isTabBarVisible,
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
