@@ -47,6 +47,7 @@ module.exports = {
     'react-native/split-platform-components': 2,
     'react-native/no-color-literals': 2,
     'react-native/no-single-element-style-arrays': 2,
+    'react-native/no-inline-styles': 0,
     'arrow-parens': 0,
     camelcase: 0,
     'comma-dangle': ['error', 'never'],
