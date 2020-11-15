@@ -35,6 +35,15 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
     }
   };
 
+  const changeTheme = async (id: number) => {
+    try {
+      await AsyncStorage.setItem('@theme', `${id}`);
+      setCurrentTheme(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View>
       <Header text="Ustawienia" />
@@ -49,7 +58,7 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
               color={theme.colors.primary}
               selectedColor={theme.colors.primary}
               selected={currentTheme === 0}
-              onPress={() => setCurrentTheme(0)}
+              onPress={() => changeTheme(0)}
             />
           </Right>
         </ListItem>
@@ -62,7 +71,7 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
               color={theme.colors.primary}
               selectedColor={theme.colors.primary}
               selected={currentTheme === 1}
-              onPress={() => setCurrentTheme(1)}
+              onPress={() => changeTheme(1)}
             />
           </Right>
         </ListItem>
