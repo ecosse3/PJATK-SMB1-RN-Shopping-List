@@ -22,7 +22,7 @@ export const InfoContainer = styled.View`
   width: 50%;
 `;
 
-export const Remove = styled.TouchableOpacity<IProps>`
+export const IconContainer = styled.TouchableOpacity<IProps>`
   width: 40px;
   height: 40px;
   border-radius: 40px;
@@ -45,18 +45,30 @@ export const ButtonsContainer = styled.View`
   padding-right: 15px;
 `;
 
-export const Name = styled.Text`
+export const TopContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const Name = styled.Text<{ inBasket: boolean }>`
   font-weight: bold;
   font-size: 16px;
   margin-bottom: 2px;
+
+  ${(props) =>
+    props.inBasket &&
+    css`
+      text-decoration: line-through;
+    `}
+`;
+
+export const Quantity = styled.Text`
+  margin-left: 3px;
+  font-size: 9px;
+  font-style: italic;
 `;
 
 export const Price = styled.Text`
   color: #979797;
   font-size: 12px;
-`;
-
-export const Quantity = styled.Text`
-  font-size: 9px;
-  font-style: italic;
 `;

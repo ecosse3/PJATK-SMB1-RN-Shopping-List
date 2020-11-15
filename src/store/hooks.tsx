@@ -32,8 +32,8 @@ export const useAddProduct = () => {
       setProducts(clone);
       saveProducts(clone);
     } else {
-      setProducts([...clone, { ...product, inBucket: false }]);
-      saveProducts([...clone, { ...product, inBucket: false }]);
+      setProducts([...clone, { ...product, inBasket: false }]);
+      saveProducts([...clone, { ...product, inBasket: false }]);
     }
   };
 };
@@ -44,5 +44,17 @@ export const useRemoveProduct = () => {
   return (productId: string) => {
     setProducts(products.filter((item) => item.id !== productId));
     saveProducts(products.filter((item) => item.id !== productId));
+  };
+};
+
+export const useToggleProductInBasket = () => {
+  const [products, setProducts] = useRecoilState(productListState);
+
+  return (productId: string) => {
+    const { clone, index } = cloneIndex(products, productId);
+
+    clone[index].inBasket = !clone[index].inBasket;
+    setProducts(clone);
+    saveProducts(clone);
   };
 };

@@ -42,7 +42,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
       name={item.name}
       price={item.price}
       amount={item.amount}
-      inBucket={item.inBucket}
+      inBasket={item.inBasket}
       theme={theme}
     />
   );

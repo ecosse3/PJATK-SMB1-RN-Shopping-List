@@ -18,5 +18,5 @@ export type ProductType = {
   name: string;
   price: number;
   amount: number;
-  inBucket?: boolean;
+  inBasket?: boolean;
 };

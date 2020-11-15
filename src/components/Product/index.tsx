@@ -1,54 +1,63 @@
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { View } from 'react-native';
 import {
   TouchableContainer,
   Name,
   Price,
   InfoContainer,
-  Remove,
+  IconContainer,
   ButtonsContainer,
-  Quantity
+  Quantity,
+  TopContainer
 } from './index.styles';
 import { ThemeType } from '../../utils/SCThemeProvider';
 import { ProductType } from '../../utils/types';
-import { useRemoveProduct } from '../../store';
+import { useRemoveProduct, useToggleProductInBasket } from '../../store';
 
 interface IProps {
   id: ProductType['id'];
   name: ProductType['name'];
   price: ProductType['price'];
   amount: ProductType['amount'];
-  inBucket: ProductType['inBucket'];
+  inBasket: ProductType['inBasket'];
   theme: ThemeType;
 }
 
 const Product: React.FC<IProps> = (props: IProps) => {
-  const { id, name, price, amount, inBucket, theme } = props;
+  const { id, name, price, amount, inBasket, theme } = props;
 
-  const [productBought, setProductBought] = useState(false);
+  const [productBought, setProductBought] = useState(inBasket);
   const removeProduct = useRemoveProduct();
+  const toggleProductBasketStatus = useToggleProductInBasket();
+
+  const toggleProductInBasket = () => {
+    setProductBought((toggle) => !toggle);
+    toggleProductBasketStatus(id);
+  };
 
   return (
     <TouchableContainer key={id}>
       <>
         <InfoContainer>
-          <Name>
-            {name} <Quantity>x{amount.toString()}</Quantity>
-          </Name>
+          <TopContainer>
+            <Name inBasket={productBought}>{name}</Name>
+            <Quantity>x{amount.toString()}</Quantity>
+          </TopContainer>
           <Price>{price.toFixed(2).toString()} zł</Price>
         </InfoContainer>
         <ButtonsContainer>
-          <Remove onPress={() => setProductBought((toggle) => !toggle)}>
+          <IconContainer onPress={() => toggleProductInBasket()}>
             <Icon
               name="cart-arrow-down"
               size={20}
               color={productBought ? 'green' : theme.colors.secondary}
               style={{ marginRight: 2 }}
             />
-          </Remove>
-          <Remove noMarginRight onPress={() => removeProduct(id)}>
+          </IconContainer>
+          <IconContainer noMarginRight onPress={() => removeProduct(id)}>
             <Icon name="trash" size={22} color={theme.colors.secondary} />
-          </Remove>
+          </IconContainer>
         </ButtonsContainer>
       </>
     </TouchableContainer>

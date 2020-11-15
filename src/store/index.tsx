@@ -7,3 +7,4 @@ export { productListSelector } from './selectors';
 
 export { useAddProduct } from './hooks';
 export { useRemoveProduct } from './hooks';
+export { useToggleProductInBasket } from './hooks';
