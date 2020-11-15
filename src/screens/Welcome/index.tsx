@@ -4,8 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
 import { tabBarVisibleState, usernameState } from '../../store';
+import { ThemeType } from '../../utils/SCThemeProvider';
 
-const WelcomeScreen: React.FC = () => {
+interface IProps {
+  theme: ThemeType;
+}
+
+const WelcomeScreen: React.FC<IProps> = (props: IProps) => {
+  const { theme } = props;
   const [username, setUsername] = useRecoilState(usernameState);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
@@ -27,7 +33,10 @@ const WelcomeScreen: React.FC = () => {
       <Text>Witaj, podaj swoje imię!</Text>
       <NameInput
         theme={{
-          colors: { primary: '#89b6a5', underlineColor: 'transparent' }
+          colors: {
+            primary: theme.colors.primary,
+            underlineColor: 'transparent'
+          }
         }}
         mode="outlined"
         placeholder="Imię"
