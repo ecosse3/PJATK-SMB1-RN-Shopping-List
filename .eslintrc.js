@@ -42,6 +42,7 @@ module.exports = {
         jsx: 'never'
       }
     ],
+    'import/no-cycle': 0,
     'react-native/no-unused-styles': 2,
     'react-native/split-platform-components': 2,
     'react-native/no-color-literals': 2,
@@ -71,6 +72,7 @@ module.exports = {
     'react/forbid-prop-types': 0,
     'react/destructuring-assignment': 0,
     'react/display-name': 0,
+    'react/no-children-prop': 0,
     'react-hooks/exhaustive-deps': 0,
     'object-curly-spacing': ['warn', 'always']
   }
