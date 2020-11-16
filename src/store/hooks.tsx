@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 import { productListState } from './atoms';
 import { ProductType } from '../utils/types';
-import { insertProduct } from '../utils/sqlite';
+import { insertProduct, updateProduct } from '../utils/sqlite';
 
 // Open SQLite DB
 const db = SQLite.openDatabase(
@@ -46,6 +46,7 @@ export const useAddEditProduct = () => {
       clone[index].amount = product.amount;
       setProducts(clone);
       saveProducts(clone);
+      updateProduct(db, { ...product, inBasket: clone[index].inBasket });
     } else {
       setProducts([...clone, { ...product, inBasket: false }]);
       saveProducts([...clone, { ...product, inBasket: false }]);

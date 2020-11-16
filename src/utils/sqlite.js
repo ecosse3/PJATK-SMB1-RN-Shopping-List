@@ -1,19 +1,5 @@
 import SQLite from 'react-native-sqlite-storage';
 
-export const openDatabase = () => {
-  return SQLite.openDatabase(
-    {
-      name: 'SQLite',
-      location: 'default',
-      createFromLocation: '~SQLite.db'
-    },
-    () => {},
-    (error) => {
-      console.log(`ERROR: ${error}`);
-    }
-  );
-};
-
 export const executeQuery = (db, sql, params = []) =>
   new Promise((resolve, reject) => {
     db.transaction((trans) => {
@@ -46,5 +32,16 @@ export const insertProduct = async (db, product) => {
     db,
     'INSERT INTO products (id, name, price, amount, in_basket) VALUES ( ?, ?, ?, ?, ?)',
     [`${id}`, `${name}`, `${price}`, `${amount}`, `${inBasket}`]
+  );
+};
+
+export const updateProduct = async (db, product) => {
+  const { id, name, price, amount, inBasket } = product;
+  console.log(product);
+
+  const singleUpdate = await executeQuery(
+    db,
+    'UPDATE products SET name = ? , price = ? , amount = ? , in_basket = ? WHERE id = ?',
+    [`${name}`, `${price}`, `${amount}`, `${inBasket}`, `${id}`]
   );
 };
