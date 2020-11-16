@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   Text,
   Button,
@@ -14,7 +14,11 @@ import {
   AmountContainer,
   AmountValue
 } from './index.styles';
-import { tabBarVisibleState, useAddProduct } from '../../store';
+import {
+  productInEditModeState,
+  tabBarVisibleState,
+  useAddEditProduct
+} from '../../store';
 import { ThemeType } from '../../utils/SCThemeProvider';
 import Header from '../../components/Header';
 
@@ -22,18 +26,36 @@ interface IProps {
   theme: ThemeType;
 }
 
+type RoutePropsType = {
+  params?: {
+    id?: string;
+    name?: string;
+    price?: number;
+    amount?: number;
+  };
+};
+
 const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
 
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const productInEditMode = useRecoilValue(productInEditModeState);
 
-  const addProduct = useAddProduct();
+  const addEditProduct = useAddEditProduct();
   const navigation = useNavigation();
+  const route: RoutePropsType = useRoute();
 
-  const [productName, setProductName] = useState('');
-  const [productPrice, setProductPrice] = useState('');
+  const propsProductId = route?.params?.id;
+  const propsProductName = route?.params?.name;
+  const propsProductPrice = route?.params?.price;
+  const propsProductAmount = route?.params?.amount;
+
+  const [productName, setProductName] = useState(propsProductName || '');
+  const [productPrice, setProductPrice] = useState(
+    propsProductPrice?.toString() || ''
+  );
   const [productPriceError, setProductPriceError] = useState(false);
-  const [productAmount, setProductAmount] = useState(1);
+  const [productAmount, setProductAmount] = useState(propsProductAmount || 1);
 
   const checkAddProduct = (
     id: string,
@@ -48,7 +70,7 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
       return 0;
     }
 
-    addProduct({ id, name, price: Number(price), amount: Number(amount) });
+    addEditProduct({ id, name, price: Number(price), amount: Number(amount) });
 
     setTabBarVisible(true);
     navigation.goBack();
@@ -60,7 +82,7 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
-      <Header text="Dodaj produkt" />
+      <Header text={productInEditMode ? productName : 'Dodaj produkt'} />
       <Container>
         <InputsContainer>
           <Input
@@ -121,7 +143,7 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
             disabled={productName.length === 0 || productPrice.length === 0}
             onPress={() =>
               checkAddProduct(
-                uuidv4(),
+                propsProductId || uuidv4(),
                 productName,
                 productPrice,
                 productAmount

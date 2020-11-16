@@ -10,6 +10,7 @@ import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList } from '../../utils/types';
 import {
+  productInEditModeState,
   productListSelector,
   productListState,
   tabBarVisibleState,
@@ -120,6 +121,8 @@ const Stack = createStackNavigator<ShoppingListStackParamList>();
 
 const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const productInEditMode = useRecoilValue(productInEditModeState);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -142,7 +145,7 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
         name="AddEditProductScreen"
         children={() => <AddEditProductScreen theme={theme} />}
         options={({ navigation }) => ({
-          title: 'Dodaj produkt',
+          title: productInEditMode ? 'Edytuj produkt' : 'Dodaj produkt',
           headerTitleStyle: { color: '#FFFFFF' },
           headerStyle: { backgroundColor: theme.colors.secondary },
           headerLeft: () => (

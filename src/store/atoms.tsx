@@ -19,3 +19,8 @@ export const productListState = atom({
   key: 'productListState',
   default: []
 });
+
+export const productInEditModeState = atom({
+  key: 'productInEditModeState',
+  default: false
+});

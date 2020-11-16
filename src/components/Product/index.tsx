@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useSetRecoilState } from 'recoil';
 import {
   TouchableContainer,
   Name,
@@ -13,7 +14,11 @@ import {
 } from './index.styles';
 import { ThemeType } from '../../utils/SCThemeProvider';
 import { ProductType } from '../../utils/types';
-import { useRemoveProduct, useToggleProductInBasket } from '../../store';
+import {
+  productInEditModeState,
+  useRemoveProduct,
+  useToggleProductInBasket
+} from '../../store';
 
 interface IProps {
   id: ProductType['id'];
@@ -28,8 +33,11 @@ const Product: React.FC<IProps> = (props: IProps) => {
   const { id, name, price, amount, inBasket, theme } = props;
 
   const [productBought, setProductBought] = useState(inBasket);
+
+  const navigation = useNavigation();
   const removeProduct = useRemoveProduct();
   const toggleProductBasketStatus = useToggleProductInBasket();
+  const setProductInEditMode = useSetRecoilState(productInEditModeState);
 
   const toggleProductInBasket = () => {
     setProductBought((toggle) => !toggle);
@@ -37,7 +45,17 @@ const Product: React.FC<IProps> = (props: IProps) => {
   };
 
   return (
-    <TouchableContainer key={id}>
+    <TouchableContainer
+      key={id}
+      onPress={() => {
+        navigation.navigate('AddEditProductScreen', {
+          id,
+          name,
+          price,
+          amount
+        });
+        setProductInEditMode(true);
+      }}>
       <>
         <InfoContainer>
           <TopContainer>

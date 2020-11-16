@@ -20,14 +20,16 @@ const saveProducts = async (products: ProductType[]) => {
 
 // Hooks
 
-export const useAddProduct = () => {
+export const useAddEditProduct = () => {
   const [products, setProducts] = useRecoilState(productListState);
 
   return (product: ProductType) => {
     const { clone, index } = cloneIndex(products, product.id);
 
     if (index !== -1) {
-      clone[index].amount += 1;
+      clone[index].name = product.name;
+      clone[index].price = product.price;
+      clone[index].amount = product.amount;
       setProducts(clone);
       saveProducts(clone);
     } else {

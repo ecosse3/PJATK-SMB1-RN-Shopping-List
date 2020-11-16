@@ -7,7 +7,7 @@ interface IProps {
   noMarginRight?: boolean;
 }
 
-export const TouchableContainer = styled.TouchableHighlight<IProps>`
+export const TouchableContainer = styled.TouchableOpacity<IProps>`
   flex-direction: row;
   width: 95%;
   height: 60px;
