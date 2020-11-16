@@ -16,6 +16,7 @@ const db = SQLite.openDatabase(
     name: 'SQLite-s22004-products',
     location: 'default'
   },
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   () => {},
   (e) => {
     console.log(e);
