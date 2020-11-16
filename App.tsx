@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
+import SQLite from 'react-native-sqlite-storage';
 import SCThemeProvider from './src/utils/SCThemeProvider';
+import { createTable } from './src/utils/sqlite';
 
 const App: React.FC = () => {
+  // This is ran once when app is opened
+  useEffect(() => {
+    const db = SQLite.openDatabase(
+      {
+        name: 'SQLite-s22004-products',
+        location: 'default'
+      },
+      () => {},
+      (error) => {
+        console.log(`ERROR: ${error}`);
+      }
+    );
+    createTable(db);
+  }, []);
   return (
     <RecoilRoot>
       <SCThemeProvider />

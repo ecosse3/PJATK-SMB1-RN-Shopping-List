@@ -1,7 +1,21 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import AsyncStorage from '@react-native-community/async-storage';
+import SQLite from 'react-native-sqlite-storage';
 import { productListState } from './atoms';
 import { ProductType } from '../utils/types';
+import { insertProduct } from '../utils/sqlite';
+
+// Open SQLite DB
+const db = SQLite.openDatabase(
+  {
+    name: 'SQLite-s22004-products',
+    location: 'default'
+  },
+  () => {},
+  (e) => {
+    console.log(e);
+  }
+);
 
 // Utility functions
 
@@ -35,6 +49,7 @@ export const useAddEditProduct = () => {
     } else {
       setProducts([...clone, { ...product, inBasket: false }]);
       saveProducts([...clone, { ...product, inBasket: false }]);
+      insertProduct(db, { ...product, inBasket: false });
     }
   };
 };
