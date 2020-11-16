@@ -3,7 +3,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 import { productListState } from './atoms';
 import { ProductType } from '../utils/types';
-import { insertProduct, updateProduct } from '../utils/sqlite';
+import {
+  deleteProduct,
+  insertProduct,
+  updateProduct,
+  updateProductBasketStatus
+} from '../utils/sqlite';
 
 // Open SQLite DB
 const db = SQLite.openDatabase(
@@ -61,6 +66,7 @@ export const useRemoveProduct = () => {
   return (productId: string) => {
     setProducts(products.filter((item) => item.id !== productId));
     saveProducts(products.filter((item) => item.id !== productId));
+    deleteProduct(db, productId);
   };
 };
 
@@ -73,5 +79,6 @@ export const useToggleProductInBasket = () => {
     clone[index].inBasket = !clone[index].inBasket;
     setProducts(clone);
     saveProducts(clone);
+    updateProductBasketStatus(db, productId, clone[index].inBasket);
   };
 };

@@ -45,3 +45,19 @@ export const updateProduct = async (db, product) => {
     [`${name}`, `${price}`, `${amount}`, `${inBasket}`, `${id}`]
   );
 };
+
+export const updateProductBasketStatus = async (db, productId, inBasket) => {
+  const updateBasketStatus = await executeQuery(
+    db,
+    'UPDATE products SET in_basket = ? WHERE id = ?',
+    [`${inBasket}`, `${productId}`]
+  );
+};
+
+export const deleteProduct = async (db, productId) => {
+  const singleDelete = await executeQuery(
+    db,
+    'DELETE FROM products WHERE id = ?',
+    [productId]
+  );
+};
