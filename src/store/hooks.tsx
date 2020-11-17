@@ -40,7 +40,7 @@ const saveProducts = async (products: ProductType[]) => {
 
 // Hooks
 
-export const useAddEditProduct: (product: ProductType) => void = () => {
+export const useAddEditProduct = (): ((product: ProductType) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
 
   return (product: ProductType) => {
@@ -61,7 +61,7 @@ export const useAddEditProduct: (product: ProductType) => void = () => {
   };
 };
 
-export const useRemoveProduct: (productId: string) => void = () => {
+export const useRemoveProduct = (): ((productId: string) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
 
   return (productId: string) => {
@@ -71,7 +71,7 @@ export const useRemoveProduct: (productId: string) => void = () => {
   };
 };
 
-export const useToggleProductInBasket: (productId: string) => void = () => {
+export const useToggleProductInBasket = (): ((productId: string) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
 
   return (productId: string) => {
