@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
-import { ShoppingListStackParamList } from '../../utils/types';
+import { ShoppingListStackParamList, ThemeType } from '../../utils/types';
 import {
   productInEditModeState,
   productListSelector,
@@ -16,7 +16,6 @@ import {
   tabBarVisibleState,
   usernameState
 } from '../../store';
-import { ThemeType } from '../../utils/SCThemeProvider';
 import AddProductIcon from '../../components/AddProductIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
 import Product from '../../components/Product';

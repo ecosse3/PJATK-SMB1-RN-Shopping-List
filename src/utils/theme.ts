@@ -1,4 +1,6 @@
-export const lightGreen = {
+import { ThemeType } from './types';
+
+export const lightGreen: ThemeType = {
   colors: {
     primary: '#89b6a5',
     secondary: '#474350',
@@ -6,7 +8,7 @@ export const lightGreen = {
   }
 };
 
-export const oxford = {
+export const oxford: ThemeType = {
   colors: {
     primary: '#F87060',
     secondary: '#102542',

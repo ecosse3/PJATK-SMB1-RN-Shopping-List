@@ -12,8 +12,7 @@ import {
   Quantity,
   TopContainer
 } from './index.styles';
-import { ThemeType } from '../../utils/SCThemeProvider';
-import { ProductType } from '../../utils/types';
+import { ProductType, ThemeType } from '../../utils/types';
 import {
   productInEditModeState,
   useRemoveProduct,

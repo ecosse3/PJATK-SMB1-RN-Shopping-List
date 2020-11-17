@@ -6,8 +6,6 @@ import { lightGreen, oxford } from './theme';
 import Navigator from '../navigators/Navigator';
 import { themeState } from '../store';
 
-type ThemeType = typeof lightGreen;
-
 const SCThemeProvider: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
 
@@ -36,5 +34,4 @@ const SCThemeProvider: React.FC = () => {
   );
 };
 
-export { ThemeType };
 export default SCThemeProvider;

@@ -5,9 +5,8 @@ import { useRecoilState } from 'recoil';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../components/Header';
-import { SettingsStackParamList } from '../../utils/types';
+import { SettingsStackParamList, ThemeType } from '../../utils/types';
 import { themeState, usernameState } from '../../store';
-import { ThemeType } from '../../utils/SCThemeProvider';
 
 import {
   AuthorView,

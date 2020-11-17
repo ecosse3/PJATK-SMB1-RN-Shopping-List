@@ -19,8 +19,8 @@ import {
   tabBarVisibleState,
   useAddEditProduct
 } from '../../store';
-import { ThemeType } from '../../utils/SCThemeProvider';
 import Header from '../../components/Header';
+import { ThemeType } from '../../utils/types';
 
 interface IProps {
   theme: ThemeType;

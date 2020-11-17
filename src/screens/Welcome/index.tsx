@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
 import { tabBarVisibleState, usernameState } from '../../store';
-import { ThemeType } from '../../utils/SCThemeProvider';
+import { ThemeType } from '../../utils/types';
 
 interface IProps {
   theme: ThemeType;

@@ -20,3 +20,11 @@ export type ProductType = {
   amount: number;
   inBasket?: boolean;
 };
+
+export type ThemeType = {
+  colors: {
+    primary: string;
+    secondary: string;
+    badge: string;
+  };
+};

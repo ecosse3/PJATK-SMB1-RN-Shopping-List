@@ -5,9 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useRecoilValue } from 'recoil';
 import ShoppingList from '../../screens/ShoppingList';
 import Settings from '../../screens/Settings';
-import { TabParamList } from '../../utils/types';
+import { TabParamList, ThemeType } from '../../utils/types';
 import { tabBarVisibleState, productListSelector } from '../../store';
-import { ThemeType } from '../../utils/SCThemeProvider';
 
 interface IProps {
   theme: ThemeType;

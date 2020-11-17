@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components/native';
 import { rgba } from 'polished';
-import { ThemeType } from '../../utils/SCThemeProvider';
+import { ThemeType } from '../../utils/types';
 
 interface IProps {
   theme: ThemeType;
