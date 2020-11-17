@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 import { productListState } from './atoms';
@@ -40,7 +40,7 @@ const saveProducts = async (products: ProductType[]) => {
 
 // Hooks
 
-export const useAddEditProduct = () => {
+export const useAddEditProduct: (product: ProductType) => void = () => {
   const [products, setProducts] = useRecoilState(productListState);
 
   return (product: ProductType) => {
@@ -61,7 +61,7 @@ export const useAddEditProduct = () => {
   };
 };
 
-export const useRemoveProduct = () => {
+export const useRemoveProduct: (productId: string) => void = () => {
   const [products, setProducts] = useRecoilState(productListState);
 
   return (productId: string) => {
@@ -71,7 +71,7 @@ export const useRemoveProduct = () => {
   };
 };
 
-export const useToggleProductInBasket = () => {
+export const useToggleProductInBasket: (productId: string) => void = () => {
   const [products, setProducts] = useRecoilState(productListState);
 
   return (productId: string) => {
