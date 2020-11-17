@@ -72,9 +72,16 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
 
     addEditProduct({ id, name, price: Number(price), amount: Number(amount) });
 
-    setTabBarVisible(true);
-    navigation.goBack();
+    navigation.navigate('ShoppingListScreen');
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setTabBarVisible(true);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     setTabBarVisible(false);

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { Text, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -120,7 +120,6 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 const Stack = createStackNavigator<ShoppingListStackParamList>();
 
 const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
-  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const productInEditMode = useRecoilValue(productInEditModeState);
 
   return (
@@ -155,8 +154,9 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
               color="#FFFFFF"
               style={{ marginLeft: 15 }}
               onPress={() => {
-                setTabBarVisible(true);
-                navigation.goBack();
+                navigation.navigate('ShoppingListScreen', {
+                  tabBarVisible: true
+                });
               }}
             />
           )
