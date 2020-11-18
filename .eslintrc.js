@@ -75,6 +75,8 @@ module.exports = {
     'react/display-name': 0,
     'react/no-children-prop': 0,
     'react-hooks/exhaustive-deps': 0,
-    'object-curly-spacing': ['warn', 'always']
+    'object-curly-spacing': ['warn', 'always'],
+    '@typescript-eslint/no-var-requires': 0,
+    'global-require': 0
   }
 };
