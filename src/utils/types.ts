@@ -26,5 +26,6 @@ export type ThemeType = {
     primary: string;
     secondary: string;
     badge: string;
+    basket?: string;
   };
 };

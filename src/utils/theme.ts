@@ -16,4 +16,13 @@ export const oxford: ThemeType = {
   }
 };
 
-export const themes: ThemeType[] = [lightGreen, oxford];
+export const capri: ThemeType = {
+  colors: {
+    primary: '#30C5FF',
+    secondary: '#2A2D34',
+    badge: '#F7D08A',
+    basket: '#F7D08A'
+  }
+};
+
+export const themes: ThemeType[] = [lightGreen, oxford, capri];

@@ -68,7 +68,13 @@ const Product: React.FC<IProps> = (props: IProps) => {
             <Icon
               name="cart-arrow-down"
               size={20}
-              color={productBought ? 'green' : theme.colors.secondary}
+              color={
+                productBought && theme.colors.basket
+                  ? theme.colors.basket
+                  : productBought && !theme.colors.basket
+                  ? 'green'
+                  : theme.colors.secondary
+              }
               style={{ marginRight: 2 }}
             />
           </IconContainer>
