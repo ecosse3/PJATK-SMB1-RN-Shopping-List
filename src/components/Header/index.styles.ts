@@ -12,6 +12,15 @@ export const HeaderWrapper = styled.View<IProps>`
   border-bottom-left-radius: 25px;
 `;
 
+export const HeaderImage = styled.Image`
+  position: absolute;
+  top: 0;
+  left: 55%;
+  width: 100%;
+  height: 180px;
+  border-bottom-left-radius: 25px;
+`;
+
 export const Container = styled.View`
   display: flex;
   width: 100%;
