@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { useRecoilState } from 'recoil';
 import AsyncStorage from '@react-native-community/async-storage';
-import { lightGreen, oxford } from './theme';
+import { themes } from './theme';
 import Navigator from '../navigators/Navigator';
 import { themeState } from '../store';
 
@@ -28,8 +28,8 @@ const SCThemeProvider: React.FC = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={currentTheme === 0 ? lightGreen : oxford}>
-      <Navigator theme={currentTheme === 0 ? lightGreen : oxford} />
+    <ThemeProvider theme={themes[currentTheme]}>
+      <Navigator theme={themes[currentTheme]} />
     </ThemeProvider>
   );
 };

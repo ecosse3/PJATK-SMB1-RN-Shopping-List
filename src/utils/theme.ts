@@ -15,3 +15,5 @@ export const oxford: ThemeType = {
     badge: '#CDD7D6'
   }
 };
+
+export const themes: ThemeType[] = [lightGreen, oxford];

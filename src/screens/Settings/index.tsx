@@ -17,6 +17,7 @@ import {
   Title
 } from './index.styles';
 import ThemeCircle from '../../components/ThemeCircle';
+import { themes } from '../../utils/theme';
 
 interface IProps {
   theme: ThemeType;
@@ -51,36 +52,25 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
       <Header text="Ustawienia" />
       <Title>Wybierz motyw aplikacji:</Title>
       <View>
-        <ListItem>
-          <Left>
-            <ThemeCircle color="#89b6a5" noMarginLeft />
-            <ThemeCircle color="#474350" />
-            <ThemeCircle color="#FF0000" />
-          </Left>
-          <Right>
-            <Radio
-              color={theme.colors.primary}
-              selectedColor={theme.colors.primary}
-              selected={currentTheme === 0}
-              onPress={() => changeTheme(0)}
-            />
-          </Right>
-        </ListItem>
-        <ListItem>
-          <Left>
-            <ThemeCircle color="#F87060" noMarginLeft />
-            <ThemeCircle color="#102542" />
-            <ThemeCircle color="#CDD7D6" />
-          </Left>
-          <Right>
-            <Radio
-              color={theme.colors.primary}
-              selectedColor={theme.colors.primary}
-              selected={currentTheme === 1}
-              onPress={() => changeTheme(1)}
-            />
-          </Right>
-        </ListItem>
+        {themes.map((singleTheme) => {
+          return (
+            <ListItem key={themes.indexOf(singleTheme)}>
+              <Left>
+                <ThemeCircle color={singleTheme.colors.primary} noMarginLeft />
+                <ThemeCircle color={singleTheme.colors.secondary} />
+                <ThemeCircle color={singleTheme.colors.badge} />
+              </Left>
+              <Right>
+                <Radio
+                  color={theme.colors.primary}
+                  selectedColor={theme.colors.primary}
+                  selected={currentTheme === themes.indexOf(singleTheme)}
+                  onPress={() => changeTheme(themes.indexOf(singleTheme))}
+                />
+              </Right>
+            </ListItem>
+          );
+        })}
       </View>
       <Title>Zmień imię:</Title>
       <ChangeUsernameView>
