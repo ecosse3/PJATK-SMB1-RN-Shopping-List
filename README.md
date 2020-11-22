@@ -1,61 +1,23 @@
-# :space_invader: React Native Template TypeScript
+[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 
-<p>
-  <a href="https://travis-ci.org/react-native-community/react-native-template-typescript">
-    <img alt="Build Status" src="https://img.shields.io/travis/react-native-community/react-native-template-typescript.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/react-native-community/react-native-template-typescript#readme">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/react-native-community/react-native-template-typescript/graphs/commit-activity">
-    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/react-native-community/react-native-template-typescript/blob/master/LICENSE">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" target="_blank" />
-  </a>
-</p>
+# :space_invader: React Native Shopping List
 
-> Clean and minimalist React Native template for a quick start with TypeScript.
+Application written for university subject purposes.
 
-## :star: Features
+It is used to mark the shopping list with informations such as product name, price in PLN, quantity and status whetever the item has been purchased.
 
-- Elegant usage directly within the [React Native CLI](https://github.com/react-native-community/cli)
-- Consistent with the default React Native template
-- Minimal additional dependencies
+Moreover, in the settings view, the user can choose the color theme of the application. This functionality has been programmed to automatically get HEX values from the theme.ts file in the src/utils directory. When a new theme object is added, it is automatically added to the "Settings" screen in the application build level. The form of adding new colors also corresponds to the JSON format, so you can implement loading themes to the application in a very simple and quick way, e.g. from an external server thanks to REST API / GraphQL using axios/apollo.
 
-## :arrow_forward: Usage
+All methods of product modification (adding, removing, modifying) are also supported by the SQLite database which is implemented in React Native using the "react-native-sqlite-storage" library. These methods have been implemented in the "src/utils/sqlite.ts" file.
 
-```sh
-npx react-native init MyApp --template react-native-template-typescript
-```
+The entire application was written in TypeScript (TSX). Recoil.js is used for state management.
 
-### Usage with older versions of React Native
+## :iphone: Screenshots
 
-#### e.g. `react-native@0.62.x`
-
-```sh
-npx react-native init MyApp --template react-native-template-typescript@6.4.*
-```
-
-See the below table to find out which version of the template to use.
-
-#### React Native <=> Template Version
-
-| React Native  	| Template  	|
-|---	            |---	        |
-| 0.63  	        | 6.5.*       |
-| 0.62  	        | 6.4.*       |
-| 0.61  	        | 6.3.*       |
-| 0.60  	        | 6.2.*       |
-
-### Note on the legacy CLI
-There seems to be quite some confusion about the legacy CLI. This template only works with the new CLI. Make sure you have uninstalled the legacy `react-native-cli` first (`npm uninstall -g react-native-cli`), for the below command to work. If you wish to not use `npx`, you can also install the new CLI globally (`npm i -g @react-native-community/cli` or `yarn global add @react-native-community/cli`).
-
-Further information can be found here: https://github.com/react-native-community/cli#about
-
-## :computer: Contributing
-
-Contributions are very welcome. Please check out the [contributing document](CONTRIBUTING.md).
+![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot1.png?raw=true){:height="50%" width="50%"}
+![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot2.png?raw=true){:height="50%" width="50%"}
+![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot3.png?raw=true){:height="50%" width="50%"}
+![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot4.png?raw=true){:height="50%" width="50%"}
 
 ## :bookmark: License
 
