@@ -14,10 +14,10 @@ The entire application was written in TypeScript (TSX). Recoil.js is used for st
 
 ## :iphone: Screenshots
 
-![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot1.png?raw=true){:height="50%" width="50%"}
-![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot2.png?raw=true){:height="50%" width="50%"}
-![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot3.png?raw=true){:height="50%" width="50%"}
-![Screenshot](https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot4.png?raw=true){:height="50%" width="50%"}
+<img src="https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot1.png?raw=true" width="300" />
+<img src="https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot2.png?raw=true" width="300" />
+<img src="https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot3.png?raw=true" width="300" />
+<img src="https://raw.githubusercontent.com/ecosse3/pjatk-smb1-rn-shopping-list/master/screenshots/Screenshot4.png?raw=true" width="300" />
 
 ## :bookmark: License
 
