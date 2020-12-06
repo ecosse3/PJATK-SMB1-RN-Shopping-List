@@ -1,6 +1,7 @@
 import { useRecoilState } from 'recoil';
 import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
+import SendIntentAndroid from 'react-native-send-intent';
 import { productListState } from './atoms';
 import { ProductType } from '../utils/types';
 import {
@@ -57,6 +58,11 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
       setProducts([...clone, { ...product, inBasket: false }]);
       saveProducts([...clone, { ...product, inBasket: false }]);
       insertProduct(db, { ...product, inBasket: false });
+      SendIntentAndroid.sendText({
+        title: product.amount > 1 ? 'Nowe produkty' : 'Nowy produkt',
+        text: `Dodano ${product.amount}x ${product.name} do listy zakupów`,
+        type: SendIntentAndroid.TEXT_PLAIN
+      });
     }
   };
 };
