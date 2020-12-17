@@ -46,6 +46,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
           children={() => <Settings theme={theme} />}
           options={{
             tabBarLabel: 'Ustawienia',
+            tabBarVisible: isTabBarVisible,
             tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cog-outline" color={color} size={26} />
           }}
         />
