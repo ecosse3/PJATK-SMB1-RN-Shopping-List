@@ -13,6 +13,22 @@ export type SettingsStackParamList = {
   SettingsScreen: undefined;
 };
 
+export type WelcomeStackParamList = {
+  WelcomeScreen: undefined;
+  LoginScreen: undefined;
+};
+
+export type LoginStackParamList = {
+  LoginScreen: undefined;
+  RegisterScreen: undefined;
+  ShoppingListScreen: undefined;
+};
+
+export type RegisterStackParamList = {
+  RegisterScreen: undefined;
+  ShoppingListScreen: undefined;
+};
+
 export type ProductType = {
   id: string;
   name: string;
