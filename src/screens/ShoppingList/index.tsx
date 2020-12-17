@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList, ThemeType } from '../../utils/types';
@@ -15,7 +15,8 @@ import {
   productListSelector,
   productListState,
   tabBarVisibleState,
-  usernameState
+  usernameState,
+  userState
 } from '../../store';
 import AddProductIcon from '../../components/AddProductIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
@@ -33,6 +34,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const [products, setProducts] = useRecoilState(productListState);
 
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const setUser = useSetRecoilState(userState);
   const { totalCost, totalQty } = useRecoilValue(productListSelector);
 
   const navigation = useNavigation();
@@ -47,6 +49,10 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
       theme={theme}
     />
   );
+
+  const onAuthStateChanged = (user: FirebaseAuthTypes.User) => {
+    setUser(user);
+  };
 
   useEffect(() => {
     const getName = async () => {
@@ -82,6 +88,9 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     };
 
     getProducts();
+
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
   }, []);
 
   if (loadedName) {

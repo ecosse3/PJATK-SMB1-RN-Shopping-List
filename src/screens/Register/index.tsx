@@ -26,7 +26,8 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
         .then(() => {
           console.log('Account created & user signed in!');
           setTabBarVisible(true);
-          navigation.push('ShoppingListScreen');
+          navigation.popToTop();
+          navigation.navigate('ShoppingListScreen');
         })
         .catch((error) => {
           switch (error.code) {
@@ -35,7 +36,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
               break;
 
             case 'auth/weak-password':
-              console.error('Wprowadzone hasło jest za słabe');
+              console.error('Wprowadzone hasło jest za krótkie');
               break;
 
             case 'auth/email-already-in-use':

@@ -21,7 +21,7 @@ const WelcomeScreen: React.FC<IProps> = (props: IProps) => {
   const saveName = async () => {
     try {
       await AsyncStorage.setItem('@username', username);
-      navigation.push('LoginScreen');
+      navigation.navigate('LoginScreen');
     } catch (err) {
       console.log(err);
     }

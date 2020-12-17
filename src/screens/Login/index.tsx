@@ -27,7 +27,8 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
         .then(() => {
           console.log('User signed in!');
           setTabBarVisible(true);
-          navigation.push('ShoppingListScreen');
+          navigation.popToTop();
+          navigation.navigate('ShoppingListScreen');
         })
         .catch((error) => {
           switch (error.code) {
