@@ -1,10 +1,12 @@
 import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { tabBarVisibleState, usernameState } from '../../store';
-import { ThemeType } from '../../utils/types';
+import { usernameState } from '../../store';
+import { ThemeType, WelcomeStackParamList } from '../../utils/types';
+import LoginScreen from '../Login';
 
 interface IProps {
   theme: ThemeType;
@@ -13,15 +15,13 @@ interface IProps {
 const WelcomeScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const [username, setUsername] = useRecoilState(usernameState);
-  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
   const navigation = useNavigation();
 
   const saveName = async () => {
     try {
       await AsyncStorage.setItem('@username', username);
-      setTabBarVisible(true);
-      navigation.goBack();
+      navigation.navigate('LoginScreen');
     } catch (err) {
       console.log(err);
     }
@@ -51,4 +51,27 @@ const WelcomeScreen: React.FC<IProps> = (props: IProps) => {
   );
 };
 
-export default WelcomeScreen;
+const Stack = createStackNavigator<WelcomeStackParamList>();
+
+const Welcome: React.FC<IProps> = ({ theme }: IProps) => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="WelcomeScreen"
+        children={() => <WelcomeScreen theme={theme} />}
+        options={{
+          header: () => null
+        }}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        children={() => <LoginScreen theme={theme} />}
+        options={{
+          header: () => null
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export default Welcome;
