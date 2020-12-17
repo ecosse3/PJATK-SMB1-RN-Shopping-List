@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { createStackNavigator } from '@react-navigation/stack';
+import { useSetRecoilState } from 'recoil';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { tabBarVisibleState, usernameState } from '../../store';
+import { tabBarVisibleState } from '../../store';
 import { LoginStackParamList, ThemeType } from '../../utils/types';
+import RegisterScreen from '../Register';
 
 interface IProps {
   theme: ThemeType;
@@ -17,7 +18,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
   const [password, setPassword] = useState('');
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<LoginStackParamList>>();
 
   const login = async () => {
     try {
@@ -26,7 +27,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
         .then(() => {
           console.log('User signed in!');
           setTabBarVisible(true);
-          navigation.navigate('ShoppingListScreen');
+          navigation.push('ShoppingListScreen');
         })
         .catch((error) => {
           switch (error.code) {
@@ -55,7 +56,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
   return (
     <Container>
       <WaveHand>👋</WaveHand>
-      <Text>Login</Text>
+      <Text>Zaloguj się</Text>
       <NameInput
         theme={{
           colors: {
@@ -81,14 +82,10 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      <Button
-        disabled={email.length === 0 || password.length == 0}
-        onPress={() => login()}>
+      <Button disabled={email.length === 0 || password.length === 0} onPress={() => login()}>
         <Text button>Zaloguj</Text>
       </Button>
-      <Button
-        backgroundColor="#cb3b3b"
-        onPress={() => navigation.navigate('RegisterScreen')}>
+      <Button backgroundColor="#cb3b3b" onPress={() => navigation.navigate('RegisterScreen')}>
         <Text button>Zarejestruj się</Text>
       </Button>
     </Container>
@@ -105,6 +102,15 @@ const Login: React.FC<IProps> = ({ theme }: IProps) => {
         children={() => <LoginScreen theme={theme} />}
         options={{
           header: () => null
+        }}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        children={() => <RegisterScreen theme={theme} />}
+        options={{
+          title: 'Rejestracja',
+          headerTitleStyle: { color: '#FFFFFF' },
+          headerStyle: { backgroundColor: theme.colors.secondary }
         }}
       />
     </Stack.Navigator>

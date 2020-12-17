@@ -2,7 +2,7 @@ import React from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
 import { usernameState } from '../../store';
 import { ThemeType, WelcomeStackParamList } from '../../utils/types';
@@ -16,12 +16,12 @@ const WelcomeScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const [username, setUsername] = useRecoilState(usernameState);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<WelcomeStackParamList>>();
 
   const saveName = async () => {
     try {
       await AsyncStorage.setItem('@username', username);
-      navigation.navigate('LoginScreen');
+      navigation.push('LoginScreen');
     } catch (err) {
       console.log(err);
     }

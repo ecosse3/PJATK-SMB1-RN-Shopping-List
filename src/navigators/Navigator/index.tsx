@@ -38,13 +38,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
             tabBarBadge: totalQty,
             tabBarBadgeStyle: { backgroundColor: theme.colors.badge },
             tabBarVisible: isTabBarVisible,
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                name="cart-outline"
-                color={color}
-                size={26}
-              />
-            )
+            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cart-outline" color={color} size={26} />
           }}
         />
         <Tab.Screen
@@ -52,13 +46,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
           children={() => <Settings theme={theme} />}
           options={{
             tabBarLabel: 'Ustawienia',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                name="cog-outline"
-                color={color}
-                size={26}
-              />
-            )
+            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cog-outline" color={color} size={26} />
           }}
         />
       </Tab.Navigator>

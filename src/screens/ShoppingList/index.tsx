@@ -92,18 +92,10 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
         {totalQty !== 0 && (
           <>
             <TotalCostContainer>
-              <Icon
-                name="info-circle"
-                size={20}
-                color={theme.colors.secondary}
-              />
+              <Icon name="info-circle" size={20} color={theme.colors.secondary} />
               <Value>Do zapłaty: {totalCost.toFixed(2).toString()} zł</Value>
             </TotalCostContainer>
-            <FlatList
-              data={products}
-              renderItem={renderProduct}
-              keyExtractor={(item) => item.id}
-            />
+            <FlatList data={products} renderItem={renderProduct} keyExtractor={(item) => item.id} />
           </>
         )}
         {totalQty === 0 && (
@@ -131,7 +123,8 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
         options={{
           title: 'Lista zakupów',
           headerTitleStyle: { color: '#FFFFFF' },
-          headerStyle: { backgroundColor: theme.colors.secondary }
+          headerStyle: { backgroundColor: theme.colors.secondary },
+          headerLeft: null
         }}
       />
       <Stack.Screen
