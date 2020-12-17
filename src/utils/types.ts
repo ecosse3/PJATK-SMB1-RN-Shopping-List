@@ -11,6 +11,7 @@ export type ShoppingListStackParamList = {
 
 export type SettingsStackParamList = {
   SettingsScreen: undefined;
+  LoginScreen: undefined;
 };
 
 export type WelcomeStackParamList = {
