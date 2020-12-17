@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
+import auth from '@react-native-firebase/auth';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList, ThemeType } from '../../utils/types';
@@ -51,8 +52,9 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     const getName = async () => {
       try {
         const result = await AsyncStorage.getItem('@username');
+        const user = auth().currentUser;
 
-        if (result === null) {
+        if (result === null || user === null) {
           navigation.navigate('WelcomeScreen');
         } else {
           setLoadedName(result);
