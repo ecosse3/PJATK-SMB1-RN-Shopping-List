@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { ScrollView, View } from 'react-native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/Header';
 import { SettingsStackParamList, ThemeType } from '../../utils/types';
-import { themeState, usernameState } from '../../store';
+import { tabBarVisibleState, themeState, usernameState, userState } from '../../store';
+import LoginScreen from '../Login';
 
-import {
-  AuthorView,
-  Button,
-  ChangeUsernameView,
-  NameInput,
-  TextButton,
-  Title
-} from './index.styles';
+import { AuthorView, Button, MiddleView, NameInput, TextButton, Title } from './index.styles';
 import ThemeCircle from '../../components/ThemeCircle';
 import { themes } from '../../utils/theme';
 
@@ -25,9 +21,15 @@ interface IProps {
 
 const SettingsScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
+
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [username, setUsername] = useRecoilState(usernameState);
+  const [user, setUser] = useRecoilState(userState);
+  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+
   const [usernameCopy, setUsernameCopy] = useState(username);
+
+  const navigation = useNavigation<StackNavigationProp<SettingsStackParamList>>();
 
   const saveName = async () => {
     try {
@@ -45,6 +47,17 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const logout = () => {
+    auth()
+      .signOut()
+      .then(() => {
+        setTabBarVisible(false);
+        console.log('User signed out!');
+        setUser(null);
+        navigation.navigate('LoginScreen');
+      });
   };
 
   return (
@@ -73,7 +86,7 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
         })}
       </View>
       <Title>Zmień imię:</Title>
-      <ChangeUsernameView>
+      <MiddleView>
         <NameInput
           theme={{
             colors: {
@@ -87,12 +100,16 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
           onChangeText={(text) => setUsernameCopy(text)}
           value={usernameCopy}
         />
-        <Button
-          disabled={usernameCopy.length === 0 || usernameCopy === username}
-          onPress={() => saveName()}>
+        <Button disabled={usernameCopy.length === 0 || usernameCopy === username} onPress={() => saveName()}>
           <TextButton button>Zapisz</TextButton>
         </Button>
-      </ChangeUsernameView>
+      </MiddleView>
+      <Title>Wylogowanie</Title>
+      <MiddleView>
+        <Button backgroundColor="#cb3b3b" onPress={() => logout()}>
+          <TextButton button>Wyloguj się</TextButton>
+        </Button>
+      </MiddleView>
       <AuthorView>
         <Title>Autor aplikacji:</Title>
         <TextButton size={16} padding="10px 16px">
@@ -118,6 +135,13 @@ const Settings: React.FC<IProps> = ({ theme }: IProps) => {
           title: 'Ustawienia',
           headerTitleStyle: { color: '#FFFFFF' },
           headerStyle: { backgroundColor: theme.colors.secondary }
+        }}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        children={() => <LoginScreen theme={theme} />}
+        options={{
+          header: () => null
         }}
       />
     </Stack.Navigator>
