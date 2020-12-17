@@ -3,6 +3,7 @@ export { usernameState } from './atoms';
 export { tabBarVisibleState } from './atoms';
 export { productListState } from './atoms';
 export { productInEditModeState } from './atoms';
+export { userState } from './atoms';
 
 export { productListSelector } from './selectors';
 

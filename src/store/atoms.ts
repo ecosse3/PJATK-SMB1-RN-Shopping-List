@@ -1,5 +1,11 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { atom } from 'recoil';
 import { ProductType } from '../utils/types';
+
+export const userState = atom<FirebaseAuthTypes.User | null>({
+  key: 'userState',
+  default: null
+});
 
 export const themeState = atom<number>({
   key: 'themeState',
