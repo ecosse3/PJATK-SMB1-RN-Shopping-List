@@ -14,11 +14,7 @@ import {
   AmountContainer,
   AmountValue
 } from './index.styles';
-import {
-  productInEditModeState,
-  tabBarVisibleState,
-  useAddEditProduct
-} from '../../store';
+import { productInEditModeState, tabBarVisibleState, useAddEditProduct } from '../../store';
 import Header from '../../components/Header';
 import { ThemeType } from '../../utils/types';
 
@@ -51,18 +47,11 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
   const propsProductAmount = route?.params?.amount;
 
   const [productName, setProductName] = useState(propsProductName || '');
-  const [productPrice, setProductPrice] = useState(
-    propsProductPrice?.toString() || ''
-  );
+  const [productPrice, setProductPrice] = useState(propsProductPrice?.toString() || '');
   const [productPriceError, setProductPriceError] = useState(false);
   const [productAmount, setProductAmount] = useState(propsProductAmount || 1);
 
-  const checkAddProduct = (
-    id: string,
-    name: string,
-    price: string,
-    amount: number
-  ) => {
+  const checkAddProduct = (id: string, name: string, price: string, amount: number) => {
     const priceRegex = /^\d+(\.\d{1,2})?$/;
 
     if (!priceRegex.test(price)) {
@@ -132,9 +121,7 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
               size={25}
               color={theme.colors.primary}
               style={{ marginLeft: 10 }}
-              onPress={() =>
-                setProductAmount((amount) => (amount > 1 ? amount - 1 : 1))
-              }
+              onPress={() => setProductAmount((amount) => (amount > 1 ? amount - 1 : 1))}
             />
             <AmountValue>{productAmount}</AmountValue>
             <Icon
@@ -148,14 +135,7 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
         <ButtonsContainer>
           <Button
             disabled={productName.length === 0 || productPrice.length === 0}
-            onPress={() =>
-              checkAddProduct(
-                propsProductId || uuidv4(),
-                productName,
-                productPrice,
-                productAmount
-              )
-            }>
+            onPress={() => checkAddProduct(propsProductId || uuidv4(), productName, productPrice, productAmount)}>
             <Text button>Zapisz</Text>
           </Button>
         </ButtonsContainer>

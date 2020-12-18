@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
@@ -26,6 +26,15 @@ const WelcomeScreen: React.FC<IProps> = (props: IProps) => {
       console.log(err);
     }
   };
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        // Prevent default behavior of leaving the screen
+        e.preventDefault();
+      }),
+    [navigation]
+  );
 
   return (
     <Container>
@@ -60,14 +69,16 @@ const Welcome: React.FC<IProps> = ({ theme }: IProps) => {
         name="WelcomeScreen"
         children={() => <WelcomeScreen theme={theme} />}
         options={{
-          header: () => null
+          header: () => null,
+          gestureEnabled: false
         }}
       />
       <Stack.Screen
         name="LoginScreen"
         children={() => <LoginScreen theme={theme} />}
         options={{
-          header: () => null
+          header: () => null,
+          gestureEnabled: false
         }}
       />
     </Stack.Navigator>

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { tabBarVisibleState } from '../../store';
+import { tabBarVisibleState, usernameState } from '../../store';
 import { RegisterStackParamList, ThemeType } from '../../utils/types';
 
 interface IProps {
@@ -15,19 +16,41 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+
+  const setUsername = useSetRecoilState(usernameState);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
   const navigation = useNavigation<StackNavigationProp<RegisterStackParamList>>();
 
+  const saveName = async () => {
+    try {
+      await AsyncStorage.setItem('@username', name);
+      setUsername(name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const register = async () => {
+    saveName();
+
     try {
       auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          console.log('Account created & user signed in!');
-          setTabBarVisible(true);
-          navigation.popToTop();
-          navigation.navigate('ShoppingListScreen');
+        .then((userCredentials) => {
+          if (userCredentials.user) {
+            userCredentials.user
+              .updateProfile({
+                displayName: name
+              })
+              .then(() => {
+                console.log('Account created & user signed in!');
+                setTabBarVisible(true);
+                navigation.popToTop();
+                navigation.navigate('ShoppingListScreen');
+              });
+          }
         })
         .catch((error) => {
           switch (error.code) {
@@ -65,6 +88,19 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
           }
         }}
         mode="outlined"
+        placeholder="Imię"
+        maxLength={15}
+        onChangeText={(text) => setName(text)}
+        value={name}
+      />
+      <NameInput
+        theme={{
+          colors: {
+            primary: theme.colors.primary,
+            underlineColor: 'transparent'
+          }
+        }}
+        mode="outlined"
         placeholder="Email"
         onChangeText={(text) => setEmail(text)}
         value={email}
@@ -82,7 +118,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      <Button disabled={email.length === 0 || password.length === 0} onPress={() => register()}>
+      <Button disabled={email.length === 0 || password.length === 0 || name.length < 2} onPress={() => register()}>
         <Text button>Zarejestruj</Text>
       </Button>
     </Container>

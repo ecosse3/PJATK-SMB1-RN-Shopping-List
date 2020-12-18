@@ -5,13 +5,13 @@ export type TabParamList = {
 
 export type ShoppingListStackParamList = {
   ShoppingListScreen: undefined;
-  WelcomeScreen: undefined;
   AddEditProductScreen: undefined;
+  LoginScreen: undefined;
+  WelcomeScreen: undefined;
 };
 
 export type SettingsStackParamList = {
   SettingsScreen: undefined;
-  LoginScreen: undefined;
 };
 
 export type WelcomeStackParamList = {

@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import React, { useEffect, useState } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import { ScrollView, View } from 'react-native';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/Header';
 import { SettingsStackParamList, ThemeType } from '../../utils/types';
-import { tabBarVisibleState, themeState, usernameState, userState } from '../../store';
-import LoginScreen from '../Login';
+import { themeState, usernameState } from '../../store';
 
 import { AuthorView, Button, MiddleView, NameInput, TextButton, Title } from './index.styles';
 import ThemeCircle from '../../components/ThemeCircle';
@@ -24,16 +22,13 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
 
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [username, setUsername] = useRecoilState(usernameState);
-  const [user, setUser] = useRecoilState(userState);
-  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
   const [usernameCopy, setUsernameCopy] = useState(username);
-
-  const navigation = useNavigation<StackNavigationProp<SettingsStackParamList>>();
 
   const saveName = async () => {
     try {
       await AsyncStorage.setItem('@username', usernameCopy);
+      await auth().currentUser.updateProfile({ displayName: usernameCopy });
       setUsername(usernameCopy);
     } catch (err) {
       console.log(err);
@@ -49,16 +44,9 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
     }
   };
 
-  const logout = () => {
-    auth()
-      .signOut()
-      .then(() => {
-        setTabBarVisible(false);
-        console.log('User signed out!');
-        setUser(null);
-        navigation.navigate('LoginScreen');
-      });
-  };
+  useEffect(() => {
+    setUsernameCopy(username);
+  }, [username]);
 
   return (
     <ScrollView>
@@ -104,12 +92,6 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
           <TextButton button>Zapisz</TextButton>
         </Button>
       </MiddleView>
-      <Title>Wylogowanie</Title>
-      <MiddleView>
-        <Button backgroundColor="#cb3b3b" onPress={() => logout()}>
-          <TextButton button>Wyloguj się</TextButton>
-        </Button>
-      </MiddleView>
       <AuthorView>
         <Title>Autor aplikacji:</Title>
         <TextButton size={16} padding="10px 16px">
@@ -135,13 +117,6 @@ const Settings: React.FC<IProps> = ({ theme }: IProps) => {
           title: 'Ustawienia',
           headerTitleStyle: { color: '#FFFFFF' },
           headerStyle: { backgroundColor: theme.colors.secondary }
-        }}
-      />
-      <Stack.Screen
-        name="LoginScreen"
-        children={() => <LoginScreen theme={theme} />}
-        options={{
-          header: () => null
         }}
       />
     </Stack.Navigator>

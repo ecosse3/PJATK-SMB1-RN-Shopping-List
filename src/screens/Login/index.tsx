@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { tabBarVisibleState } from '../../store';
+import { tabBarVisibleState, usernameState } from '../../store';
 import { LoginStackParamList, ThemeType } from '../../utils/types';
 import RegisterScreen from '../Register';
+import ShoppingListScreen from '../ShoppingList';
 
 interface IProps {
   theme: ThemeType;
@@ -16,43 +17,56 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [allowNavigation, setAllowNavigation] = useState(false);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const setLoadedName = useSetRecoilState(usernameState);
 
   const navigation = useNavigation<StackNavigationProp<LoginStackParamList>>();
 
   const login = async () => {
-    try {
-      auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(() => {
-          console.log('User signed in!');
-          setTabBarVisible(true);
-          navigation.popToTop();
-          navigation.navigate('ShoppingListScreen');
-        })
-        .catch((error) => {
-          switch (error.code) {
-            case 'auth/invalid-email':
-              console.error('Adres email jest niepoprawny!');
-              break;
+    await auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        console.log('User signed in!');
+        setAllowNavigation(true);
 
-            case 'auth/user-not-found':
-              console.error('Taki użytkownik nie istnieje! Zarejestruj się!');
-              break;
+        if (userCredentials.user) {
+          setLoadedName(userCredentials.user.displayName);
+        }
 
-            case 'auth/wrong-password':
-              console.error('Błędne hasło!');
-              break;
+        setTabBarVisible(true);
+        navigation.popToTop();
+        navigation.navigate('ShoppingListScreen');
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case 'auth/invalid-email':
+            console.error('Adres email jest niepoprawny!');
+            break;
 
-            default:
-              console.error(error);
-              break;
-          }
-        });
-    } catch (err) {
-      console.log(err);
-    }
+          case 'auth/user-not-found':
+            console.error('Taki użytkownik nie istnieje! Zarejestruj się!');
+            break;
+
+          case 'auth/wrong-password':
+            console.error('Błędne hasło!');
+            break;
+
+          default:
+            console.error(error);
+            break;
+        }
+      });
   };
+
+  useEffect(() => {
+    if (!allowNavigation) return;
+
+    navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+    });
+  }, [navigation, allowNavigation]);
 
   return (
     <Container>
@@ -102,7 +116,8 @@ const Login: React.FC<IProps> = ({ theme }: IProps) => {
         name="LoginScreen"
         children={() => <LoginScreen theme={theme} />}
         options={{
-          header: () => null
+          header: () => null,
+          gestureEnabled: false
         }}
       />
       <Stack.Screen
@@ -111,7 +126,16 @@ const Login: React.FC<IProps> = ({ theme }: IProps) => {
         options={{
           title: 'Rejestracja',
           headerTitleStyle: { color: '#FFFFFF' },
-          headerStyle: { backgroundColor: theme.colors.secondary }
+          headerStyle: { backgroundColor: theme.colors.secondary },
+          gestureEnabled: false
+        }}
+      />
+      <Stack.Screen
+        name="ShoppingListScreen"
+        children={() => <ShoppingListScreen theme={theme} />}
+        options={{
+          header: () => null,
+          headerLeft: null
         }}
       />
     </Stack.Navigator>

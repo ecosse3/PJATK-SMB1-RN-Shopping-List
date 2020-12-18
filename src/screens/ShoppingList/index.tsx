@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Text, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon3 from 'react-native-vector-icons/FontAwesome5';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
@@ -22,6 +23,7 @@ import AddProductIcon from '../../components/AddProductIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
 import Product from '../../components/Product';
 import AddEditProductScreen from '../AddEditProduct';
+import LoginScreen from '../Login';
 
 interface IProps {
   theme: ThemeType;
@@ -32,12 +34,12 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
   const [loadedName, setLoadedName] = useRecoilState(usernameState);
   const [products, setProducts] = useRecoilState(productListState);
+  const [user, setUser] = useRecoilState(userState);
 
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
-  const setUser = useSetRecoilState(userState);
   const { totalCost, totalQty } = useRecoilValue(productListSelector);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<StackNavigationProp<ShoppingListStackParamList>>();
 
   const renderProduct = ({ item }) => (
     <Product
@@ -50,20 +52,18 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     />
   );
 
-  const onAuthStateChanged = (user: FirebaseAuthTypes.User) => {
-    setUser(user);
+  const onAuthStateChanged = (authUser: FirebaseAuthTypes.User) => {
+    setUser(authUser);
   };
 
   useEffect(() => {
     const getName = async () => {
       try {
         const result = await AsyncStorage.getItem('@username');
-        const user = auth().currentUser;
 
-        if (result === null || user === null) {
-          navigation.navigate('WelcomeScreen');
+        if (user === null) {
+          navigation.navigate('LoginScreen');
         } else {
-          setLoadedName(result);
           setTabBarVisible(true);
         }
       } catch (err) {
@@ -72,7 +72,14 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     };
 
     getName();
-  }, [loadedName]);
+  }, [loadedName, user]);
+
+  useEffect(() => {
+    navigation.addListener('beforeRemove', (e) => {
+      // Prevent default behavior of leaving the screen
+      e.preventDefault();
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -89,8 +96,8 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
     getProducts();
 
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
+    return unsubscribe;
   }, []);
 
   if (loadedName) {
@@ -123,22 +130,51 @@ const Stack = createStackNavigator<ShoppingListStackParamList>();
 
 const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
   const productInEditMode = useRecoilValue(productInEditModeState);
+  const setUser = useSetRecoilState(userState);
+  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+
+  const logout = (navigation: StackNavigationProp<ShoppingListStackParamList>) => {
+    auth()
+      .signOut()
+      .then(() => {
+        setTabBarVisible(false);
+        console.log('User signed out!');
+        setUser(null);
+        navigation.navigate('LoginScreen');
+      });
+  };
 
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="ShoppingListScreen"
         children={() => <ShoppingListScreen theme={theme} />}
-        options={{
+        options={({ navigation }) => ({
           title: 'Lista zakupów',
           headerTitleStyle: { color: '#FFFFFF' },
           headerStyle: { backgroundColor: theme.colors.secondary },
-          headerLeft: null
-        }}
+          headerLeft: null,
+          headerRight: () => (
+            <Icon3
+              name="sign-out-alt"
+              size={25}
+              color="#FFFFFF"
+              style={{ marginRight: 15 }}
+              onPress={() => logout(navigation)}
+            />
+          )
+        })}
       />
       <Stack.Screen
         name="WelcomeScreen"
         children={() => <WelcomeScreen theme={theme} />}
+        options={{
+          header: () => null
+        }}
+      />
+      <Stack.Screen
+        name="LoginScreen"
+        children={() => <LoginScreen theme={theme} />}
         options={{
           header: () => null
         }}
