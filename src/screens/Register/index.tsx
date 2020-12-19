@@ -52,7 +52,8 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
             const { uid } = userCredentials.user;
             firestore().collection('users').doc(uid).set({
               name,
-              email: userCredentials.user.email
+              email: userCredentials.user.email,
+              theme: 0
             });
 
             userCredentials.user
@@ -63,6 +64,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
                 console.log('Account created & user signed in!');
                 setUser(userCredentials.user);
                 setLoadedName(userCredentials.user.displayName);
+
                 navigation.popToTop();
                 navigation.navigate('ShoppingListScreen');
               });
