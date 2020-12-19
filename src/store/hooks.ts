@@ -1,8 +1,9 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 import SendIntentAndroid from 'react-native-send-intent';
-import { productListState } from './atoms';
+import firestore from '@react-native-firebase/firestore';
+import { productListState, userState } from './atoms';
 import { ProductType } from '../utils/types';
 import {
   deleteProduct,
@@ -39,10 +40,17 @@ const saveProducts = async (products: ProductType[]) => {
   }
 };
 
+const setShoppingList = (uid: string, products: ProductType[]): void => {
+  firestore().collection('shopping-list').doc(uid).set({
+    products
+  });
+};
+
 // Hooks
 
 export const useAddEditProduct = (): ((product: ProductType) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
+  const user = useRecoilValue(userState);
 
   return (product: ProductType) => {
     const { clone, index } = cloneIndex(products, product.id);
@@ -54,6 +62,7 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
       setProducts(clone);
       saveProducts(clone);
       updateProduct(db, { ...product, inBasket: clone[index].inBasket });
+      setShoppingList(user.uid, clone);
     } else {
       setProducts([...clone, { ...product, inBasket: false }]);
       saveProducts([...clone, { ...product, inBasket: false }]);
@@ -63,22 +72,29 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
         text: `Dodano ${product.amount}x ${product.name} do listy zakupów`,
         type: SendIntentAndroid.TEXT_PLAIN
       });
+      setShoppingList(user.uid, [...clone, { ...product, inBasket: false }]);
     }
   };
 };
 
 export const useRemoveProduct = (): ((productId: string) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
+  const user = useRecoilValue(userState);
 
   return (productId: string) => {
     setProducts(products.filter((item) => item.id !== productId));
     saveProducts(products.filter((item) => item.id !== productId));
     deleteProduct(db, productId);
+    setShoppingList(
+      user.uid,
+      products.filter((item) => item.id !== productId)
+    );
   };
 };
 
 export const useToggleProductInBasket = (): ((productId: string) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
+  const user = useRecoilValue(userState);
 
   return (productId: string) => {
     const { clone, index } = cloneIndex(products, productId);
@@ -87,5 +103,6 @@ export const useToggleProductInBasket = (): ((productId: string) => void) => {
     setProducts(clone);
     saveProducts(clone);
     updateProductBasketStatus(db, productId, clone[index].inBasket);
+    setShoppingList(user.uid, clone);
   };
 };
