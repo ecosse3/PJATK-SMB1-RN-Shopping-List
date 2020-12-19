@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp
+} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
+import Snackbar from 'react-native-snackbar';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { tabBarVisibleState, usernameState } from '../../store';
+import { tabBarVisibleState, usernameState, userState } from '../../store';
 import { LoginStackParamList, ThemeType } from '../../utils/types';
 import RegisterScreen from '../Register';
 import ShoppingListScreen from '../ShoppingList';
@@ -20,6 +24,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
   const [allowNavigation, setAllowNavigation] = useState(false);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const setLoadedName = useSetRecoilState(usernameState);
+  const setUser = useSetRecoilState(userState);
 
   const navigation = useNavigation<StackNavigationProp<LoginStackParamList>>();
 
@@ -31,6 +36,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
         setAllowNavigation(true);
 
         if (userCredentials.user) {
+          setUser(userCredentials.user);
           setLoadedName(userCredentials.user.displayName);
         }
 
@@ -41,19 +47,37 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
       .catch((error) => {
         switch (error.code) {
           case 'auth/invalid-email':
-            console.error('Adres email jest niepoprawny!');
+            console.log('Adres email jest niepoprawny!');
+            Snackbar.show({
+              text: 'Adres email jest niepoprawny!',
+              duration: Snackbar.LENGTH_SHORT,
+              numberOfLines: 2,
+              backgroundColor: '#cb3b3b'
+            });
             break;
 
           case 'auth/user-not-found':
-            console.error('Taki użytkownik nie istnieje! Zarejestruj się!');
+            console.log('Taki użytkownik nie istnieje! Zarejestruj się!');
+            Snackbar.show({
+              text: 'Taki użytkownik nie istnieje! Zarejestruj się!',
+              duration: Snackbar.LENGTH_SHORT,
+              numberOfLines: 2,
+              backgroundColor: '#cb3b3b'
+            });
             break;
 
           case 'auth/wrong-password':
-            console.error('Błędne hasło!');
+            console.log('Błędne hasło!');
+            Snackbar.show({
+              text: 'Błędne hasło!',
+              duration: Snackbar.LENGTH_SHORT,
+              numberOfLines: 2,
+              backgroundColor: '#cb3b3b'
+            });
             break;
 
           default:
-            console.error(error);
+            console.log(error);
             break;
         }
       });
@@ -97,10 +121,14 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      <Button disabled={email.length === 0 || password.length === 0} onPress={() => login()}>
+      <Button
+        disabled={email.length === 0 || password.length === 0}
+        onPress={() => login()}>
         <Text button>Zaloguj</Text>
       </Button>
-      <Button backgroundColor="#cb3b3b" onPress={() => navigation.navigate('RegisterScreen')}>
+      <Button
+        backgroundColor="#cb3b3b"
+        onPress={() => navigation.navigate('RegisterScreen')}>
         <Text button>Zarejestruj się</Text>
       </Button>
     </Container>
