@@ -1,21 +1,25 @@
 import React, { useEffect } from 'react';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { Text, FlatList } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {
+  createStackNavigator,
+  StackNavigationProp
+} from '@react-navigation/stack';
+import { Text, FlatList, Keyboard } from 'react-native';
+// import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
 import { ShoppingListStackParamList, ThemeType } from '../../utils/types';
 import {
+  tabBarVisibleState,
   productInEditModeState,
   productListSelector,
   productListState,
-  tabBarVisibleState,
   usernameState,
   userState
 } from '../../store';
@@ -32,14 +36,17 @@ interface IProps {
 const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
 
-  const [loadedName, setLoadedName] = useRecoilState(usernameState);
   const [products, setProducts] = useRecoilState(productListState);
-  const [user, setUser] = useRecoilState(userState);
 
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
-  const { totalCost, totalQty } = useRecoilValue(productListSelector);
 
-  const navigation = useNavigation<StackNavigationProp<ShoppingListStackParamList>>();
+  const { totalCost, totalQty } = useRecoilValue(productListSelector);
+  const user = useRecoilValue(userState);
+  const loadedName = useRecoilValue(usernameState);
+
+  const navigation = useNavigation<
+    StackNavigationProp<ShoppingListStackParamList>
+  >();
 
   const renderProduct = ({ item }) => (
     <Product
@@ -52,19 +59,37 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     />
   );
 
-  const onAuthStateChanged = (authUser: FirebaseAuthTypes.User) => {
-    setUser(authUser);
-  };
-
   useEffect(() => {
     const getName = async () => {
       try {
-        const result = await AsyncStorage.getItem('@username');
+        // const result = await AsyncStorage.getItem('@username');
 
-        if (user === null) {
+        if (user === null || !loadedName) {
+          setTabBarVisible(false);
           navigation.navigate('LoginScreen');
         } else {
           setTabBarVisible(true);
+          Keyboard.dismiss();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const getProducts = async () => {
+      try {
+        // const result = await AsyncStorage.getItem('@products');
+
+        // if (result !== null) {
+        //   setProducts(JSON.parse(result));
+        // }
+
+        if (user !== null) {
+          const shoppingList = await firestore()
+            .collection('shopping-list')
+            .doc(user.uid)
+            .get();
+          setProducts(shoppingList.data().list);
         }
       } catch (err) {
         console.log(err);
@@ -72,6 +97,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     };
 
     getName();
+    getProducts();
   }, [loadedName, user]);
 
   useEffect(() => {
@@ -81,25 +107,6 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     });
   }, [navigation]);
 
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const result = await AsyncStorage.getItem('@products');
-
-        if (result !== null) {
-          setProducts(JSON.parse(result));
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    getProducts();
-
-    const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
-    return unsubscribe;
-  }, []);
-
   if (loadedName) {
     return (
       <>
@@ -108,10 +115,18 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
         {totalQty !== 0 && (
           <>
             <TotalCostContainer>
-              <Icon name="info-circle" size={20} color={theme.colors.secondary} />
+              <Icon
+                name="info-circle"
+                size={20}
+                color={theme.colors.secondary}
+              />
               <Value>Do zapłaty: {totalCost.toFixed(2).toString()} zł</Value>
             </TotalCostContainer>
-            <FlatList data={products} renderItem={renderProduct} keyExtractor={(item) => item.id} />
+            <FlatList
+              data={products}
+              renderItem={renderProduct}
+              keyExtractor={(item) => item.id}
+            />
           </>
         )}
         {totalQty === 0 && (
@@ -131,16 +146,16 @@ const Stack = createStackNavigator<ShoppingListStackParamList>();
 const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
   const productInEditMode = useRecoilValue(productInEditModeState);
   const setUser = useSetRecoilState(userState);
-  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
 
-  const logout = (navigation: StackNavigationProp<ShoppingListStackParamList>) => {
+  const logout = (
+    navigation: StackNavigationProp<ShoppingListStackParamList>
+  ) => {
     auth()
       .signOut()
       .then(() => {
-        setTabBarVisible(false);
         console.log('User signed out!');
         setUser(null);
-        navigation.navigate('LoginScreen');
+        navigation.popToTop();
       });
   };
 
