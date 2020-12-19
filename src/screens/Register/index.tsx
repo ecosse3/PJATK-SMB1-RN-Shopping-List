@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationProp
+} from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import Snackbar from 'react-native-snackbar';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { tabBarVisibleState, usernameState } from '../../store';
+import { usernameState, userState } from '../../store';
 import { RegisterStackParamList, ThemeType } from '../../utils/types';
 
 interface IProps {
@@ -19,9 +24,12 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
   const [name, setName] = useState('');
 
   const setUsername = useSetRecoilState(usernameState);
-  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const setLoadedName = useSetRecoilState(usernameState);
+  const setUser = useSetRecoilState(userState);
 
-  const navigation = useNavigation<StackNavigationProp<RegisterStackParamList>>();
+  const navigation = useNavigation<
+    StackNavigationProp<RegisterStackParamList>
+  >();
 
   const saveName = async () => {
     try {
@@ -40,13 +48,21 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
         .createUserWithEmailAndPassword(email, password)
         .then((userCredentials) => {
           if (userCredentials.user) {
+            console.log(userCredentials.user);
+            const { uid } = userCredentials.user;
+            firestore().collection('users').doc(uid).set({
+              name,
+              email: userCredentials.user.email
+            });
+
             userCredentials.user
               .updateProfile({
                 displayName: name
               })
               .then(() => {
                 console.log('Account created & user signed in!');
-                setTabBarVisible(true);
+                setUser(userCredentials.user);
+                setLoadedName(userCredentials.user.displayName);
                 navigation.popToTop();
                 navigation.navigate('ShoppingListScreen');
               });
@@ -55,19 +71,37 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
         .catch((error) => {
           switch (error.code) {
             case 'auth/invalid-email':
-              console.error('Adres email jest niepoprawny!');
+              console.log('Adres email jest niepoprawny!');
+              Snackbar.show({
+                text: 'Adres email jest niepoprawny!',
+                duration: Snackbar.LENGTH_SHORT,
+                numberOfLines: 2,
+                backgroundColor: '#cb3b3b'
+              });
               break;
 
             case 'auth/weak-password':
-              console.error('Wprowadzone hasło jest za krótkie');
+              console.log('Wprowadzone hasło jest za krótkie');
+              Snackbar.show({
+                text: 'Wprowadzone hasło jest za krótkie',
+                duration: Snackbar.LENGTH_SHORT,
+                numberOfLines: 2,
+                backgroundColor: '#cb3b3b'
+              });
               break;
 
             case 'auth/email-already-in-use':
-              console.error('Ten adres email jest już zarejestrowany');
+              console.log('Ten adres email jest już zarejestrowany');
+              Snackbar.show({
+                text: 'Ten adres email jest już zarejestrowany',
+                duration: Snackbar.LENGTH_SHORT,
+                numberOfLines: 2,
+                backgroundColor: '#cb3b3b'
+              });
               break;
 
             default:
-              console.error(error);
+              console.log(error);
               break;
           }
         });
@@ -118,7 +152,11 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-      <Button disabled={email.length === 0 || password.length === 0 || name.length < 2} onPress={() => register()}>
+      <Button
+        disabled={
+          email.length === 0 || password.length === 0 || name.length < 2
+        }
+        onPress={() => register()}>
         <Text button>Zarejestruj</Text>
       </Button>
     </Container>
