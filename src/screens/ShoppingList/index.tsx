@@ -89,7 +89,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
             .collection('shopping-list')
             .doc(user.uid)
             .get();
-          setProducts(shoppingList.data().list);
+          setProducts(shoppingList.data().list || []);
         }
       } catch (err) {
         console.log(err);
