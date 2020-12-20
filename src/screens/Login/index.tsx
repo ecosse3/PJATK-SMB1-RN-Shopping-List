@@ -7,13 +7,9 @@ import {
 } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import Snackbar from 'react-native-snackbar';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import {
-  tabBarVisibleState,
-  usernameState,
-  userState,
-  loadingState
-} from '../../store';
+import { usernameState, userState } from '../../store';
 import { LoginStackParamList, ThemeType } from '../../utils/types';
 import RegisterScreen from '../Register';
 import ShoppingListScreen from '../ShoppingList';
@@ -26,7 +22,6 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const setLoadedName = useSetRecoilState(usernameState);
   const setUser = useSetRecoilState(userState);
 
@@ -43,7 +38,6 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
           setLoadedName(userCredentials.user.displayName);
         }
 
-        setTabBarVisible(true);
         navigation.popToTop();
         navigation.navigate('ShoppingListScreen');
       })
@@ -152,12 +146,23 @@ const Login: React.FC<IProps> = ({ theme }: IProps) => {
       <Stack.Screen
         name="RegisterScreen"
         children={() => <RegisterScreen theme={theme} />}
-        options={{
+        options={({ navigation }) => ({
           title: 'Rejestracja',
           headerTitleStyle: { color: '#FFFFFF' },
           headerStyle: { backgroundColor: theme.colors.secondary },
-          gestureEnabled: false
-        }}
+          gestureEnabled: false,
+          headerLeft: () => (
+            <Icon2
+              name="arrow-left"
+              size={25}
+              color="#FFFFFF"
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          )
+        })}
       />
       <Stack.Screen
         name="ShoppingListScreen"

@@ -26,15 +26,16 @@ const SCThemeProvider: React.FC = () => {
 
         if (userData.data()) {
           setCurrentTheme(userData.data().theme);
+          setLoading(false);
         } else {
           setCurrentTheme(0);
+          setLoading(false);
         }
 
         if (result !== null && !userData.data()) {
           setCurrentTheme(parseInt(result, 10));
+          setLoading(false);
         }
-
-        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -48,7 +49,7 @@ const SCThemeProvider: React.FC = () => {
       {loading ? (
         <Spinner
           visible={loading}
-          textContent="Loading..."
+          textContent="Wczytuje dane..."
           overlayColor="rgba(255, 255, 255, 0.25)"
           color="black"
         />

@@ -6,7 +6,11 @@ import { useRecoilValue } from 'recoil';
 import ShoppingList from '../../screens/ShoppingList';
 import Settings from '../../screens/Settings';
 import { TabParamList, ThemeType } from '../../utils/types';
-import { tabBarVisibleState, productListSelector } from '../../store';
+import {
+  tabBarVisibleState,
+  productListSelector,
+  userState
+} from '../../store';
 
 interface IProps {
   theme: ThemeType;
@@ -17,6 +21,7 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const Navigator: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const isTabBarVisible = useRecoilValue(tabBarVisibleState);
+  const user = useRecoilValue(userState);
   const { totalQty } = useRecoilValue(productListSelector);
 
   return (
@@ -37,7 +42,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
             tabBarLabel: 'Lista zakupów',
             tabBarBadge: totalQty,
             tabBarBadgeStyle: { backgroundColor: theme.colors.badge },
-            tabBarVisible: isTabBarVisible,
+            tabBarVisible: isTabBarVisible && !!user,
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="cart-outline"
@@ -52,7 +57,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
           children={() => <Settings theme={theme} />}
           options={{
             tabBarLabel: 'Ustawienia',
-            tabBarVisible: isTabBarVisible,
+            tabBarVisible: isTabBarVisible && !!user,
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="cog-outline"

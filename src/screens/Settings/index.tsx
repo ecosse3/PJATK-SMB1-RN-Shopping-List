@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ScrollView, View } from 'react-native';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ListItem, Radio, Right, Left } from 'native-base';
+import { ListItem, Radio, Right, Left, Text } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Header from '../../components/Header';
 import { SettingsStackParamList, ThemeType } from '../../utils/types';
-import { themeState, usernameState, userState } from '../../store';
+import {
+  globalProductListState,
+  themeState,
+  usernameState,
+  userState
+} from '../../store';
 
 import {
   AuthorView,
@@ -30,6 +35,9 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
 
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [username, setUsername] = useRecoilState(usernameState);
+  const [useGlobalListState, setUseGlobalListState] = useRecoilState(
+    globalProductListState
+  );
 
   const user = useRecoilValue(userState);
 
@@ -47,9 +55,9 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
 
   const changeTheme = async (id: number) => {
     try {
-      await AsyncStorage.setItem('@theme', `${id}`);
       setCurrentTheme(id);
-      firestore().collection('users').doc(user.uid).set({
+      await AsyncStorage.setItem('@theme', `${id}`);
+      await firestore().collection('users').doc(user.uid).set({
         name: user.displayName,
         email: user.email,
         theme: id
@@ -109,6 +117,35 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
           <TextButton button>Zapisz</TextButton>
         </Button>
       </MiddleView>
+      <Title>Użyj globalnej listy produktów:</Title>
+      <View>
+        <ListItem>
+          <Left>
+            <Text>Tak</Text>
+          </Left>
+          <Right>
+            <Radio
+              color={theme.colors.primary}
+              selectedColor={theme.colors.primary}
+              selected={useGlobalListState}
+              onPress={() => setUseGlobalListState(true)}
+            />
+          </Right>
+        </ListItem>
+        <ListItem>
+          <Left>
+            <Text>Nie</Text>
+          </Left>
+          <Right>
+            <Radio
+              color={theme.colors.primary}
+              selectedColor={theme.colors.primary}
+              selected={!useGlobalListState}
+              onPress={() => setUseGlobalListState(false)}
+            />
+          </Right>
+        </ListItem>
+      </View>
       <AuthorView>
         <Title>Autor aplikacji:</Title>
         <TextButton size={16} padding="10px 16px">

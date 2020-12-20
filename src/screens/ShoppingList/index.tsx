@@ -22,7 +22,8 @@ import {
   productListState,
   usernameState,
   userState,
-  loadingState
+  loadingState,
+  globalProductListState
 } from '../../store';
 import AddProductIcon from '../../components/AddProductIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
@@ -45,6 +46,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const user = useRecoilValue(userState);
   const loadedName = useRecoilValue(usernameState);
   const loading = useRecoilValue(loadingState);
+  const isGlobalList = useRecoilValue(globalProductListState);
 
   const navigation = useNavigation<
     StackNavigationProp<ShoppingListStackParamList>
@@ -89,14 +91,14 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
         if (user !== null) {
           const shoppingList = await firestore()
             .collection('shopping-list')
-            .doc(user.uid)
+            .doc(isGlobalList ? 'global' : user.uid)
             .get();
 
           if (
-            shoppingList.data()?.list &&
-            typeof shoppingList.data().list !== 'undefined'
+            shoppingList.data()?.products &&
+            typeof shoppingList.data().products !== 'undefined'
           ) {
-            setProducts(shoppingList.data().list);
+            setProducts(shoppingList.data().products);
           } else {
             setProducts([]);
           }
@@ -108,7 +110,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
     getName();
     getProducts();
-  }, [loadedName, user]);
+  }, [loadedName, user, isGlobalList]);
 
   useEffect(() => {
     navigation.addListener('beforeRemove', (e) => {
@@ -117,7 +119,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     });
   }, [navigation]);
 
-  if (loadedName || !loading) {
+  if (!loading && user) {
     return (
       <>
         <Header text={`Witaj, ${loadedName}`} />
@@ -141,7 +143,9 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
         )}
         {totalQty === 0 && (
           <NoProductsContainer>
-            <Text>Brak produktów na liście!</Text>
+            <Text>
+              Brak produktów na {isGlobalList ? 'globalnej liście!' : 'liście!'}
+            </Text>
           </NoProductsContainer>
         )}
       </>
@@ -155,8 +159,8 @@ const Stack = createStackNavigator<ShoppingListStackParamList>();
 
 const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
   const productInEditMode = useRecoilValue(productInEditModeState);
-  const setUser = useSetRecoilState(userState);
-  const setLoading = useSetRecoilState(loadingState);
+  const setGlobalProductList = useSetRecoilState(globalProductListState);
+  const [user, setUser] = useRecoilState(userState);
 
   const logout = () => {
     auth()
@@ -164,19 +168,24 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
       .then(() => {
         console.log('User signed out!');
         setUser(null);
-        setLoading(true);
+        setGlobalProductList(false);
       });
   };
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: !!user
+      }}>
       <Stack.Screen
         name="ShoppingListScreen"
         children={() => <ShoppingListScreen theme={theme} />}
         options={() => ({
           title: 'Lista zakupów',
           headerTitleStyle: { color: '#FFFFFF' },
-          headerStyle: { backgroundColor: theme.colors.secondary },
+          headerStyle: {
+            backgroundColor: theme.colors.secondary
+          },
           headerLeft: null,
           headerRight: () => (
             <Icon3
