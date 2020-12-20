@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ScrollView, View } from 'react-native';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { ListItem, Radio, Right, Left } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import Header from '../../components/Header';
 import { SettingsStackParamList, ThemeType } from '../../utils/types';
-import { themeState, usernameState } from '../../store';
+import { themeState, usernameState, userState } from '../../store';
 
-import { AuthorView, Button, MiddleView, NameInput, TextButton, Title } from './index.styles';
+import {
+  AuthorView,
+  Button,
+  MiddleView,
+  NameInput,
+  TextButton,
+  Title
+} from './index.styles';
 import ThemeCircle from '../../components/ThemeCircle';
 import { themes } from '../../utils/theme';
 
@@ -22,6 +30,8 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
 
   const [currentTheme, setCurrentTheme] = useRecoilState(themeState);
   const [username, setUsername] = useRecoilState(usernameState);
+
+  const user = useRecoilValue(userState);
 
   const [usernameCopy, setUsernameCopy] = useState(username);
 
@@ -39,6 +49,11 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
     try {
       await AsyncStorage.setItem('@theme', `${id}`);
       setCurrentTheme(id);
+      firestore().collection('users').doc(user.uid).set({
+        name: user.displayName,
+        email: user.email,
+        theme: id
+      });
     } catch (err) {
       console.log(err);
     }
@@ -88,7 +103,9 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
           onChangeText={(text) => setUsernameCopy(text)}
           value={usernameCopy}
         />
-        <Button disabled={usernameCopy.length === 0 || usernameCopy === username} onPress={() => saveName()}>
+        <Button
+          disabled={usernameCopy.length === 0 || usernameCopy === username}
+          onPress={() => saveName()}>
           <TextButton button>Zapisz</TextButton>
         </Button>
       </MiddleView>

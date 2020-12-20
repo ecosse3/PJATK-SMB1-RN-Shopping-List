@@ -21,7 +21,8 @@ import {
   productListSelector,
   productListState,
   usernameState,
-  userState
+  userState,
+  loadingState
 } from '../../store';
 import AddProductIcon from '../../components/AddProductIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
@@ -43,6 +44,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const { totalCost, totalQty } = useRecoilValue(productListSelector);
   const user = useRecoilValue(userState);
   const loadedName = useRecoilValue(usernameState);
+  const loading = useRecoilValue(loadingState);
 
   const navigation = useNavigation<
     StackNavigationProp<ShoppingListStackParamList>
@@ -89,7 +91,15 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
             .collection('shopping-list')
             .doc(user.uid)
             .get();
-          setProducts(shoppingList.data().list || []);
+
+          if (
+            shoppingList.data()?.list &&
+            typeof shoppingList.data().list !== 'undefined'
+          ) {
+            setProducts(shoppingList.data().list);
+          } else {
+            setProducts([]);
+          }
         }
       } catch (err) {
         console.log(err);
@@ -107,7 +117,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     });
   }, [navigation]);
 
-  if (loadedName) {
+  if (loadedName || !loading) {
     return (
       <>
         <Header text={`Witaj, ${loadedName}`} />
@@ -146,16 +156,15 @@ const Stack = createStackNavigator<ShoppingListStackParamList>();
 const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
   const productInEditMode = useRecoilValue(productInEditModeState);
   const setUser = useSetRecoilState(userState);
+  const setLoading = useSetRecoilState(loadingState);
 
-  const logout = (
-    navigation: StackNavigationProp<ShoppingListStackParamList>
-  ) => {
+  const logout = () => {
     auth()
       .signOut()
       .then(() => {
         console.log('User signed out!');
         setUser(null);
-        navigation.popToTop();
+        setLoading(true);
       });
   };
 
@@ -164,7 +173,7 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
       <Stack.Screen
         name="ShoppingListScreen"
         children={() => <ShoppingListScreen theme={theme} />}
-        options={({ navigation }) => ({
+        options={() => ({
           title: 'Lista zakupów',
           headerTitleStyle: { color: '#FFFFFF' },
           headerStyle: { backgroundColor: theme.colors.secondary },
@@ -175,7 +184,7 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
               size={25}
               color="#FFFFFF"
               style={{ marginRight: 15 }}
-              onPress={() => logout(navigation)}
+              onPress={() => logout()}
             />
           )
         })}
