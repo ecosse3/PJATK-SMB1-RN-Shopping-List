@@ -33,16 +33,14 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
 
   const saveName = async () => {
     try {
-      await AsyncStorage.setItem('@username', name);
       setUsername(name);
+      await AsyncStorage.setItem('@username', name);
     } catch (err) {
       console.log(err);
     }
   };
 
   const register = async () => {
-    saveName();
-
     try {
       auth()
         .createUserWithEmailAndPassword(email, password)
@@ -63,10 +61,11 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
               .then(() => {
                 console.log('Account created & user signed in!');
                 setUser(userCredentials.user);
-                setLoadedName(userCredentials.user.displayName);
+                setLoadedName(name);
+                saveName();
 
                 navigation.popToTop();
-                navigation.navigate('ShoppingListScreen');
+                // navigation.navigate('ShoppingListScreen');
               });
           }
         })

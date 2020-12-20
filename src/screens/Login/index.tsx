@@ -8,7 +8,12 @@ import {
 import auth from '@react-native-firebase/auth';
 import Snackbar from 'react-native-snackbar';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { tabBarVisibleState, usernameState, userState } from '../../store';
+import {
+  tabBarVisibleState,
+  usernameState,
+  userState,
+  loadingState
+} from '../../store';
 import { LoginStackParamList, ThemeType } from '../../utils/types';
 import RegisterScreen from '../Register';
 import ShoppingListScreen from '../ShoppingList';
@@ -21,7 +26,6 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [allowNavigation, setAllowNavigation] = useState(false);
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
   const setLoadedName = useSetRecoilState(usernameState);
   const setUser = useSetRecoilState(userState);
@@ -33,7 +37,6 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         console.log('User signed in!');
-        setAllowNavigation(true);
 
         if (userCredentials.user) {
           setUser(userCredentials.user);
@@ -84,13 +87,11 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
   };
 
   useEffect(() => {
-    if (!allowNavigation) return;
-
     navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
       e.preventDefault();
     });
-  }, [navigation, allowNavigation]);
+  }, [navigation]);
 
   return (
     <Container>
