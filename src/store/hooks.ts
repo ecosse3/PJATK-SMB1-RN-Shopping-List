@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 import SendIntentAndroid from 'react-native-send-intent';
 import firestore from '@react-native-firebase/firestore';
-import { productListState, userState } from './atoms';
+import { productListState, userState, globalProductListState } from './atoms';
 import { ProductType } from '../utils/types';
 import {
   deleteProduct,
@@ -40,10 +40,17 @@ const saveProducts = async (products: ProductType[]) => {
   }
 };
 
-const setShoppingList = (uid: string, products: ProductType[]): void => {
-  firestore().collection('shopping-list').doc(uid).set({
-    products
-  });
+const setShoppingList = (
+  uid: string,
+  products: ProductType[],
+  isGlobalList: boolean
+): void => {
+  firestore()
+    .collection('shopping-list')
+    .doc(isGlobalList ? 'global' : uid)
+    .set({
+      products
+    });
 };
 
 // Hooks
@@ -51,6 +58,7 @@ const setShoppingList = (uid: string, products: ProductType[]): void => {
 export const useAddEditProduct = (): ((product: ProductType) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
   const user = useRecoilValue(userState);
+  const isGlobalList = useRecoilValue(globalProductListState);
 
   return (product: ProductType) => {
     const { clone, index } = cloneIndex(products, product.id);
@@ -62,7 +70,7 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
       setProducts(clone);
       saveProducts(clone);
       updateProduct(db, { ...product, inBasket: clone[index].inBasket });
-      setShoppingList(user.uid, clone);
+      setShoppingList(user.uid, clone, isGlobalList);
     } else {
       setProducts([...clone, { ...product, inBasket: false }]);
       saveProducts([...clone, { ...product, inBasket: false }]);
@@ -72,7 +80,11 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
         text: `Dodano ${product.amount}x ${product.name} do listy zakupów`,
         type: SendIntentAndroid.TEXT_PLAIN
       });
-      setShoppingList(user.uid, [...clone, { ...product, inBasket: false }]);
+      setShoppingList(
+        user.uid,
+        [...clone, { ...product, inBasket: false }],
+        isGlobalList
+      );
     }
   };
 };
@@ -80,6 +92,7 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
 export const useRemoveProduct = (): ((productId: string) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
   const user = useRecoilValue(userState);
+  const isGlobalList = useRecoilValue(globalProductListState);
 
   return (productId: string) => {
     setProducts(products.filter((item) => item.id !== productId));
@@ -87,7 +100,8 @@ export const useRemoveProduct = (): ((productId: string) => void) => {
     deleteProduct(db, productId);
     setShoppingList(
       user.uid,
-      products.filter((item) => item.id !== productId)
+      products.filter((item) => item.id !== productId),
+      isGlobalList
     );
   };
 };
@@ -95,6 +109,7 @@ export const useRemoveProduct = (): ((productId: string) => void) => {
 export const useToggleProductInBasket = (): ((productId: string) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
   const user = useRecoilValue(userState);
+  const isGlobalList = useRecoilValue(globalProductListState);
 
   return (productId: string) => {
     const { clone, index } = cloneIndex(products, productId);
@@ -103,6 +118,6 @@ export const useToggleProductInBasket = (): ((productId: string) => void) => {
     setProducts(clone);
     saveProducts(clone);
     updateProductBasketStatus(db, productId, clone[index].inBasket);
-    setShoppingList(user.uid, clone);
+    setShoppingList(user.uid, clone, isGlobalList);
   };
 };

@@ -36,3 +36,8 @@ export const loadingState = atom<boolean>({
   key: 'loadingState',
   default: true
 });
+
+export const globalProductListState = atom<boolean>({
+  key: 'globalProductListState',
+  default: false
+});
