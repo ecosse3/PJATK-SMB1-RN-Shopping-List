@@ -4,6 +4,7 @@ export { tabBarVisibleState } from './atoms';
 export { productListState } from './atoms';
 export { productInEditModeState } from './atoms';
 export { userState } from './atoms';
+export { loadingState } from './atoms';
 
 export { productListSelector } from './selectors';
 

@@ -31,3 +31,8 @@ export const productInEditModeState = atom<boolean>({
   key: 'productInEditModeState',
   default: false
 });
+
+export const loadingState = atom<boolean>({
+  key: 'loadingState',
+  default: true
+});
