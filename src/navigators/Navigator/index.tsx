@@ -9,8 +9,10 @@ import { TabParamList, ThemeType } from '../../utils/types';
 import {
   tabBarVisibleState,
   productListSelector,
-  userState
+  userState,
+  favoriteStoresSelector
 } from '../../store';
+import FavoriteStores from '../../screens/FavoriteStores';
 
 interface IProps {
   theme: ThemeType;
@@ -22,7 +24,8 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
   const isTabBarVisible = useRecoilValue(tabBarVisibleState);
   const user = useRecoilValue(userState);
-  const { totalQty } = useRecoilValue(productListSelector);
+  const { totalQty: totalProductsQty } = useRecoilValue(productListSelector);
+  const { totalQty: totalStoresQty } = useRecoilValue(favoriteStoresSelector);
 
   return (
     <NavigationContainer>
@@ -40,12 +43,29 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
           children={() => <ShoppingList theme={theme} />}
           options={{
             tabBarLabel: 'Lista zakupów',
-            tabBarBadge: totalQty,
+            tabBarBadge: totalProductsQty,
             tabBarBadgeStyle: { backgroundColor: theme.colors.badge },
             tabBarVisible: isTabBarVisible && !!user,
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="cart-outline"
+                color={color}
+                size={26}
+              />
+            )
+          }}
+        />
+        <Tab.Screen
+          name="FavoriteStores"
+          children={() => <FavoriteStores theme={theme} />}
+          options={{
+            tabBarLabel: 'Ulubione sklepy',
+            tabBarBadge: totalStoresQty,
+            tabBarBadgeStyle: { backgroundColor: theme.colors.badge },
+            tabBarVisible: isTabBarVisible && !!user,
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons
+                name="heart-multiple-outline"
                 color={color}
                 size={26}
               />

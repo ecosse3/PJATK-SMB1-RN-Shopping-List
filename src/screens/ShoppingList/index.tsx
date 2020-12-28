@@ -23,9 +23,10 @@ import {
   usernameState,
   userState,
   loadingState,
-  globalProductListState
+  globalProductListState,
+  favoriteStoresState
 } from '../../store';
-import AddProductIcon from '../../components/AddProductIcon';
+import AddIcon, { AddIconActions } from '../../components/AddIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
 import Product from '../../components/Product';
 import AddEditProductScreen from '../AddEditProduct';
@@ -41,6 +42,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const [products, setProducts] = useRecoilState(productListState);
 
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const setFavoriteStores = useSetRecoilState(favoriteStoresState);
 
   const { totalCost, totalQty } = useRecoilValue(productListSelector);
   const user = useRecoilValue(userState);
@@ -108,8 +110,31 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
       }
     };
 
+    const getFavoriteStores = async () => {
+      try {
+        if (user !== null) {
+          const favoriteStores = await firestore()
+            .collection('favorite-stores')
+            .doc(user.uid)
+            .get();
+
+          if (
+            favoriteStores.data()?.list &&
+            typeof favoriteStores.data().list !== 'undefined'
+          ) {
+            setFavoriteStores(favoriteStores.data().list);
+          } else {
+            setFavoriteStores([]);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     getName();
     getProducts();
+    getFavoriteStores();
   }, [loadedName, user, isGlobalList]);
 
   useEffect(() => {
@@ -123,7 +148,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
     return (
       <>
         <Header text={`Witaj, ${loadedName}`} />
-        <AddProductIcon />
+        <AddIcon action={AddIconActions.ADD_PRODUCT} />
         {totalQty !== 0 && (
           <>
             <TotalCostContainer>

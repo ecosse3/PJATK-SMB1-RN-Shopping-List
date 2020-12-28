@@ -7,17 +7,36 @@ import { useSetRecoilState } from 'recoil';
 import { Container } from './index.styles';
 import { productInEditModeState } from '../../store';
 
-const AddIcon: React.FC = () => {
+// eslint-disable-next-line no-shadow
+export enum AddIconActions {
+  ADD_PRODUCT,
+  ADD_STORE
+}
+
+interface IAddIconProps {
+  action: AddIconActions;
+}
+
+const AddIcon: React.FC<IAddIconProps> = ({ action }) => {
   const navigation = useNavigation();
   const setProductInEditMode = useSetRecoilState(productInEditModeState);
 
+  const getAction = () => {
+    switch (action) {
+      default:
+      case AddIconActions.ADD_PRODUCT:
+        navigation.navigate('AddEditProductScreen');
+        setProductInEditMode(false);
+        break;
+
+      case AddIconActions.ADD_STORE:
+        break;
+    }
+  };
+
   return (
     <View>
-      <Container
-        onPress={() => {
-          navigation.navigate('AddEditProductScreen');
-          setProductInEditMode(false);
-        }}>
+      <Container onPress={() => getAction()}>
         <Icon name="plus" size={20} color="#FFFFFF" />
       </Container>
     </View>
