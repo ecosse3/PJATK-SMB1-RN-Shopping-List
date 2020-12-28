@@ -7,7 +7,7 @@ import { useSetRecoilState } from 'recoil';
 import { Container } from './index.styles';
 import { productInEditModeState } from '../../store';
 
-const AddProductIcon: React.FC = () => {
+const AddIcon: React.FC = () => {
   const navigation = useNavigation();
   const setProductInEditMode = useSetRecoilState(productInEditModeState);
 
@@ -24,4 +24,4 @@ const AddProductIcon: React.FC = () => {
   );
 };
 
-export default AddProductIcon;
+export default AddIcon;
