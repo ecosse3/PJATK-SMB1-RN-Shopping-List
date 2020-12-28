@@ -4,10 +4,7 @@ import { favoriteStoresState, productListState } from './atoms';
 export const productListSelector = selector({
   key: 'productListSelector',
   get: ({ get }) => {
-    const totalCost = get(productListState).reduce(
-      (a, b) => a + b.price * b.amount,
-      0
-    );
+    const totalCost = get(productListState).reduce((a, b) => a + b.price * b.amount, 0);
     const totalQty = get(productListState).reduce((a, b) => a + b.amount, 0);
 
     return {
@@ -20,10 +17,7 @@ export const productListSelector = selector({
 export const favoriteStoresSelector = selector({
   key: 'favoriteStoresSelector',
   get: ({ get }) => {
-    const totalQty = get(favoriteStoresState).reduce(
-      (a, b) => a + Object.keys(b).length,
-      0
-    );
+    const totalQty = get(favoriteStoresState).length;
 
     return {
       totalQty

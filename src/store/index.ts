@@ -7,7 +7,8 @@ export {
   userState,
   loadingState,
   globalProductListState,
-  favoriteStoresState
+  favoriteStoresState,
+  storeInEditModeState
 } from './atoms';
 
 export { productListSelector, favoriteStoresSelector } from './selectors';
@@ -15,5 +16,7 @@ export { productListSelector, favoriteStoresSelector } from './selectors';
 export {
   useAddEditProduct,
   useRemoveProduct,
-  useToggleProductInBasket
+  useToggleProductInBasket,
+  useAddEditFavoriteStore,
+  useRemoveFavoriteStore
 } from './hooks';
