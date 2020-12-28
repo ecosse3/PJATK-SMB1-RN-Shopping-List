@@ -81,7 +81,7 @@ module.exports = {
     'prettier/prettier': [
       'warn',
       {
-        printWidth: 80
+        printWidth: 90
       }
     ]
   }
