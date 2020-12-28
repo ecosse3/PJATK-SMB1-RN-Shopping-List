@@ -1,5 +1,5 @@
 import { selector } from 'recoil';
-import { productListState } from './atoms';
+import { favoriteStoresState, productListState } from './atoms';
 
 export const productListSelector = selector({
   key: 'productListSelector',
@@ -12,6 +12,20 @@ export const productListSelector = selector({
 
     return {
       totalCost,
+      totalQty
+    };
+  }
+});
+
+export const favoriteStoresSelector = selector({
+  key: 'favoriteStoresSelector',
+  get: ({ get }) => {
+    const totalQty = get(favoriteStoresState).reduce(
+      (a, b) => a + Object.keys(b).length,
+      0
+    );
+
+    return {
       totalQty
     };
   }
