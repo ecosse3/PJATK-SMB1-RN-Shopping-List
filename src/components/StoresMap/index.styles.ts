@@ -3,12 +3,10 @@ import { ThemeType } from '../../utils/types';
 
 interface IProps {
   theme: ThemeType;
-  height: number;
 }
 
 export const HeaderWrapper = styled.View<IProps>`
   width: 100%;
-  height: ${(props) => props.height}px;
   background-color: ${(props) => props.theme.colors.primary};
   border-bottom-left-radius: 25px;
   overflow: hidden;
