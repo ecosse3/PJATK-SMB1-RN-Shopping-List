@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
-import {
-  createStackNavigator,
-  StackNavigationProp
-} from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Text, FlatList } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
-import Header from '../../components/Header';
 import { FavoriteStoresStackParamList, ThemeType } from '../../utils/types';
 import {
   userState,
@@ -18,6 +14,7 @@ import {
 import AddIcon, { AddIconActions } from '../../components/AddIcon';
 import { NoStoresContainer } from './index.styles';
 import Product from '../../components/Product';
+import StoresMap from '../../components/StoresMap';
 
 interface IProps {
   theme: ThemeType;
@@ -31,9 +28,7 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
   const user = useRecoilValue(userState);
   const loading = useRecoilValue(loadingState);
 
-  const navigation = useNavigation<
-    StackNavigationProp<FavoriteStoresStackParamList>
-  >();
+  const navigation = useNavigation<StackNavigationProp<FavoriteStoresStackParamList>>();
 
   const renderStore = ({ item }) => (
     <Product
@@ -56,7 +51,7 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
   if (!loading && user) {
     return (
       <>
-        <Header text="" />
+        <StoresMap />
         <AddIcon action={AddIconActions.ADD_STORE} />
         {totalQty !== 0 && (
           <FlatList

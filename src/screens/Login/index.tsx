@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
-import {
-  createStackNavigator,
-  StackNavigationProp
-} from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import Snackbar from 'react-native-snackbar';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
