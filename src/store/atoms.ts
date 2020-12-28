@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { atom } from 'recoil';
-import { ProductType } from '../utils/types';
+import { ProductType, StoreType } from '../utils/types';
 
 export const userState = atom<FirebaseAuthTypes.User | null>({
   key: 'userState',
@@ -40,4 +40,9 @@ export const loadingState = atom<boolean>({
 export const globalProductListState = atom<boolean>({
   key: 'globalProductListState',
   default: false
+});
+
+export const favoriteStoresState = atom<StoreType[]>({
+  key: 'favoriteStoresState',
+  default: []
 });

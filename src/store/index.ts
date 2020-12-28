@@ -1,14 +1,19 @@
-export { themeState } from './atoms';
-export { usernameState } from './atoms';
-export { tabBarVisibleState } from './atoms';
-export { productListState } from './atoms';
-export { productInEditModeState } from './atoms';
-export { userState } from './atoms';
-export { loadingState } from './atoms';
-export { globalProductListState } from './atoms';
+export {
+  themeState,
+  usernameState,
+  tabBarVisibleState,
+  productListState,
+  productInEditModeState,
+  userState,
+  loadingState,
+  globalProductListState,
+  favoriteStoresState
+} from './atoms';
 
-export { productListSelector } from './selectors';
+export { productListSelector, favoriteStoresSelector } from './selectors';
 
-export { useAddEditProduct } from './hooks';
-export { useRemoveProduct } from './hooks';
-export { useToggleProductInBasket } from './hooks';
+export {
+  useAddEditProduct,
+  useRemoveProduct,
+  useToggleProductInBasket
+} from './hooks';
