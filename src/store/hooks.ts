@@ -3,8 +3,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 import SendIntentAndroid from 'react-native-send-intent';
 import firestore from '@react-native-firebase/firestore';
-import { productListState, userState, globalProductListState } from './atoms';
-import { ProductType } from '../utils/types';
+import {
+  productListState,
+  userState,
+  globalProductListState,
+  favoriteStoresState
+} from './atoms';
+import { ProductType, StoreType } from '../utils/types';
 import {
   deleteProduct,
   insertProduct,
@@ -28,8 +33,13 @@ const db = SQLite.openDatabase(
 // Utility functions
 
 const cloneIndex = (items: ProductType[], id: string) => ({
-  clone: items.map((product: ProductType) => ({ ...product })),
-  index: items.findIndex((product: ProductType) => product.id === id)
+  clone: items.map((item: ProductType) => ({ ...item })),
+  index: items.findIndex((item: ProductType) => item.id === id)
+});
+
+const cloneIndexStore = (items: StoreType[], id: string) => ({
+  clone: items.map((item: StoreType) => ({ ...item })),
+  index: items.findIndex((item: StoreType) => item.id === id)
 });
 
 const saveProducts = async (products: ProductType[]) => {
@@ -53,7 +63,15 @@ const setShoppingList = (
     });
 };
 
+const setFavoriteStores = (uid: string, stores: StoreType[]): void => {
+  firestore().collection('favorite-stores').doc(uid).set({
+    stores
+  });
+};
+
 // Hooks
+
+// Product hooks
 
 export const useAddEditProduct = (): ((product: ProductType) => void) => {
   const [products, setProducts] = useRecoilState(productListState);
@@ -119,5 +137,40 @@ export const useToggleProductInBasket = (): ((productId: string) => void) => {
     saveProducts(clone);
     updateProductBasketStatus(db, productId, clone[index].inBasket);
     setShoppingList(user.uid, clone, isGlobalList);
+  };
+};
+
+// Favorite store hooks
+
+export const useAddEditFavoriteStore = (): ((store: StoreType) => void) => {
+  const [stores, setStores] = useRecoilState(favoriteStoresState);
+  const user = useRecoilValue(userState);
+
+  return (store: StoreType) => {
+    const { clone, index } = cloneIndexStore(stores, store.id);
+
+    if (index !== -1) {
+      clone[index].name = store.name;
+      clone[index].description = store.description;
+      clone[index].radius = store.radius;
+      setStores(clone);
+      setFavoriteStores(user.uid, clone);
+    } else {
+      setStores([...clone, { ...store }]);
+      setFavoriteStores(user.uid, [...clone, { ...store }]);
+    }
+  };
+};
+
+export const useRemoveFavoriteStore = (): ((storeId: string) => void) => {
+  const [stores, setStores] = useRecoilState(favoriteStoresState);
+  const user = useRecoilValue(userState);
+
+  return (storeId: string) => {
+    setStores(stores.filter((item) => item.id !== storeId));
+    setFavoriteStores(
+      user.uid,
+      stores.filter((item) => item.id !== storeId)
+    );
   };
 };
