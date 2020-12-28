@@ -4,17 +4,20 @@ import { Text, FlatList } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import { FavoriteStoresStackParamList, ThemeType } from '../../utils/types';
 import {
   userState,
   loadingState,
   favoriteStoresState,
-  favoriteStoresSelector
+  favoriteStoresSelector,
+  storeInEditModeState
 } from '../../store';
 import AddIcon, { AddIconActions } from '../../components/AddIcon';
-import { NoStoresContainer } from './index.styles';
-import Product from '../../components/Product';
+import { NoStoresContainer, ListContainer } from './index.styles';
 import StoresMap from '../../components/StoresMap';
+import StoreListItem from '../../components/StoreListItem';
+import AddEditFavoriteStoreScreen from '../AddEditFavoriteStore';
 
 interface IProps {
   theme: ThemeType;
@@ -31,12 +34,10 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
   const navigation = useNavigation<StackNavigationProp<FavoriteStoresStackParamList>>();
 
   const renderStore = ({ item }) => (
-    <Product
+    <StoreListItem
       id={item.id}
       name={item.name}
-      price={item.price}
-      amount={item.amount}
-      inBasket={item.inBasket}
+      description={item.description}
       theme={theme}
     />
   );
@@ -54,11 +55,13 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
         <StoresMap />
         <AddIcon action={AddIconActions.ADD_STORE} />
         {totalQty !== 0 && (
-          <FlatList
-            data={favoriteStores}
-            renderItem={renderStore}
-            keyExtractor={(item) => item.id}
-          />
+          <ListContainer>
+            <FlatList
+              data={favoriteStores}
+              renderItem={renderStore}
+              keyExtractor={(item) => item.id}
+            />
+          </ListContainer>
         )}
         {totalQty === 0 && (
           <NoStoresContainer>
@@ -76,6 +79,7 @@ const Stack = createStackNavigator<FavoriteStoresStackParamList>();
 
 const FavoriteStores: React.FC<IProps> = ({ theme }: IProps) => {
   const user = useRecoilValue(userState);
+  const storeInEditMode = useRecoilValue(storeInEditModeState);
 
   return (
     <Stack.Navigator
@@ -92,6 +96,28 @@ const FavoriteStores: React.FC<IProps> = ({ theme }: IProps) => {
             backgroundColor: theme.colors.secondary
           },
           headerLeft: null
+        })}
+      />
+      <Stack.Screen
+        name="AddEditFavoriteStoreScreen"
+        children={() => <AddEditFavoriteStoreScreen theme={theme} />}
+        options={({ navigation }) => ({
+          title: storeInEditMode ? 'Edytuj ulubiony sklep' : 'Dodaj sklep do ulubionych',
+          headerTitleStyle: { color: '#FFFFFF' },
+          headerStyle: { backgroundColor: theme.colors.secondary },
+          headerLeft: () => (
+            <Icon2
+              name="arrow-left"
+              size={25}
+              color="#FFFFFF"
+              style={{ marginLeft: 15 }}
+              onPress={() => {
+                navigation.navigate('FavoriteStoresScreen', {
+                  tabBarVisible: true
+                });
+              }}
+            />
+          )
         })}
       />
     </Stack.Navigator>

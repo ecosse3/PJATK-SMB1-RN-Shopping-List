@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 
-export const TotalCostContainer = styled.View`
+export const ListContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 16px;
+  margin-top: 52px;
 `;
 
 export const NoStoresContainer = styled.View`
