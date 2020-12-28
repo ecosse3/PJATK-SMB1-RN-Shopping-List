@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 import { ThemeType } from '../../utils/types';
 
 interface IProps {
@@ -17,7 +18,7 @@ export const ArrowContainer = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
-  left: 50%;
+  left: ${Dimensions.get('window').width / 2 - 15};
   bottom: 5px;
   border-radius: 15px;
   width: 30px;
