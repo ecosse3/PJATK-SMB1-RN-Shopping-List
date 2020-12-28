@@ -1,6 +1,7 @@
 export type TabParamList = {
-  ShoppingList: undefined;
+  FavoriteStores: undefined;
   Settings: undefined;
+  ShoppingList: undefined;
 };
 
 export type ShoppingListStackParamList = {
@@ -30,6 +31,10 @@ export type RegisterStackParamList = {
   ShoppingListScreen: undefined;
 };
 
+export type FavoriteStoresStackParamList = {
+  FavoriteStoresScreen: undefined;
+};
+
 export type ProductType = {
   id: string;
   name: string;
@@ -45,4 +50,13 @@ export type ThemeType = {
     badge: string;
     basket?: string;
   };
+};
+
+export type StoreType = {
+  id: string;
+  name: string;
+  description: string;
+  radius: number;
+  longitude: number;
+  latitude: number;
 };

@@ -19,6 +19,7 @@ const App: React.FC = () => {
     );
     createTable(db);
   }, []);
+
   return (
     <RecoilRoot>
       <SCThemeProvider />
