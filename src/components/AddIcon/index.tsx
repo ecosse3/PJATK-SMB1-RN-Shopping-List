@@ -5,7 +5,7 @@ import { View } from 'react-native';
 
 import { useSetRecoilState } from 'recoil';
 import { Container } from './index.styles';
-import { productInEditModeState } from '../../store';
+import { productInEditModeState, storeInEditModeState } from '../../store';
 
 // eslint-disable-next-line no-shadow
 export enum AddIconActions {
@@ -20,6 +20,7 @@ interface IAddIconProps {
 const AddIcon: React.FC<IAddIconProps> = ({ action }) => {
   const navigation = useNavigation();
   const setProductInEditMode = useSetRecoilState(productInEditModeState);
+  const setStoreInEditMode = useSetRecoilState(storeInEditModeState);
 
   const getAction = () => {
     switch (action) {
@@ -30,6 +31,8 @@ const AddIcon: React.FC<IAddIconProps> = ({ action }) => {
         break;
 
       case AddIconActions.ADD_STORE:
+        navigation.navigate('AddEditFavoriteStoreScreen');
+        setStoreInEditMode(false);
         break;
     }
   };
