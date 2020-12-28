@@ -1,21 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import { Region } from 'react-native-maps';
-
-interface GeolocationData {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
+import { useRecoilState } from 'recoil';
+import { userPositionState } from '../store/atoms';
 
 export const useGeolocation = (): Region => {
-  const [position, setPosition] = useState<GeolocationData>({
-    latitude: 0,
-    longitude: 0,
-    latitudeDelta: 0,
-    longitudeDelta: 0.01
-  });
+  const [position, setPosition] = useRecoilState(userPositionState);
 
   useEffect(() => {
     const watchId = Geolocation.watchPosition(
