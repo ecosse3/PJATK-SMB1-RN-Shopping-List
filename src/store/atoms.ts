@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { atom } from 'recoil';
-import { ProductType, StoreType } from '../utils/types';
+import { GeolocationDataType, ProductType, StoreType } from '../utils/types';
 
 export const userState = atom<FirebaseAuthTypes.User | null>({
   key: 'userState',
@@ -45,4 +45,19 @@ export const globalProductListState = atom<boolean>({
 export const favoriteStoresState = atom<StoreType[]>({
   key: 'favoriteStoresState',
   default: []
+});
+
+export const storeInEditModeState = atom<boolean>({
+  key: 'storeInEditModeState',
+  default: false
+});
+
+export const userPositionState = atom<GeolocationDataType>({
+  key: 'userPositionState',
+  default: {
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0,
+    longitudeDelta: 0.01
+  }
 });
