@@ -33,6 +33,7 @@ export type RegisterStackParamList = {
 
 export type FavoriteStoresStackParamList = {
   FavoriteStoresScreen: undefined;
+  AddEditFavoriteStoreScreen: undefined;
 };
 
 export type ProductType = {
@@ -59,4 +60,11 @@ export type StoreType = {
   radius: number;
   longitude: number;
   latitude: number;
+};
+
+export type GeolocationDataType = {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
 };
