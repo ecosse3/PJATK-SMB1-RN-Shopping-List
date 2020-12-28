@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  createStackNavigator,
-  StackNavigationProp
-} from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Text, FlatList, Keyboard } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -50,9 +47,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const loading = useRecoilValue(loadingState);
   const isGlobalList = useRecoilValue(globalProductListState);
 
-  const navigation = useNavigation<
-    StackNavigationProp<ShoppingListStackParamList>
-  >();
+  const navigation = useNavigation<StackNavigationProp<ShoppingListStackParamList>>();
 
   const renderProduct = ({ item }) => (
     <Product
@@ -119,10 +114,10 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
             .get();
 
           if (
-            favoriteStores.data()?.list &&
-            typeof favoriteStores.data().list !== 'undefined'
+            favoriteStores.data()?.stores &&
+            typeof favoriteStores.data().stores !== 'undefined'
           ) {
-            setFavoriteStores(favoriteStores.data().list);
+            setFavoriteStores(favoriteStores.data().stores);
           } else {
             setFavoriteStores([]);
           }
@@ -152,11 +147,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
         {totalQty !== 0 && (
           <>
             <TotalCostContainer>
-              <Icon
-                name="info-circle"
-                size={20}
-                color={theme.colors.secondary}
-              />
+              <Icon name="info-circle" size={20} color={theme.colors.secondary} />
               <Value>Do zapłaty: {totalCost.toFixed(2).toString()} zł</Value>
             </TotalCostContainer>
             <FlatList
