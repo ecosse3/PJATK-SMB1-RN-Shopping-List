@@ -22,6 +22,7 @@ export type StoreType = {
   radius: number;
   longitude: number;
   latitude: number;
+  address: string;
 };
 
 export type GeolocationDataType = {
