@@ -3,10 +3,11 @@ import MapView, { Marker } from 'react-native-maps';
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useRecoilValue } from 'recoil';
+
 import { ThemeType } from 'types';
+import { useGeolocation } from 'hooks/useGeolocation';
+import { favoriteStoresState } from 'store/atoms';
 import { ArrowContainer, HeaderWrapper } from './index.styles';
-import { useGeolocation } from '../../hooks/useGeolocation';
-import { favoriteStoresState } from '../../store/atoms';
 
 interface IStoresMapProps {
   theme: ThemeType;

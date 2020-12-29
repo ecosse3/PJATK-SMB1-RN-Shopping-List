@@ -3,7 +3,11 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigation, useRoute } from '@react-navigation/native';
+
 import { ThemeType } from 'types';
+import { useGeolocation } from 'hooks/useGeolocation';
+import { storeInEditModeState, tabBarVisibleState, useAddEditFavoriteStore } from 'store';
+import Header from 'components/Header';
 import {
   Text,
   Button,
@@ -13,13 +17,6 @@ import {
   InputsContainer,
   Error
 } from './index.styles';
-import {
-  storeInEditModeState,
-  tabBarVisibleState,
-  useAddEditFavoriteStore
-} from '../../store';
-import Header from '../../components/Header';
-import { useGeolocation } from '../../hooks/useGeolocation';
 
 interface IProps {
   theme: ThemeType;
@@ -58,12 +55,9 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
   const [storeName, setStoreName] = useState(propsStoreName || '');
   const [storeDescription, setStoreDescription] = useState(propsStoreDescription || '');
   const [storeRadius, setStoreRadius] = useState(propsStoreRadius?.toString() || '');
-  const [storeLongitude, setStoreLongitude] = useState(
-    propsStoreLongitude || position.longitude
-  );
-  const [storeLatitude, setStoreLatitude] = useState(
-    propsStoreLatitude || position.latitude
-  );
+  const storeLongitude = propsStoreLongitude || position.longitude;
+  const storeLatitude = propsStoreLatitude || position.latitude;
+
   const [storeRadiusError, setStoreRadiusError] = useState(false);
 
   const checkAddFavoriteStore = (

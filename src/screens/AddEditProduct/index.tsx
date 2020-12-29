@@ -5,6 +5,8 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { ThemeType } from 'types';
+import { productInEditModeState, tabBarVisibleState, useAddEditProduct } from 'store';
+import Header from 'components/Header';
 import {
   Text,
   Button,
@@ -15,12 +17,6 @@ import {
   AmountContainer,
   AmountValue
 } from './index.styles';
-import {
-  productInEditModeState,
-  tabBarVisibleState,
-  useAddEditProduct
-} from '../../store';
-import Header from '../../components/Header';
 
 interface IProps {
   theme: ThemeType;

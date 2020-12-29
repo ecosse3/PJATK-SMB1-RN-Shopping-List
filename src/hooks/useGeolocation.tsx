@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import { Region } from 'react-native-maps';
 import { useRecoilState } from 'recoil';
-import { userPositionState } from '../store/atoms';
+
+import { userPositionState } from 'store/atoms';
 
 export const useGeolocation = (): Region => {
   const [position, setPosition] = useRecoilState(userPositionState);

@@ -6,8 +6,8 @@ import auth from '@react-native-firebase/auth';
 import Snackbar from 'react-native-snackbar';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import { LoginStackParamList, ThemeType } from 'types';
+import { usernameState, userState } from 'store';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { usernameState, userState } from '../../store';
 import RegisterScreen from '../Register';
 import ShoppingListScreen from '../ShoppingList';
 

@@ -4,6 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
 import { ProductType, ThemeType } from 'types';
 import {
+  productInEditModeState,
+  useRemoveProduct,
+  useToggleProductInBasket
+} from 'store';
+import {
   TouchableContainer,
   Name,
   Price,
@@ -13,11 +18,6 @@ import {
   Quantity,
   TopContainer
 } from './index.styles';
-import {
-  productInEditModeState,
-  useRemoveProduct,
-  useToggleProductInBasket
-} from '../../store';
 
 interface IProps {
   id: ProductType['id'];

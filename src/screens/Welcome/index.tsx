@@ -3,9 +3,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState } from 'recoil';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+
 import { ThemeType, WelcomeStackParamList } from 'types';
+import { usernameState } from 'store';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { usernameState } from '../../store';
 import LoginScreen from '../Login';
 
 interface IProps {

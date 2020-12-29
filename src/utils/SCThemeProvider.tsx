@@ -4,9 +4,10 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import AsyncStorage from '@react-native-community/async-storage';
 import firestore from '@react-native-firebase/firestore';
 import Spinner from 'react-native-loading-spinner-overlay';
+
+import Navigator from 'navigators/Navigator';
+import { themeState, userState, loadingState } from 'store';
 import { themes } from './theme';
-import Navigator from '../navigators/Navigator';
-import { themeState, userState, loadingState } from '../store';
 
 const SCThemeProvider: React.FC = () => {
   const [loading, setLoading] = useRecoilState(loadingState);

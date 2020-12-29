@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Text, FlatList, View, ListRenderItem } from 'react-native';
-// import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,24 +12,24 @@ import {
   StoreType,
   ThemeType
 } from 'types';
+import StoreListItem from 'components/StoreListItem';
+import StoresMap from 'components/StoresMap';
+import AddIcon from 'components/AddIcon';
+import AddEditFavoriteStoreScreen from 'screens/AddEditFavoriteStore';
 import {
-  userState,
-  loadingState,
-  favoriteStoresState,
   favoriteStoresSelector,
-  storeInEditModeState
-} from '../../store';
-import AddIcon from '../../components/AddIcon';
+  favoriteStoresState,
+  loadingState,
+  storeInEditModeState,
+  userState
+} from 'store';
+import { useGeolocation } from 'hooks/useGeolocation';
 import {
   LocationAddress,
   LocationInfoContainer,
   LocationTitle,
   NoStoresContainer
 } from './index.styles';
-import StoresMap from '../../components/StoresMap';
-import StoreListItem from '../../components/StoreListItem';
-import AddEditFavoriteStoreScreen from '../AddEditFavoriteStore';
-import { useGeolocation } from '../../hooks/useGeolocation';
 
 interface IProps {
   theme: ThemeType;

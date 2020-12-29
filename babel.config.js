@@ -18,7 +18,8 @@ module.exports = {
         root: ['./src'],
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
         alias: {
-          types: './src/types'
+          types: './src/types',
+          hooks: './src/hooks'
         }
       }
     ]

@@ -9,14 +9,13 @@ import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon3 from 'react-native-vector-icons/FontAwesome5';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+
 import {
   ProductType,
   ShoppingListStackParamList,
   ThemeType,
   AddIconActions
 } from 'types';
-import WelcomeScreen from '../Welcome';
-import Header from '../../components/Header';
 import {
   tabBarVisibleState,
   productInEditModeState,
@@ -27,10 +26,12 @@ import {
   loadingState,
   globalProductListState,
   favoriteStoresState
-} from '../../store';
-import AddIcon from '../../components/AddIcon';
+} from 'store';
+import ProductListItem from 'components/ProductListItem';
+import Header from 'components/Header';
+import AddIcon from 'components/AddIcon';
+import WelcomeScreen from '../Welcome';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
-import ProductListItem from '../../components/ProductListItem';
 import AddEditProductScreen from '../AddEditProduct';
 import LoginScreen from '../Login';
 

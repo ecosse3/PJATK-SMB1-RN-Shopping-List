@@ -7,8 +7,8 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Snackbar from 'react-native-snackbar';
 import { RegisterStackParamList, ThemeType } from 'types';
+import { usernameState, userState } from 'store';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
-import { usernameState, userState } from '../../store';
 
 interface IProps {
   theme: ThemeType;

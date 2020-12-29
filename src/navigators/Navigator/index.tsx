@@ -3,16 +3,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useRecoilValue } from 'recoil';
+
 import { TabParamList, ThemeType } from 'types';
-import ShoppingList from '../../screens/ShoppingList';
-import Settings from '../../screens/Settings';
 import {
   tabBarVisibleState,
   productListSelector,
   userState,
   favoriteStoresSelector
-} from '../../store';
-import FavoriteStores from '../../screens/FavoriteStores';
+} from 'store';
+import ShoppingList from 'screens/ShoppingList';
+import Settings from 'screens/Settings';
+import FavoriteStores from 'screens/FavoriteStores';
 
 interface IProps {
   theme: ThemeType;
