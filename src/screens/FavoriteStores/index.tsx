@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Text, FlatList, View, ListRenderItem } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geocode from 'react-geocode';
@@ -20,6 +20,7 @@ import {
   favoriteStoresSelector,
   favoriteStoresState,
   loadingState,
+  nearbyAddressState,
   storeInEditModeState,
   userState
 } from 'store';
@@ -40,7 +41,7 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
 
   const position = useGeolocation();
 
-  const [nearbyAddress, setNearbyAddress] = useState('Wczytuje...');
+  const [nearbyAddress, setNearbyAddress] = useRecoilState(nearbyAddressState);
 
   const favoriteStores = useRecoilValue(favoriteStoresState);
   const { totalQty } = useRecoilValue(favoriteStoresSelector);
