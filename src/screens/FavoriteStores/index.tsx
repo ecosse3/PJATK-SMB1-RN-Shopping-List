@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { Text, FlatList, ScrollView, View } from 'react-native';
+import { Text, FlatList, View } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Geocode from 'react-geocode';
 import { FavoriteStoresStackParamList, ThemeType } from '../../utils/types';
 import {
   userState,
@@ -14,10 +16,16 @@ import {
   storeInEditModeState
 } from '../../store';
 import AddIcon, { AddIconActions } from '../../components/AddIcon';
-import { NoStoresContainer } from './index.styles';
+import {
+  LocationAddress,
+  LocationInfoContainer,
+  LocationTitle,
+  NoStoresContainer
+} from './index.styles';
 import StoresMap from '../../components/StoresMap';
 import StoreListItem from '../../components/StoreListItem';
 import AddEditFavoriteStoreScreen from '../AddEditFavoriteStore';
+import { useGeolocation } from '../../hooks/useGeolocation';
 
 interface IProps {
   theme: ThemeType;
@@ -25,6 +33,10 @@ interface IProps {
 
 const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
   const { theme } = props;
+
+  const position = useGeolocation();
+
+  const [nearbyAddress, setNearbyAddress] = useState('Wczytuje...');
 
   const favoriteStores = useRecoilValue(favoriteStoresState);
   const { totalQty } = useRecoilValue(favoriteStoresSelector);
@@ -46,6 +58,18 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
   );
 
   useEffect(() => {
+    Geocode.fromLatLng(position.latitude, position.longitude).then(
+      (response) => {
+        const address = response.results[0].formatted_address;
+        setNearbyAddress(address);
+      },
+      (error: string) => {
+        console.log(error);
+      }
+    );
+  }, [position]);
+
+  useEffect(() => {
     navigation.addListener('beforeRemove', (e) => {
       // Prevent default behavior of leaving the screen
       e.preventDefault();
@@ -59,7 +83,11 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
           <>
             <StoresMap theme={theme} />
             <AddIcon action={AddIconActions.ADD_STORE} />
-            <View style={{ marginBottom: 52 }} />
+            <LocationInfoContainer>
+              <Icon name="map-marker-alt" size={14} color={theme.colors.secondary} />
+              <LocationTitle>W pobliżu: </LocationTitle>
+              <LocationAddress>{nearbyAddress}</LocationAddress>
+            </LocationInfoContainer>
           </>
         }
         data={favoriteStores}
