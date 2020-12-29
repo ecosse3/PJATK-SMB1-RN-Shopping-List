@@ -6,8 +6,15 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { ThemeType } from 'types';
 import { useGeolocation } from 'hooks/useGeolocation';
-import { storeInEditModeState, tabBarVisibleState, useAddEditFavoriteStore } from 'store';
+import {
+  nearbyAddressState,
+  storeInEditModeState,
+  tabBarVisibleState,
+  useAddEditFavoriteStore
+} from 'store';
 import Header from 'components/Header';
+import { Fieldset } from 'components/Fieldset';
+import { View } from 'react-native';
 import {
   Text,
   Button,
@@ -15,7 +22,8 @@ import {
   Container,
   ButtonsContainer,
   InputsContainer,
-  Error
+  Error,
+  Bold
 } from './index.styles';
 
 interface IProps {
@@ -30,6 +38,7 @@ type RoutePropsType = {
     radius?: number;
     longitude?: number;
     latitude?: number;
+    address?: string;
   };
 };
 
@@ -39,6 +48,7 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
   const position = useGeolocation();
 
   const setTabBarVisible = useSetRecoilState(tabBarVisibleState);
+  const nearbyAddress = useRecoilValue(nearbyAddressState);
   const storeInEditMode = useRecoilValue(storeInEditModeState);
 
   const addEditFavoriteStore = useAddEditFavoriteStore();
@@ -51,12 +61,14 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
   const propsStoreRadius = route?.params?.radius;
   const propsStoreLongitude = route?.params?.longitude;
   const propsStoreLatitude = route?.params?.latitude;
+  const propsStoreAddress = route?.params?.address;
 
   const [storeName, setStoreName] = useState(propsStoreName || '');
   const [storeDescription, setStoreDescription] = useState(propsStoreDescription || '');
   const [storeRadius, setStoreRadius] = useState(propsStoreRadius?.toString() || '');
   const storeLongitude = propsStoreLongitude || position.longitude;
   const storeLatitude = propsStoreLatitude || position.latitude;
+  const storeAddress = propsStoreAddress || nearbyAddress;
 
   const priceRegex = /^\d+$/;
 
@@ -66,7 +78,8 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
     description: string,
     radius: string,
     longitude: number,
-    latitude: number
+    latitude: number,
+    address: string
   ) => {
     addEditFavoriteStore({
       id,
@@ -74,7 +87,8 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
       description,
       radius: Number(radius),
       longitude,
-      latitude
+      latitude,
+      address
     });
 
     navigation.navigate('FavoriteStoresScreen');
@@ -153,6 +167,18 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
               Promień nie może być mniejszy niż 50 metrów!
             </Error>
           )}
+          <Fieldset
+            title={storeInEditMode ? 'Lokalizacja sklepu' : 'Aktualna lokalizacja'}>
+            <Text size={14} noPadding>
+              <Bold>Adres:</Bold> {storeAddress}
+            </Text>
+            <Text size={14} noPadding>
+              <Bold>Szerokość geograficzna:</Bold> {storeLatitude}
+            </Text>
+            <Text size={14} noPadding>
+              <Bold>Długość geograficzna:</Bold> {storeLongitude}
+            </Text>
+          </Fieldset>
         </InputsContainer>
         <ButtonsContainer>
           <Button
@@ -170,7 +196,8 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
                 storeDescription,
                 storeRadius,
                 storeLongitude,
-                storeLatitude
+                storeLatitude,
+                storeAddress
               )
             }>
             <Text button>Zapisz</Text>

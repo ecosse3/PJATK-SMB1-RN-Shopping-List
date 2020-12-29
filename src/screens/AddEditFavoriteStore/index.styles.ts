@@ -59,3 +59,7 @@ export const Error = styled(HelperText)`
   color: #cb3b3b;
   margin-left: -5px;
 `;
+
+export const Bold = styled.Text`
+  font-weight: bold;
+`;
