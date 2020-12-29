@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { TextInput } from 'react-native-paper';
+import { HelperText, TextInput } from 'react-native-paper';
 import { rgba } from 'polished';
 import { ThemeType } from 'types';
 
@@ -54,7 +54,8 @@ export const Button = styled.TouchableOpacity<IProps>`
   border-radius: 5px;
 `;
 
-export const Error = styled.Text`
-  font-size: 8px;
+export const Error = styled(HelperText)`
+  font-size: 10px;
   color: #cb3b3b;
+  margin-left: -5px;
 `;

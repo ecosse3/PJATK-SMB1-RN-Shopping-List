@@ -89,7 +89,7 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
               }
             }}
             mode="outlined"
-            placeholder="Nazwa"
+            label="Nazwa"
             maxLength={20}
             onChangeText={(text) => setProductName(text)}
             value={productName}
@@ -103,7 +103,7 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
             }}
             mode="outlined"
             keyboardType="numeric"
-            placeholder="Cena"
+            label="Cena"
             maxLength={9}
             onChangeText={(text) => {
               setProductPrice(text);

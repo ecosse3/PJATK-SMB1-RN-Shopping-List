@@ -118,7 +118,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
           }
         }}
         mode="outlined"
-        placeholder="Imię"
+        label="Imię"
         maxLength={15}
         onChangeText={(text) => setName(text)}
         value={name}
@@ -131,7 +131,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
           }
         }}
         mode="outlined"
-        placeholder="Email"
+        label="Email"
         onChangeText={(text) => setEmail(text)}
         value={email}
       />
@@ -143,7 +143,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
           }
         }}
         mode="outlined"
-        placeholder="Hasło"
+        label="Hasło"
         secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
         value={password}

@@ -95,7 +95,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
           }
         }}
         mode="outlined"
-        placeholder="Email"
+        label="Email"
         onChangeText={(text) => setEmail(text)}
         value={email}
       />
@@ -107,7 +107,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
           }
         }}
         mode="outlined"
-        placeholder="Hasło"
+        label="Hasło"
         secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
         value={password}

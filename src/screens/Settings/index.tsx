@@ -102,7 +102,7 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
             }
           }}
           mode="outlined"
-          placeholder="Imię"
+          label="Imię"
           maxLength={15}
           onChangeText={(text) => setUsernameCopy(text)}
           value={usernameCopy}

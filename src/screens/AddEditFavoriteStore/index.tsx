@@ -58,7 +58,7 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
   const storeLongitude = propsStoreLongitude || position.longitude;
   const storeLatitude = propsStoreLatitude || position.latitude;
 
-  const [storeRadiusError, setStoreRadiusError] = useState(false);
+  const priceRegex = /^\d+$/;
 
   const checkAddFavoriteStore = (
     id: string,
@@ -68,13 +68,6 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
     longitude: number,
     latitude: number
   ) => {
-    const priceRegex = /^\d+$/;
-
-    if (!priceRegex.test(radius) || Number(radius) < 50) {
-      setStoreRadiusError(true);
-      return 0;
-    }
-
     addEditFavoriteStore({
       id,
       name,
@@ -112,7 +105,7 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
               }
             }}
             mode="outlined"
-            placeholder="Nazwa"
+            label="Nazwa"
             maxLength={20}
             onChangeText={(text) => setStoreName(text)}
             value={storeName}
@@ -125,7 +118,7 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
               }
             }}
             mode="outlined"
-            placeholder="Opis"
+            label="Opis"
             onChangeText={(text) => {
               setStoreDescription(text);
             }}
@@ -140,27 +133,36 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
             }}
             mode="outlined"
             keyboardType="number-pad"
-            placeholder="Promień (m)"
+            label="Promień (m)"
             onChangeText={(text) => {
-              setStoreRadiusError(false);
               setStoreRadius(text);
             }}
             value={storeRadius}
-            error={storeRadiusError}
           />
-          {storeRadiusError &&
-            storeRadius.length > 0 &&
-            Number.isNaN(Number(storeRadius)) && <Error>Proszę wprowadzić liczbę!</Error>}
-          {storeRadiusError && storeRadius.length === 0 && (
-            <Error>Proszę podać promień!</Error>
+          {storeRadius.length > 0 && Number.isNaN(Number(storeRadius)) && (
+            <Error
+              type="error"
+              visible={storeRadius.length > 0 && Number.isNaN(Number(storeRadius))}>
+              Proszę wprowadzić liczbę!
+            </Error>
           )}
-          {storeRadiusError && storeRadius.length !== 0 && Number(storeRadius) < 50 && (
-            <Error>Promień nie może być mniejszy niż 50 metrów!</Error>
+          {storeRadius.length !== 0 && Number(storeRadius) < 50 && (
+            <Error
+              type="error"
+              visible={storeRadius.length !== 0 && Number(storeRadius) < 50}>
+              Promień nie może być mniejszy niż 50 metrów!
+            </Error>
           )}
         </InputsContainer>
         <ButtonsContainer>
           <Button
-            disabled={storeName.length === 0 || storeDescription.length === 0}
+            disabled={
+              storeName.length === 0 ||
+              storeDescription.length === 0 ||
+              storeRadius.length === 0 ||
+              !priceRegex.test(storeRadius) ||
+              Number(storeRadius) < 50
+            }
             onPress={() =>
               checkAddFavoriteStore(
                 propsStoreId || uuidv4(),
