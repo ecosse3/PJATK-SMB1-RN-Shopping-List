@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
 import {
@@ -9,7 +10,9 @@ import {
   InfoContainer,
   IconContainer,
   ButtonsContainer,
-  TopContainer
+  TopContainer,
+  Radius,
+  RadiusText
 } from './index.styles';
 import { StoreType, ThemeType } from '../../utils/types';
 import { storeInEditModeState, useRemoveFavoriteStore } from '../../store';
@@ -49,6 +52,10 @@ const StoreListItem: React.FC<IProps> = (props: IProps) => {
         <InfoContainer>
           <TopContainer>
             <Name>{name}</Name>
+            <Radius>
+              <Icon2 name="radius-outline" size={10} />
+              <RadiusText>{radius}m</RadiusText>
+            </Radius>
           </TopContainer>
           <Description>{description}</Description>
         </InfoContainer>

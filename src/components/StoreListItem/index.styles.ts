@@ -60,3 +60,16 @@ export const Description = styled.Text`
   color: #979797;
   font-size: 12px;
 `;
+
+export const RadiusText = styled.Text`
+  margin-left: 2px;
+  font-size: 8px;
+  font-style: italic;
+`;
+
+export const Radius = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 5px;
+`;

@@ -25,7 +25,7 @@ import {
 } from '../../store';
 import AddIcon, { AddIconActions } from '../../components/AddIcon';
 import { NoProductsContainer, TotalCostContainer, Value } from './index.styles';
-import Product from '../../components/Product';
+import ProductListItem from '../../components/ProductListItem';
 import AddEditProductScreen from '../AddEditProduct';
 import LoginScreen from '../Login';
 
@@ -50,7 +50,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
   const navigation = useNavigation<StackNavigationProp<ShoppingListStackParamList>>();
 
   const renderProduct = ({ item }) => (
-    <Product
+    <ProductListItem
       id={item.id}
       name={item.name}
       price={item.price}
