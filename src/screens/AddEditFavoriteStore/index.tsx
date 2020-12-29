@@ -72,8 +72,6 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
     longitude: number,
     latitude: number
   ) => {
-    console.log('position longitude: ', position.longitude);
-
     addEditFavoriteStore({ id, name, description, radius, longitude, latitude });
 
     navigation.navigate('FavoriteStoresScreen');

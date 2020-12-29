@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 
 export const ListContainer = styled.View`
-  flex-direction: row;
   align-items: center;
   margin-top: 52px;
+  margin-bottom: 52px;
 `;
 
 export const NoStoresContainer = styled.View`

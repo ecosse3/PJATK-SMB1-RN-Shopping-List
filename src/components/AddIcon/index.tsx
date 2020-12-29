@@ -1,9 +1,9 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-import { View } from 'react-native';
 
 import { useSetRecoilState } from 'recoil';
+import { View } from 'react-native';
 import { Container } from './index.styles';
 import { productInEditModeState, storeInEditModeState } from '../../store';
 

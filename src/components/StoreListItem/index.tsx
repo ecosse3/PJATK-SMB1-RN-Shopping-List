@@ -12,21 +12,24 @@ import {
   TopContainer
 } from './index.styles';
 import { StoreType, ThemeType } from '../../utils/types';
-import { productInEditModeState, useRemoveFavoriteStore } from '../../store';
+import { storeInEditModeState, useRemoveFavoriteStore } from '../../store';
 
 interface IProps {
   id: StoreType['id'];
   name: StoreType['name'];
   description: StoreType['description'];
+  radius: StoreType['radius'];
+  longitude: StoreType['longitude'];
+  latitude: StoreType['latitude'];
   theme: ThemeType;
 }
 
 const StoreListItem: React.FC<IProps> = (props: IProps) => {
-  const { id, name, description, theme } = props;
+  const { id, name, description, radius, longitude, latitude, theme } = props;
 
   const navigation = useNavigation();
   const removeFavoriteStore = useRemoveFavoriteStore();
-  const setProductInEditMode = useSetRecoilState(productInEditModeState);
+  const setStoreInEditMode = useSetRecoilState(storeInEditModeState);
 
   return (
     <TouchableContainer
@@ -34,9 +37,13 @@ const StoreListItem: React.FC<IProps> = (props: IProps) => {
       onPress={() => {
         navigation.navigate('AddEditFavoriteStoreScreen', {
           id,
-          name
+          name,
+          description,
+          radius,
+          longitude,
+          latitude
         });
-        setProductInEditMode(true);
+        setStoreInEditMode(true);
       }}>
       <>
         <InfoContainer>

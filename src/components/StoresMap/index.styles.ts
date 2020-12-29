@@ -18,7 +18,7 @@ export const ArrowContainer = styled.View`
   display: flex;
   justify-content: center;
   align-items: center;
-  left: ${Dimensions.get('window').width / 2 - 15};
+  left: ${Dimensions.get('window').width / 2 - 15}px;
   bottom: 5px;
   border-radius: 15px;
   width: 30px;

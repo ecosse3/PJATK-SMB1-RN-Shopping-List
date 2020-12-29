@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { Text, FlatList } from 'react-native';
+import { Text, FlatList, ScrollView } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
@@ -38,6 +38,9 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
       id={item.id}
       name={item.name}
       description={item.description}
+      radius={item.radius}
+      latitude={item.latitude}
+      longitude={item.longitude}
       theme={theme}
     />
   );
@@ -52,16 +55,18 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
   if (!loading && user) {
     return (
       <>
-        <StoresMap />
+        <StoresMap theme={theme} />
         <AddIcon action={AddIconActions.ADD_STORE} />
         {totalQty !== 0 && (
-          <ListContainer>
-            <FlatList
-              data={favoriteStores}
-              renderItem={renderStore}
-              keyExtractor={(item) => item.id}
-            />
-          </ListContainer>
+          <ScrollView>
+            <ListContainer>
+              <FlatList
+                data={favoriteStores}
+                renderItem={renderStore}
+                keyExtractor={(item) => item.id}
+              />
+            </ListContainer>
+          </ScrollView>
         )}
         {totalQty === 0 && (
           <NoStoresContainer>
