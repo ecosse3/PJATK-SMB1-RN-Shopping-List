@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil';
 import SQLite from 'react-native-sqlite-storage';
+import Geocode from 'react-geocode';
 import SCThemeProvider from './src/utils/SCThemeProvider';
 import { createTable } from './src/utils/sqlite';
 
@@ -18,6 +19,10 @@ const App: React.FC = () => {
       }
     );
     createTable(db);
+
+    Geocode.setApiKey(process.env.REACT_APP_MAPS_API_KEY);
+    Geocode.setLanguage('pl');
+    Geocode.setRegion('pl');
   }, []);
 
   return (
