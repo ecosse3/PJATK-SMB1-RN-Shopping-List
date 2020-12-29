@@ -81,7 +81,7 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
   return (product: ProductType) => {
     const { clone, index } = cloneIndex(products, product.id);
 
-    if (index !== -1) {
+    if (index !== -1 && user !== null) {
       clone[index].name = product.name;
       clone[index].price = product.price;
       clone[index].amount = product.amount;
@@ -98,11 +98,13 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
         text: `Dodano ${product.amount}x ${product.name} do listy zakupów`,
         type: SendIntentAndroid.TEXT_PLAIN
       });
-      setShoppingList(
-        user.uid,
-        [...clone, { ...product, inBasket: false }],
-        isGlobalList
-      );
+      if (user !== null) {
+        setShoppingList(
+          user.uid,
+          [...clone, { ...product, inBasket: false }],
+          isGlobalList
+        );
+      }
     }
   };
 };
@@ -116,11 +118,13 @@ export const useRemoveProduct = (): ((productId: string) => void) => {
     setProducts(products.filter((item) => item.id !== productId));
     saveProducts(products.filter((item) => item.id !== productId));
     deleteProduct(db, productId);
-    setShoppingList(
-      user.uid,
-      products.filter((item) => item.id !== productId),
-      isGlobalList
-    );
+    if (user !== null) {
+      setShoppingList(
+        user.uid,
+        products.filter((item) => item.id !== productId),
+        isGlobalList
+      );
+    }
   };
 };
 
@@ -135,8 +139,8 @@ export const useToggleProductInBasket = (): ((productId: string) => void) => {
     clone[index].inBasket = !clone[index].inBasket;
     setProducts(clone);
     saveProducts(clone);
-    updateProductBasketStatus(db, productId, clone[index].inBasket);
-    setShoppingList(user.uid, clone, isGlobalList);
+    updateProductBasketStatus(db, productId, clone[index].inBasket!);
+    if (user !== null) setShoppingList(user.uid, clone, isGlobalList);
   };
 };
 
@@ -149,7 +153,7 @@ export const useAddEditFavoriteStore = (): ((store: StoreType) => void) => {
   return (store: StoreType) => {
     const { clone, index } = cloneIndexStore(stores, store.id);
 
-    if (index !== -1) {
+    if (index !== -1 && user !== null) {
       clone[index].name = store.name;
       clone[index].description = store.description;
       clone[index].radius = store.radius;
@@ -157,7 +161,7 @@ export const useAddEditFavoriteStore = (): ((store: StoreType) => void) => {
       setFavoriteStores(user.uid, clone);
     } else {
       setStores([...clone, { ...store }]);
-      setFavoriteStores(user.uid, [...clone, { ...store }]);
+      if (user !== null) setFavoriteStores(user.uid, [...clone, { ...store }]);
     }
   };
 };
@@ -168,9 +172,10 @@ export const useRemoveFavoriteStore = (): ((storeId: string) => void) => {
 
   return (storeId: string) => {
     setStores(stores.filter((item) => item.id !== storeId));
-    setFavoriteStores(
-      user.uid,
-      stores.filter((item) => item.id !== storeId)
-    );
+    if (user !== null)
+      setFavoriteStores(
+        user.uid,
+        stores.filter((item) => item.id !== storeId)
+      );
   };
 };

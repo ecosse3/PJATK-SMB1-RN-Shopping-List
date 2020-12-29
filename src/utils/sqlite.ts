@@ -4,7 +4,7 @@ import { ProductType } from './types';
 export const executeQuery = (
   db: SQLiteDatabase,
   sql: string,
-  params = []
+  params: string[] = []
 ): Promise<ResultSet> =>
   new Promise((resolve, reject) => {
     db.transaction((trans) => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { Text, FlatList, Keyboard } from 'react-native';
+import { Text, FlatList, Keyboard, ListRenderItem } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -11,7 +11,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import WelcomeScreen from '../Welcome';
 import Header from '../../components/Header';
-import { ShoppingListStackParamList, ThemeType } from '../../utils/types';
+import { ProductType, ShoppingListStackParamList, ThemeType } from '../../utils/types';
 import {
   tabBarVisibleState,
   productInEditModeState,
@@ -49,7 +49,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
   const navigation = useNavigation<StackNavigationProp<ShoppingListStackParamList>>();
 
-  const renderProduct = ({ item }) => (
+  const renderProduct: ListRenderItem<ProductType> = ({ item }) => (
     <ProductListItem
       id={item.id}
       name={item.name}
@@ -93,9 +93,9 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
           if (
             shoppingList.data()?.products &&
-            typeof shoppingList.data().products !== 'undefined'
+            typeof shoppingList.data()?.products !== 'undefined'
           ) {
-            setProducts(shoppingList.data().products);
+            setProducts(shoppingList.data()?.products);
           } else {
             setProducts([]);
           }
@@ -115,9 +115,9 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
           if (
             favoriteStores.data()?.stores &&
-            typeof favoriteStores.data().stores !== 'undefined'
+            typeof favoriteStores.data()?.stores !== 'undefined'
           ) {
-            setFavoriteStores(favoriteStores.data().stores);
+            setFavoriteStores(favoriteStores.data()?.stores);
           } else {
             setFavoriteStores([]);
           }
@@ -202,7 +202,7 @@ const ShoppingList: React.FC<IProps> = ({ theme }: IProps) => {
           headerStyle: {
             backgroundColor: theme.colors.secondary
           },
-          headerLeft: null,
+          headerLeft: undefined,
           headerRight: () => (
             <Icon3
               name="sign-out-alt"

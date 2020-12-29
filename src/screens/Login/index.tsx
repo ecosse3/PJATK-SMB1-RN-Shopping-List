@@ -32,7 +32,7 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
 
         if (userCredentials.user) {
           setUser(userCredentials.user);
-          setLoadedName(userCredentials.user.displayName);
+          setLoadedName(userCredentials.user.displayName!);
         }
 
         navigation.popToTop();
@@ -165,7 +165,7 @@ const Login: React.FC<IProps> = ({ theme }: IProps) => {
         children={() => <ShoppingListScreen theme={theme} />}
         options={{
           header: () => null,
-          headerLeft: null
+          headerLeft: undefined
         }}
       />
     </Stack.Navigator>

@@ -14,6 +14,7 @@ const App: React.FC = () => {
         name: 'SQLite-s22004-products',
         location: 'default'
       },
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       () => {},
       (error) => {
         console.log(`ERROR: ${error}`);

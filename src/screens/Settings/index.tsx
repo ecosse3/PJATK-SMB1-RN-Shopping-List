@@ -46,7 +46,7 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
   const saveName = async () => {
     try {
       await AsyncStorage.setItem('@username', usernameCopy);
-      await auth().currentUser.updateProfile({ displayName: usernameCopy });
+      await auth().currentUser?.updateProfile({ displayName: usernameCopy });
       setUsername(usernameCopy);
     } catch (err) {
       console.log(err);
@@ -57,9 +57,9 @@ const SettingsScreen: React.FC<IProps> = (props: IProps) => {
     try {
       setCurrentTheme(id);
       await AsyncStorage.setItem('@theme', `${id}`);
-      await firestore().collection('users').doc(user.uid).set({
-        name: user.displayName,
-        email: user.email,
+      await firestore().collection('users').doc(user?.uid).set({
+        name: user?.displayName,
+        email: user?.email,
         theme: id
       });
     } catch (err) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -19,13 +19,10 @@ const SCThemeProvider: React.FC = () => {
       try {
         const result = await AsyncStorage.getItem('@theme');
 
-        const userData = await firestore()
-          .collection('users')
-          .doc(user?.uid)
-          .get();
+        const userData = await firestore().collection('users').doc(user?.uid).get();
 
         if (userData.data()) {
-          setCurrentTheme(userData.data().theme);
+          setCurrentTheme(userData.data()?.theme);
           setLoading(false);
         } else {
           setCurrentTheme(0);

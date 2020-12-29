@@ -31,7 +31,7 @@ interface IProps {
 const ProductListItem: React.FC<IProps> = (props: IProps) => {
   const { id, name, price, amount, inBasket, theme } = props;
 
-  const [productBought, setProductBought] = useState(inBasket);
+  const [productBought, setProductBought] = useState<boolean | undefined>(inBasket);
 
   const navigation = useNavigation();
   const removeProduct = useRemoveProduct();

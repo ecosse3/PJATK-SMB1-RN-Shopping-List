@@ -50,7 +50,7 @@ export const TopContainer = styled.View`
   align-items: center;
 `;
 
-export const Name = styled.Text<{ inBasket: boolean }>`
+export const Name = styled.Text<{ inBasket: boolean | undefined }>`
   font-weight: bold;
   font-size: 16px;
   margin-bottom: 2px;

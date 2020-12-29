@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { Text, FlatList, View } from 'react-native';
+import { Text, FlatList, View, ListRenderItem } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geocode from 'react-geocode';
-import { FavoriteStoresStackParamList, ThemeType } from '../../utils/types';
+import { FavoriteStoresStackParamList, StoreType, ThemeType } from '../../utils/types';
 import {
   userState,
   loadingState,
@@ -45,7 +45,7 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
 
   const navigation = useNavigation<StackNavigationProp<FavoriteStoresStackParamList>>();
 
-  const renderStore = ({ item }) => (
+  const renderStore: ListRenderItem<StoreType> = ({ item }) => (
     <StoreListItem
       id={item.id}
       name={item.name}
@@ -58,7 +58,7 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
   );
 
   useEffect(() => {
-    Geocode.fromLatLng(position.latitude, position.longitude).then(
+    Geocode.fromLatLng(position.latitude.toString(), position.longitude.toString()).then(
       (response) => {
         const address = response.results[0].formatted_address;
         setNearbyAddress(address);
@@ -131,7 +131,7 @@ const FavoriteStores: React.FC<IProps> = ({ theme }: IProps) => {
           headerStyle: {
             backgroundColor: theme.colors.secondary
           },
-          headerLeft: null
+          headerLeft: undefined
         })}
       />
       <Stack.Screen
