@@ -61,3 +61,8 @@ export const userPositionState = atom<GeolocationDataType>({
     longitudeDelta: 0.01
   }
 });
+
+export const nearbyAddressState = atom<string>({
+  key: 'nearbyAddressState',
+  default: 'Wczytuje...'
+});

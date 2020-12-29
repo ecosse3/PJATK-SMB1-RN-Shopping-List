@@ -8,7 +8,8 @@ export {
   loadingState,
   globalProductListState,
   favoriteStoresState,
-  storeInEditModeState
+  storeInEditModeState,
+  nearbyAddressState
 } from './atoms';
 
 export { productListSelector, favoriteStoresSelector } from './selectors';
