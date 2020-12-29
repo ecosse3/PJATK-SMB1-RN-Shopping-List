@@ -13,7 +13,11 @@ import {
   TopContainer
 } from './index.styles';
 import { ProductType, ThemeType } from '../../utils/types';
-import { productInEditModeState, useRemoveProduct, useToggleProductInBasket } from '../../store';
+import {
+  productInEditModeState,
+  useRemoveProduct,
+  useToggleProductInBasket
+} from '../../store';
 
 interface IProps {
   id: ProductType['id'];
@@ -24,7 +28,7 @@ interface IProps {
   theme: ThemeType;
 }
 
-const Product: React.FC<IProps> = (props: IProps) => {
+const ProductListItem: React.FC<IProps> = (props: IProps) => {
   const { id, name, price, amount, inBasket, theme } = props;
 
   const [productBought, setProductBought] = useState(inBasket);
@@ -83,4 +87,4 @@ const Product: React.FC<IProps> = (props: IProps) => {
   );
 };
 
-export default Product;
+export default ProductListItem;
