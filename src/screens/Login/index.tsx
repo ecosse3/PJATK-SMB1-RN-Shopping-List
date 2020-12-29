@@ -36,7 +36,6 @@ const LoginScreen: React.FC<IProps> = (props: IProps) => {
         }
 
         navigation.popToTop();
-        navigation.navigate('ShoppingListScreen');
       })
       .catch((error) => {
         switch (error.code) {

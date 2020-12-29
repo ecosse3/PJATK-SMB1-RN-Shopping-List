@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import { Text, FlatList, ScrollView } from 'react-native';
+import { Text, FlatList, ScrollView, View } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRecoilValue } from 'recoil';
@@ -14,7 +14,7 @@ import {
   storeInEditModeState
 } from '../../store';
 import AddIcon, { AddIconActions } from '../../components/AddIcon';
-import { NoStoresContainer, ListContainer } from './index.styles';
+import { NoStoresContainer } from './index.styles';
 import StoresMap from '../../components/StoresMap';
 import StoreListItem from '../../components/StoreListItem';
 import AddEditFavoriteStoreScreen from '../AddEditFavoriteStore';
@@ -52,27 +52,30 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
     });
   }, [navigation]);
 
-  if (!loading && user) {
+  if (!loading && user && totalQty !== 0) {
+    return (
+      <FlatList
+        ListHeaderComponent={
+          <>
+            <StoresMap theme={theme} />
+            <AddIcon action={AddIconActions.ADD_STORE} />
+            <View style={{ marginBottom: 52 }} />
+          </>
+        }
+        data={favoriteStores}
+        renderItem={renderStore}
+        keyExtractor={(item) => item.id}
+        ListFooterComponent={<View style={{ marginBottom: 52 }} />}
+      />
+    );
+  } else if (!loading && user && totalQty === 0) {
     return (
       <>
         <StoresMap theme={theme} />
         <AddIcon action={AddIconActions.ADD_STORE} />
-        {totalQty !== 0 && (
-          <ScrollView>
-            <ListContainer>
-              <FlatList
-                data={favoriteStores}
-                renderItem={renderStore}
-                keyExtractor={(item) => item.id}
-              />
-            </ListContainer>
-          </ScrollView>
-        )}
-        {totalQty === 0 && (
-          <NoStoresContainer>
-            <Text>Nie posiadasz ulubionych sklepów!</Text>
-          </NoStoresContainer>
-        )}
+        <NoStoresContainer>
+          <Text>Nie posiadasz ulubionych sklepów!</Text>
+        </NoStoresContainer>
       </>
     );
   } else {
