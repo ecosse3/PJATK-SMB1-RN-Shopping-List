@@ -53,3 +53,8 @@ export const Button = styled.TouchableOpacity<IProps>`
   margin-bottom: 10px;
   border-radius: 5px;
 `;
+
+export const Error = styled.Text`
+  font-size: 8px;
+  color: #cb3b3b;
+`;
