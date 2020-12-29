@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { ThemeType } from 'types';
 import {
   Text,
   Button,
@@ -18,7 +19,6 @@ import {
   useAddEditFavoriteStore
 } from '../../store';
 import Header from '../../components/Header';
-import { ThemeType } from '../../utils/types';
 import { useGeolocation } from '../../hooks/useGeolocation';
 
 interface IProps {

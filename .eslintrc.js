@@ -75,6 +75,7 @@ module.exports = {
     'object-curly-spacing': ['warn', 'always'],
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/no-unused-vars': 0,
     'global-require': 0,
     'prettier/prettier': [
       'warn',

@@ -1,3 +1,3 @@
 module.exports = {
-  placeholderName: 'PjatkSmb1RnShoppingList',
+  placeholderName: 'PjatkSmb1RnShoppingList'
 };

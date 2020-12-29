@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
+import { ProductType, ThemeType } from 'types';
 import {
   TouchableContainer,
   Name,
@@ -12,7 +13,6 @@ import {
   Quantity,
   TopContainer
 } from './index.styles';
-import { ProductType, ThemeType } from '../../utils/types';
 import {
   productInEditModeState,
   useRemoveProduct,

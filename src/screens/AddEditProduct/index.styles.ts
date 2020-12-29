@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { TextInput } from 'react-native-paper';
 import { rgba } from 'polished';
-import { ThemeType } from '../../utils/types';
+import { ThemeType } from 'types';
 
 interface IProps {
   theme: ThemeType;
@@ -35,8 +35,7 @@ export const Text = styled.Text<{
 }>`
   font-size: ${(props) => (props.size ? `${props.size}px` : '20px')};
   font-weight: 500;
-  color: ${(props) =>
-    props.color ? props.color : props.button ? 'white' : 'black'};
+  color: ${(props) => (props.color ? props.color : props.button ? 'white' : 'black')};
   padding: ${(props) => (props.button || props.noPadding ? '0px' : '20px')};
 `;
 
@@ -52,9 +51,7 @@ export const Input = styled(TextInput)`
 
 export const Button = styled.TouchableOpacity<IProps>`
   background: ${(props) =>
-    props.disabled
-      ? rgba(props.theme.colors.primary, 0.5)
-      : props.theme.colors.primary};
+    props.disabled ? rgba(props.theme.colors.primary, 0.5) : props.theme.colors.primary};
   width: 100%;
   align-items: center;
   padding: 10px;

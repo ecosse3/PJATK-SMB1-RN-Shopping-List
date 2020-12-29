@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
-import {
-  createStackNavigator,
-  StackNavigationProp
-} from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Snackbar from 'react-native-snackbar';
+import { RegisterStackParamList, ThemeType } from 'types';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
 import { usernameState, userState } from '../../store';
-import { RegisterStackParamList, ThemeType } from '../../utils/types';
 
 interface IProps {
   theme: ThemeType;
@@ -27,9 +24,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
   const setLoadedName = useSetRecoilState(usernameState);
   const setUser = useSetRecoilState(userState);
 
-  const navigation = useNavigation<
-    StackNavigationProp<RegisterStackParamList>
-  >();
+  const navigation = useNavigation<StackNavigationProp<RegisterStackParamList>>();
 
   const saveName = async () => {
     try {
@@ -154,9 +149,7 @@ const RegisterScreen: React.FC<IProps> = (props: IProps) => {
         value={password}
       />
       <Button
-        disabled={
-          email.length === 0 || password.length === 0 || name.length < 2
-        }
+        disabled={email.length === 0 || password.length === 0 || name.length < 2}
         onPress={() => register()}>
         <Text button>Zarejestruj</Text>
       </Button>

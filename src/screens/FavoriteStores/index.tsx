@@ -7,7 +7,12 @@ import { useRecoilValue } from 'recoil';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geocode from 'react-geocode';
-import { FavoriteStoresStackParamList, StoreType, ThemeType } from '../../utils/types';
+import {
+  AddIconActions,
+  FavoriteStoresStackParamList,
+  StoreType,
+  ThemeType
+} from 'types';
 import {
   userState,
   loadingState,
@@ -15,7 +20,7 @@ import {
   favoriteStoresSelector,
   storeInEditModeState
 } from '../../store';
-import AddIcon, { AddIconActions } from '../../components/AddIcon';
+import AddIcon from '../../components/AddIcon';
 import {
   LocationAddress,
   LocationInfoContainer,

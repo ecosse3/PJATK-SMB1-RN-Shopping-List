@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { TextInput } from 'react-native-paper';
 import { rgba } from 'polished';
-import { ThemeType } from '../../utils/types';
+import { ThemeType } from 'types';
 
 interface IProps {
   theme: ThemeType;

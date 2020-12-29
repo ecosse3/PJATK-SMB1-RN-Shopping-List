@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { ThemeType } from '../../utils/types';
+import { ThemeType } from 'types';
 
 interface IProps {
   theme: ThemeType;

@@ -3,9 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useRecoilValue } from 'recoil';
+import { TabParamList, ThemeType } from 'types';
 import ShoppingList from '../../screens/ShoppingList';
 import Settings from '../../screens/Settings';
-import { TabParamList, ThemeType } from '../../utils/types';
 import {
   tabBarVisibleState,
   productListSelector,
@@ -47,11 +47,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
             tabBarBadgeStyle: { backgroundColor: theme.colors.badge },
             tabBarVisible: isTabBarVisible && !!user,
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                name="cart-outline"
-                color={color}
-                size={26}
-              />
+              <MaterialCommunityIcons name="cart-outline" color={color} size={26} />
             )
           }}
         />
@@ -79,11 +75,7 @@ const Navigator: React.FC<IProps> = (props: IProps) => {
             tabBarLabel: 'Ustawienia',
             tabBarVisible: isTabBarVisible && !!user,
             tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons
-                name="cog-outline"
-                color={color}
-                size={26}
-              />
+              <MaterialCommunityIcons name="cog-outline" color={color} size={26} />
             )
           }}
         />

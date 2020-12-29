@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "lint": "eslint ."
+    "android": "yarn react-native run-android",
+    "ios": "yarn react-native run-ios",
+    "start": "yarn react-native start",
+    "lint": "yarn eslint .",
+    "build": "yarn tsc"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
@@ -59,6 +60,7 @@
     "@react-native-community/eslint-config": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^4.7.0",
     "@typescript-eslint/parser": "^4.7.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^6.15.0",

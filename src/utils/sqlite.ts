@@ -1,5 +1,5 @@
 import { ResultSet, SQLiteDatabase } from 'react-native-sqlite-storage';
-import { ProductType } from './types';
+import { ProductType } from 'types';
 
 export const executeQuery = (
   db: SQLiteDatabase,
@@ -11,7 +11,7 @@ export const executeQuery = (
       trans.executeSql(
         sql,
         params,
-        (trans, results) => {
+        (_, results) => {
           resolve(results);
         },
         (error) => {

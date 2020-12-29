@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { useSetRecoilState } from 'recoil';
+import { StoreType, ThemeType } from 'types';
 import {
   TouchableContainer,
   Name,
@@ -14,7 +15,6 @@ import {
   Radius,
   RadiusText
 } from './index.styles';
-import { StoreType, ThemeType } from '../../utils/types';
 import { storeInEditModeState, useRemoveFavoriteStore } from '../../store';
 
 interface IProps {

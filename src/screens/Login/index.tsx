@@ -5,9 +5,9 @@ import { createStackNavigator, StackNavigationProp } from '@react-navigation/sta
 import auth from '@react-native-firebase/auth';
 import Snackbar from 'react-native-snackbar';
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
+import { LoginStackParamList, ThemeType } from 'types';
 import { Container, Text, Button, NameInput, WaveHand } from './index.styles';
 import { usernameState, userState } from '../../store';
-import { LoginStackParamList, ThemeType } from '../../utils/types';
 import RegisterScreen from '../Register';
 import ShoppingListScreen from '../ShoppingList';
 

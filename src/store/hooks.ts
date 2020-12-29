@@ -3,13 +3,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import SQLite from 'react-native-sqlite-storage';
 import SendIntentAndroid from 'react-native-send-intent';
 import firestore from '@react-native-firebase/firestore';
+import { ProductType, StoreType } from 'types';
 import {
   productListState,
   userState,
   globalProductListState,
   favoriteStoresState
 } from './atoms';
-import { ProductType, StoreType } from '../utils/types';
 import {
   deleteProduct,
   insertProduct,

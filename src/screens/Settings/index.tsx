@@ -6,8 +6,8 @@ import { ListItem, Radio, Right, Left, Text } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { SettingsStackParamList, ThemeType } from 'types';
 import Header from '../../components/Header';
-import { SettingsStackParamList, ThemeType } from '../../utils/types';
 import {
   globalProductListState,
   themeState,

@@ -1,6 +1,6 @@
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { atom } from 'recoil';
-import { GeolocationDataType, ProductType, StoreType } from '../utils/types';
+import { GeolocationDataType, ProductType, StoreType } from 'types';
 
 export const userState = atom<FirebaseAuthTypes.User | null>({
   key: 'userState',

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { ThemeType } from 'types';
 import {
   Text,
   Button,
@@ -14,9 +15,12 @@ import {
   AmountContainer,
   AmountValue
 } from './index.styles';
-import { productInEditModeState, tabBarVisibleState, useAddEditProduct } from '../../store';
+import {
+  productInEditModeState,
+  tabBarVisibleState,
+  useAddEditProduct
+} from '../../store';
 import Header from '../../components/Header';
-import { ThemeType } from '../../utils/types';
 
 interface IProps {
   theme: ThemeType;
@@ -135,7 +139,14 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
         <ButtonsContainer>
           <Button
             disabled={productName.length === 0 || productPrice.length === 0}
-            onPress={() => checkAddProduct(propsProductId || uuidv4(), productName, productPrice, productAmount)}>
+            onPress={() =>
+              checkAddProduct(
+                propsProductId || uuidv4(),
+                productName,
+                productPrice,
+                productAmount
+              )
+            }>
             <Text button>Zapisz</Text>
           </Button>
         </ButtonsContainer>

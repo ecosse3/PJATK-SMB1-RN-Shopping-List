@@ -4,17 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import { useSetRecoilState } from 'recoil';
 import { View } from 'react-native';
+import { AddIconActions, AddIconActionsType } from 'types';
 import { Container } from './index.styles';
 import { productInEditModeState, storeInEditModeState } from '../../store';
 
-// eslint-disable-next-line no-shadow
-export enum AddIconActions {
-  ADD_PRODUCT,
-  ADD_STORE
-}
-
 interface IAddIconProps {
-  action: AddIconActions;
+  action: AddIconActionsType;
 }
 
 const AddIcon: React.FC<IAddIconProps> = ({ action }) => {
