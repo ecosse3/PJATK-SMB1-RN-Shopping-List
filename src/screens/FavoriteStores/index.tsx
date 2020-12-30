@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { Text, FlatList, View, ListRenderItem } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -58,6 +58,7 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
       radius={item.radius}
       latitude={item.latitude}
       longitude={item.longitude}
+      address={item.address}
       theme={theme}
     />
   );
@@ -106,6 +107,11 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
       <>
         <StoresMap theme={theme} />
         <AddIcon action={AddIconActions.ADD_STORE} />
+        <LocationInfoContainer>
+          <Icon name="map-marker-alt" size={14} color={theme.colors.secondary} />
+          <LocationTitle>W pobliżu: </LocationTitle>
+          <LocationAddress>{nearbyAddress}</LocationAddress>
+        </LocationInfoContainer>
         <NoStoresContainer>
           <Text>Nie posiadasz ulubionych sklepów!</Text>
         </NoStoresContainer>

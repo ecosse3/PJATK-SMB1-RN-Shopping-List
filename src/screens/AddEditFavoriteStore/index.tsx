@@ -14,7 +14,6 @@ import {
 } from 'store';
 import Header from 'components/Header';
 import { Fieldset } from 'components/Fieldset';
-import { View } from 'react-native';
 import {
   Text,
   Button,
