@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Circle, Marker } from 'react-native-maps';
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useRecoilValue } from 'recoil';
@@ -38,6 +38,22 @@ const StoresMap: React.FC<IStoresMapProps> = ({ theme }) => {
     setHeightValue(res.value);
   });
 
+  const getFillColor = (color: string) => {
+    switch (color) {
+      default:
+      case 'red':
+        return 'rgba(255, 0, 0, 0.2)';
+    }
+  };
+
+  const getStrokeColor = (color: string) => {
+    switch (color) {
+      default:
+      case 'red':
+        return 'rgba(255, 0, 0, 0.5)';
+    }
+  };
+
   useEffect(() => {
     return animatedHeight.removeListener(unsubscribe);
   }, []);
@@ -54,12 +70,20 @@ const StoresMap: React.FC<IStoresMapProps> = ({ theme }) => {
             />
           </Marker>
           {favoriteStores.map((store) => (
-            <Marker
-              key={store.id}
-              title={store.name}
-              description={store.description}
-              coordinate={{ latitude: store.latitude, longitude: store.longitude }}
-            />
+            <>
+              <Marker
+                key={store.id}
+                title={store.name}
+                description={store.description}
+                coordinate={{ latitude: store.latitude, longitude: store.longitude }}
+              />
+              <Circle
+                center={{ latitude: store.latitude, longitude: store.longitude }}
+                radius={store.radius}
+                fillColor="rgba(255, 0, 0, 0.2)"
+                strokeColor="rgba(255, 0, 0, 0.5)"
+              />
+            </>
           ))}
         </>
       </MapView>
