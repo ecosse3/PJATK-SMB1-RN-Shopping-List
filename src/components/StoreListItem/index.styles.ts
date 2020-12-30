@@ -18,7 +18,7 @@ export const TouchableContainer = styled.TouchableOpacity<IProps>`
 `;
 
 export const InfoContainer = styled.View`
-  margin-left: 10px;
+  margin-left: 15px;
   width: 70%;
 `;
 
@@ -42,12 +42,19 @@ export const ButtonsContainer = styled.View`
   flex-direction: row;
   justify-content: flex-end;
   width: 30%;
-  padding-right: 15px;
+  padding-right: 20px;
 `;
 
 export const TopContainer = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+
+export const NameView = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: -12px;
 `;
 
 export const Name = styled.Text`
@@ -72,4 +79,12 @@ export const Radius = styled.View`
   flex-direction: row;
   align-items: center;
   margin-left: 5px;
+`;
+
+export const Dot = styled.View<{ color: string }>`
+  background-color: ${(props) => props.color};
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  margin-right: 4px;
 `;

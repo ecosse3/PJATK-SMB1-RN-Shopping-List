@@ -15,7 +15,9 @@ import {
   ButtonsContainer,
   TopContainer,
   Radius,
-  RadiusText
+  RadiusText,
+  Dot,
+  NameView
 } from './index.styles';
 
 interface IProps {
@@ -72,7 +74,10 @@ const StoreListItem: React.FC<IProps> = (props: IProps) => {
       <>
         <InfoContainer>
           <TopContainer>
-            <Name>{name}</Name>
+            <NameView>
+              <Dot color={color} />
+              <Name>{name}</Name>
+            </NameView>
             <Radius>
               <Icon2 name="radius-outline" size={10} />
               <RadiusText>{radius}m</RadiusText>

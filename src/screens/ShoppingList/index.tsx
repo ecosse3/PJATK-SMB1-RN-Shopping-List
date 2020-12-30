@@ -57,6 +57,7 @@ const ShoppingListScreen: React.FC<IProps> = (props: IProps) => {
 
   const renderProduct: ListRenderItem<ProductType> = ({ item }) => (
     <ProductListItem
+      key={item.id}
       id={item.id}
       name={item.name}
       price={item.price}

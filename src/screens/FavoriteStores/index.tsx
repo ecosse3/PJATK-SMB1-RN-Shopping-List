@@ -52,6 +52,7 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
 
   const renderStore: ListRenderItem<StoreType> = ({ item }) => (
     <StoreListItem
+      key={item.id}
       id={item.id}
       name={item.name}
       description={item.description}
