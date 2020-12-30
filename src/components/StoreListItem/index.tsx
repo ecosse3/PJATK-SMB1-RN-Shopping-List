@@ -26,11 +26,22 @@ interface IProps {
   longitude: StoreType['longitude'];
   latitude: StoreType['latitude'];
   address: StoreType['address'];
+  color: StoreType['color'];
   theme: ThemeType;
 }
 
 const StoreListItem: React.FC<IProps> = (props: IProps) => {
-  const { id, name, description, radius, longitude, latitude, address, theme } = props;
+  const {
+    id,
+    name,
+    description,
+    radius,
+    longitude,
+    latitude,
+    address,
+    color,
+    theme
+  } = props;
 
   const navigation = useNavigation();
   const removeFavoriteStore = useRemoveFavoriteStore();
@@ -47,7 +58,8 @@ const StoreListItem: React.FC<IProps> = (props: IProps) => {
           radius,
           longitude,
           latitude,
-          address
+          address,
+          color
         });
         setStoreInEditMode(true);
       }}>

@@ -3,6 +3,7 @@ import MapView, { Circle, Marker } from 'react-native-maps';
 import { Animated, StyleSheet, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useRecoilValue } from 'recoil';
+import { rgba } from 'polished';
 
 import { ThemeType } from 'types';
 import { useGeolocation } from 'hooks/useGeolocation';
@@ -38,22 +39,6 @@ const StoresMap: React.FC<IStoresMapProps> = ({ theme }) => {
     setHeightValue(res.value);
   });
 
-  const getFillColor = (color: string) => {
-    switch (color) {
-      default:
-      case 'red':
-        return 'rgba(255, 0, 0, 0.2)';
-    }
-  };
-
-  const getStrokeColor = (color: string) => {
-    switch (color) {
-      default:
-      case 'red':
-        return 'rgba(255, 0, 0, 0.5)';
-    }
-  };
-
   useEffect(() => {
     return animatedHeight.removeListener(unsubscribe);
   }, []);
@@ -62,7 +47,10 @@ const StoresMap: React.FC<IStoresMapProps> = ({ theme }) => {
     <HeaderWrapper as={Animated.View} style={{ height: animatedHeight }}>
       <MapView style={styles.map} region={position}>
         <>
-          <Marker title="Twoje położenie" coordinate={position}>
+          <Marker
+            key="your-position-marker"
+            title="Twoje położenie"
+            coordinate={position}>
             <MaterialCommunityIcons
               name="tooltip-account"
               size={26}
@@ -72,16 +60,18 @@ const StoresMap: React.FC<IStoresMapProps> = ({ theme }) => {
           {favoriteStores.map((store) => (
             <>
               <Marker
-                key={store.id}
+                key={`${store.id}${store.color}marker`}
                 title={store.name}
                 description={store.description}
                 coordinate={{ latitude: store.latitude, longitude: store.longitude }}
+                pinColor={store.color}
               />
               <Circle
+                key={`${store.id}${store.color}circle`}
                 center={{ latitude: store.latitude, longitude: store.longitude }}
                 radius={store.radius}
-                fillColor="rgba(255, 0, 0, 0.2)"
-                strokeColor="rgba(255, 0, 0, 0.5)"
+                fillColor={rgba(store.color, 0.2)}
+                strokeColor={rgba(store.color, 0.5)}
               />
             </>
           ))}

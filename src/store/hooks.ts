@@ -157,6 +157,7 @@ export const useAddEditFavoriteStore = (): ((store: StoreType) => void) => {
       clone[index].name = store.name;
       clone[index].description = store.description;
       clone[index].radius = store.radius;
+      clone[index].color = store.color;
       setStores(clone);
       setFavoriteStores(user.uid, clone);
     } else {

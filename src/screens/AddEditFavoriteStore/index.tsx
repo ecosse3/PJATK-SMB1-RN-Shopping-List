@@ -14,6 +14,8 @@ import {
 } from 'store';
 import Header from 'components/Header';
 import { Fieldset } from 'components/Fieldset';
+import { RadioButton } from 'react-native-paper';
+import { View, ScrollView } from 'react-native';
 import {
   Text,
   Button,
@@ -38,6 +40,7 @@ type RoutePropsType = {
     longitude?: number;
     latitude?: number;
     address?: string;
+    color?: string;
   };
 };
 
@@ -61,10 +64,13 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
   const propsStoreLongitude = route?.params?.longitude;
   const propsStoreLatitude = route?.params?.latitude;
   const propsStoreAddress = route?.params?.address;
+  const propsStoreColor = route?.params?.color;
 
   const [storeName, setStoreName] = useState(propsStoreName || '');
   const [storeDescription, setStoreDescription] = useState(propsStoreDescription || '');
   const [storeRadius, setStoreRadius] = useState(propsStoreRadius?.toString() || '');
+  const [storeColor, setStoreColor] = useState(propsStoreColor || 'red');
+
   const storeLongitude = propsStoreLongitude || position.longitude;
   const storeLatitude = propsStoreLatitude || position.latitude;
   const storeAddress = propsStoreAddress || nearbyAddress;
@@ -78,7 +84,8 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
     radius: string,
     longitude: number,
     latitude: number,
-    address: string
+    address: string,
+    color: string
   ) => {
     addEditFavoriteStore({
       id,
@@ -87,7 +94,8 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
       radius: Number(radius),
       longitude,
       latitude,
-      address
+      address,
+      color
     });
 
     navigation.navigate('FavoriteStoresScreen');
@@ -106,7 +114,7 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
   }, []);
 
   return (
-    <>
+    <ScrollView>
       <Header text={storeInEditMode ? storeName : 'Dodaj sklep do ulubionych'} />
       <Container>
         <InputsContainer>
@@ -166,6 +174,19 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
               Promień nie może być mniejszy niż 50 metrów!
             </Error>
           )}
+          <Fieldset title="Kolor wskaźnika">
+            <RadioButton.Group
+              onValueChange={(newColor) => setStoreColor(newColor)}
+              value={storeColor}>
+              <View style={{ flexDirection: 'row' }}>
+                <RadioButton value="red" color="red" uncheckedColor="red" />
+                <RadioButton value="blue" color="blue" uncheckedColor="blue" />
+                <RadioButton value="indigo" color="indigo" uncheckedColor="indigo" />
+                <RadioButton value="gold" color="gold" uncheckedColor="gold" />
+                <RadioButton value="green" color="green" uncheckedColor="green" />
+              </View>
+            </RadioButton.Group>
+          </Fieldset>
           <Fieldset
             title={storeInEditMode ? 'Lokalizacja sklepu' : 'Aktualna lokalizacja'}>
             <Text size={14} noPadding>
@@ -196,14 +217,15 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
                 storeRadius,
                 storeLongitude,
                 storeLatitude,
-                storeAddress
+                storeAddress,
+                storeColor
               )
             }>
             <Text button>Zapisz</Text>
           </Button>
         </ButtonsContainer>
       </Container>
-    </>
+    </ScrollView>
   );
 };
 

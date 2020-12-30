@@ -23,6 +23,7 @@ export type StoreType = {
   longitude: number;
   latitude: number;
   address: string;
+  color: string;
 };
 
 export type GeolocationDataType = {

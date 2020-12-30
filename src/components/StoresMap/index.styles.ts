@@ -24,5 +24,5 @@ export const ArrowContainer = styled.View`
   width: 30px;
   height: 30px;
   background-color: #cccccc;
-  z-index: 1;
+  z-index: 5;
 `;
