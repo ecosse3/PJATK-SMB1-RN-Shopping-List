@@ -25,11 +25,13 @@ interface IProps {
   price: ProductType['price'];
   amount: ProductType['amount'];
   inBasket: ProductType['inBasket'];
+  updatedAt: ProductType['updatedAt'];
+  createdAt: ProductType['createdAt'];
   theme: ThemeType;
 }
 
 const ProductListItem: React.FC<IProps> = (props: IProps) => {
-  const { id, name, price, amount, inBasket, theme } = props;
+  const { id, name, price, amount, inBasket, updatedAt, createdAt, theme } = props;
 
   const [productBought, setProductBought] = useState<boolean | undefined>(inBasket);
 
@@ -51,7 +53,9 @@ const ProductListItem: React.FC<IProps> = (props: IProps) => {
           id,
           name,
           price,
-          amount
+          amount,
+          updatedAt,
+          createdAt
         });
         setProductInEditMode(true);
       }}>

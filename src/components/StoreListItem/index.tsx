@@ -27,6 +27,8 @@ interface IProps {
   latitude: StoreType['latitude'];
   address: StoreType['address'];
   color: StoreType['color'];
+  updatedAt: StoreType['updatedAt'];
+  createdAt: StoreType['createdAt'];
   theme: ThemeType;
 }
 
@@ -40,6 +42,8 @@ const StoreListItem: React.FC<IProps> = (props: IProps) => {
     latitude,
     address,
     color,
+    updatedAt,
+    createdAt,
     theme
   } = props;
 
@@ -59,7 +63,9 @@ const StoreListItem: React.FC<IProps> = (props: IProps) => {
           longitude,
           latitude,
           address,
-          color
+          color,
+          updatedAt,
+          createdAt
         });
         setStoreInEditMode(true);
       }}>

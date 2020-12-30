@@ -85,14 +85,33 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
       clone[index].name = product.name;
       clone[index].price = product.price;
       clone[index].amount = product.amount;
+      clone[index].updatedAt = `${new Date().toISOString().split('.')[0]}Z`;
       setProducts(clone);
       saveProducts(clone);
       updateProduct(db, { ...product, inBasket: clone[index].inBasket });
       setShoppingList(user.uid, clone, isGlobalList);
     } else {
-      setProducts([...clone, { ...product, inBasket: false }]);
-      saveProducts([...clone, { ...product, inBasket: false }]);
-      insertProduct(db, { ...product, inBasket: false });
+      setProducts([
+        ...clone,
+        {
+          ...product,
+          inBasket: false,
+          createdAt: `${new Date().toISOString().split('.')[0]}Z`
+        }
+      ]);
+      saveProducts([
+        ...clone,
+        {
+          ...product,
+          inBasket: false,
+          createdAt: `${new Date().toISOString().split('.')[0]}Z`
+        }
+      ]);
+      insertProduct(db, {
+        ...product,
+        inBasket: false,
+        createdAt: `${new Date().toISOString().split('.')[0]}Z`
+      });
       SendIntentAndroid.sendText({
         title: product.amount > 1 ? 'Nowe produkty' : 'Nowy produkt',
         text: `Dodano ${product.amount}x ${product.name} do listy zakupów`,
@@ -101,7 +120,14 @@ export const useAddEditProduct = (): ((product: ProductType) => void) => {
       if (user !== null) {
         setShoppingList(
           user.uid,
-          [...clone, { ...product, inBasket: false }],
+          [
+            ...clone,
+            {
+              ...product,
+              inBasket: false,
+              createdAt: `${new Date().toISOString().split('.')[0]}Z`
+            }
+          ],
           isGlobalList
         );
       }
@@ -158,11 +184,19 @@ export const useAddEditFavoriteStore = (): ((store: StoreType) => void) => {
       clone[index].description = store.description;
       clone[index].radius = store.radius;
       clone[index].color = store.color;
+      clone[index].updatedAt = `${new Date().toISOString().split('.')[0]}Z`;
       setStores(clone);
       setFavoriteStores(user.uid, clone);
     } else {
-      setStores([...clone, { ...store }]);
-      if (user !== null) setFavoriteStores(user.uid, [...clone, { ...store }]);
+      setStores([
+        ...clone,
+        { ...store, createdAt: `${new Date().toISOString().split('.')[0]}Z` }
+      ]);
+      if (user !== null)
+        setFavoriteStores(user.uid, [
+          ...clone,
+          { ...store, createdAt: `${new Date().toISOString().split('.')[0]}Z` }
+        ]);
     }
   };
 };

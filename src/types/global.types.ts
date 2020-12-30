@@ -4,6 +4,8 @@ export type ProductType = {
   price: number;
   amount: number;
   inBasket?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type ThemeType = {
@@ -24,6 +26,8 @@ export type StoreType = {
   latitude: number;
   address: string;
   color: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type GeolocationDataType = {

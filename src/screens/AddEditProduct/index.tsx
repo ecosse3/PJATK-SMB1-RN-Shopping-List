@@ -7,6 +7,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { ThemeType } from 'types';
 import { productInEditModeState, tabBarVisibleState, useAddEditProduct } from 'store';
 import Header from 'components/Header';
+import { format, parseISO } from 'date-fns';
+import { Fieldset } from 'components/Fieldset';
+import { Bold } from 'screens/AddEditFavoriteStore/index.styles';
 import {
   Text,
   Button,
@@ -28,6 +31,8 @@ type RoutePropsType = {
     name?: string;
     price?: number;
     amount?: number;
+    updatedAt?: string;
+    createdAt?: string;
   };
 };
 
@@ -45,6 +50,8 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
   const propsProductName = route?.params?.name;
   const propsProductPrice = route?.params?.price;
   const propsProductAmount = route?.params?.amount;
+  const propsProductUpdatedAt = route?.params?.updatedAt;
+  const propsProductCreatedAt = route?.params?.createdAt;
 
   const [productName, setProductName] = useState(propsProductName || '');
   const [productPrice, setProductPrice] = useState(propsProductPrice?.toString() || '');
@@ -133,8 +140,28 @@ const AddEditProductScreen: React.FC<IProps> = (props: IProps) => {
           </AmountContainer>
         </InputsContainer>
         <ButtonsContainer>
+          {productInEditMode && propsProductCreatedAt && (
+            <Fieldset title="Informacje">
+              <Text size={14} noPadding>
+                <Bold>Utworzono: </Bold>
+                {format(parseISO(propsProductCreatedAt), "dd/MM/yyyy 'o godz.' HH:mm")}
+              </Text>
+              {propsProductUpdatedAt && (
+                <Text size={14} noPadding>
+                  <Bold>Ostatnia modyfikacja: </Bold>
+                  {format(parseISO(propsProductUpdatedAt), "dd/MM/yyyy 'o godz.' HH:mm")}
+                </Text>
+              )}
+            </Fieldset>
+          )}
           <Button
-            disabled={productName.length === 0 || productPrice.length === 0}
+            disabled={
+              productName.length === 0 ||
+              productPrice.length === 0 ||
+              (productName === propsProductName &&
+                productPrice === propsProductPrice?.toString() &&
+                productAmount === propsProductAmount)
+            }
             onPress={() =>
               checkAddProduct(
                 propsProductId || uuidv4(),

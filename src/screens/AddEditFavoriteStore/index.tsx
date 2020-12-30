@@ -16,6 +16,7 @@ import Header from 'components/Header';
 import { Fieldset } from 'components/Fieldset';
 import { RadioButton } from 'react-native-paper';
 import { View, ScrollView } from 'react-native';
+import { format, parseISO } from 'date-fns';
 import {
   Text,
   Button,
@@ -41,6 +42,8 @@ type RoutePropsType = {
     latitude?: number;
     address?: string;
     color?: string;
+    updatedAt?: string;
+    createdAt?: string;
   };
 };
 
@@ -65,6 +68,8 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
   const propsStoreLatitude = route?.params?.latitude;
   const propsStoreAddress = route?.params?.address;
   const propsStoreColor = route?.params?.color;
+  const propsStoreUpdatedAt = route?.params?.updatedAt;
+  const propsStoreCreatedAt = route?.params?.createdAt;
 
   const [storeName, setStoreName] = useState(propsStoreName || '');
   const [storeDescription, setStoreDescription] = useState(propsStoreDescription || '');
@@ -201,6 +206,20 @@ const AddEditFavoriteStoreScreen: React.FC<IProps> = (props: IProps) => {
           </Fieldset>
         </InputsContainer>
         <ButtonsContainer>
+          {storeInEditMode && propsStoreCreatedAt && (
+            <Fieldset title="Informacje">
+              <Text size={14} noPadding>
+                <Bold>Utworzono: </Bold>
+                {format(parseISO(propsStoreCreatedAt), "dd/MM/yyyy 'o godz.' HH:mm")}
+              </Text>
+              {propsStoreUpdatedAt && (
+                <Text size={14} noPadding>
+                  <Bold>Ostatnia modyfikacja: </Bold>
+                  {format(parseISO(propsStoreUpdatedAt), "dd/MM/yyyy 'o godz.' HH:mm")}
+                </Text>
+              )}
+            </Fieldset>
+          )}
           <Button
             disabled={
               storeName.length === 0 ||

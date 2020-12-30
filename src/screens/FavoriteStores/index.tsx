@@ -60,6 +60,8 @@ const FavoriteStoresScreen: React.FC<IProps> = (props: IProps) => {
       longitude={item.longitude}
       address={item.address}
       color={item.color}
+      updatedAt={item.updatedAt}
+      createdAt={item.createdAt}
       theme={theme}
     />
   );
