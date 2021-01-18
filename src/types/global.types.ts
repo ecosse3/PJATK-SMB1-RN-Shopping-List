@@ -26,6 +26,7 @@ export type StoreType = {
   latitude: number;
   address: string;
   color: string;
+  todayPromotion: string | null;
   createdAt?: string;
   updatedAt?: string;
 };
