@@ -2,6 +2,7 @@
 
 buildscript {
     ext {
+        googlePlayServicesLocationVersion = "17.1.0"
         buildToolsVersion = "29.0.2"
         minSdkVersion = 16
         compileSdkVersion = 29
@@ -9,6 +10,7 @@ buildscript {
         playServicesVersion = "17.0.0"
         supportLibVersion = "29.0.2"
         androidMapsUtilsVersion = "2.2.0"
+        appCompatVersion = "1.1.0"
     }
     repositories {
         google()
@@ -37,5 +39,15 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://www.jitpack.io' }
+
+        maven {
+          // Required for react-native-background-geolocation
+          url("${project(':react-native-background-geolocation').projectDir}/libs")
+        }
+
+        maven {
+          // Required for react-native-background-fetch
+          url("${project(':react-native-background-fetch').projectDir}/libs")
+        }
     }
 }
