@@ -46,36 +46,31 @@ const StoresMap: React.FC<IStoresMapProps> = ({ theme }) => {
   return (
     <HeaderWrapper as={Animated.View} style={{ height: animatedHeight }}>
       <MapView style={styles.map} region={position}>
-        <>
-          <Marker
-            key="your-position-marker"
-            title="Twoje położenie"
-            coordinate={position}>
-            <MaterialCommunityIcons
-              name="tooltip-account"
-              size={26}
-              color={theme.colors.primary}
+        <Marker key="your-position-marker" title="Twoje położenie" coordinate={position}>
+          <MaterialCommunityIcons
+            name="tooltip-account"
+            size={26}
+            color={theme.colors.primary}
+          />
+        </Marker>
+        {favoriteStores.map((store) => (
+          <React.Fragment key={`${store.id}${store.color}fragment`}>
+            <Marker
+              key={`${store.id}${store.color}marker`}
+              title={store.name}
+              description={store.description}
+              coordinate={{ latitude: store.latitude, longitude: store.longitude }}
+              pinColor={store.color}
             />
-          </Marker>
-          {favoriteStores.map((store) => (
-            <>
-              <Marker
-                key={`${store.id}${store.color}marker`}
-                title={store.name}
-                description={store.description}
-                coordinate={{ latitude: store.latitude, longitude: store.longitude }}
-                pinColor={store.color}
-              />
-              <Circle
-                key={`${store.id}${store.color}circle`}
-                center={{ latitude: store.latitude, longitude: store.longitude }}
-                radius={store.radius}
-                fillColor={rgba(store.color, 0.2)}
-                strokeColor={rgba(store.color, 0.5)}
-              />
-            </>
-          ))}
-        </>
+            <Circle
+              key={`${store.id}${store.color}circle`}
+              center={{ latitude: store.latitude, longitude: store.longitude }}
+              radius={store.radius}
+              fillColor={rgba(store.color, 0.2)}
+              strokeColor={rgba(store.color, 0.5)}
+            />
+          </React.Fragment>
+        ))}
       </MapView>
       <ArrowContainer>
         <TouchableOpacity
